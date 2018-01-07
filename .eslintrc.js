@@ -2,6 +2,7 @@ module.exports = {
   extends: "airbnb-base",
   parserOptions: {
     "sourceType": "script",
+    "ecmaVersion":6
   },
   env: {
     node: true,
