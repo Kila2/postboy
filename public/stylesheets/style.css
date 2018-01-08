@@ -1,9 +1,16 @@
 body {
   padding-top: 50px;
+  min-width: 1024px;
 }
 .starter-template {
   padding: 40px 15px;
   text-align: center;
+}
+
+.bottom0 {
+  width: 100%;
+  position: absolute;
+  bottom: 0px;
 }
 
 /*
@@ -16,11 +23,16 @@ a:focus,
 a:hover {
 
 }
+.no-padding {
+  padding: 0;
+}
+.container-fluid > ul,
 nav > .container > ul {
   display: block;
   overflow: hidden;
   white-space: nowrap;
 }
+.container-fluid > ul > li,
 nav > .container > ul > li {
   list-style: none;
   display: inline-block;

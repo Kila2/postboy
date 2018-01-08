@@ -14,8 +14,8 @@ html(lang='zh-CN')
     link(rel='stylesheet', href=baseHref + 'public/css/style.css')
 
   body
-    nav.navbar-inverse.navbar-fixed-top
-      .container.col-xs-5.masthead-brand
+    nav.navbar-inverse.navbar-fixed-top(style='min-width:1024px')
+      .container.col-xs-4.masthead-brand
         ul(style='width:350px')
           li.float-left
             a.btn.btn-default(type='button', href='#') New
@@ -27,7 +27,7 @@ html(lang='zh-CN')
             button.btn.btn-default(type='button')
               span.glyphicon.glyphicon-plus(aria-hidden='true')
               span.caret(style='margin-left:4px')
-      .container.col-xs-1.center-block.masthead-md-brand
+      .container.col-xs-2.center-block.masthead-md-brand
         ul.nav.masthead-nav(style='width:220px')
           li.active
             a(href='#') Builder
@@ -59,7 +59,7 @@ html(lang='zh-CN')
           li.float-right
             button.btn.btn-default(type='button')
               span.glyphicon.glyphicon-question-sign(aria-hidden='true')
-    .container
+    .container-fluid(style='height:100%;padding-left:0px;padding-right:0px;padding-top:14px')
       block content
     script(src=baseHref + assets.vendor.js)
     script(type='text/javascript')

@@ -1,10 +1,30 @@
 extends layout
 
 block content
-    .starter-template
-        h1 Bootstrap starter template
-        p.lead
-            | Use this document as a way to quickly start any new project.
-            br
-            |  All you get is this text and a mostly barebones HTML document.
+    .container-fluid(style='background-color:green;height:370px')
+        .container-fluid(style='background-color:gray;height:170px;padding:0px')
+            .row
+            .container-fluid(style='height:50px;padding:0px')
+                ul.float-left.no-padding
+                    li
+                        button.btn.btn-default hello
+                    li
+                        button.btn.btn-default hello
+                ul.float-right.no-padding
+                    li.float-right
+                        button.btn.btn-default(type='button')
+                            span.glyphicon.glyphicon-cog(aria-hidden='true')
+                    li.float-right
+                        button.btn.btn-default(type='button')
+                            span.glyphicon.glyphicon-eye-open(aria-hidden='true')
+                    li.float-right
+                        h5 ctrip
+            .container-fluid(style='height:50px;padding:0px')
+                ul.float-left.no-padding
+                    li
+                        button.btn.btn-default hello
+                    li
+                        button.btn.btn-default hello
+        .container-fluid(style='background-color:blue;height:200px;padding:0px')
+    .container-fluid.bottom0(style='background-color:red;bottom:0px;top:434px')
 
