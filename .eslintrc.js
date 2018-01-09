@@ -1,8 +1,9 @@
 module.exports = {
   extends: "airbnb-base",
   parserOptions: {
-    "sourceType": "script",
-    "ecmaVersion":6
+    "sourceType": "module",
+    "ecmaVersion":6,
+    "allowImportExportEverywhere": true
   },
   env: {
     node: true,

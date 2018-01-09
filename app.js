@@ -1,17 +1,15 @@
 #!/usr/bin/env node
 
-'use strict';
-
-const clc             = require('cli-color');
-const csrf            = require('csurf');
-const commander       = require('commander');
-const express         = require('express');
-const fs              = require('fs');
-const https           = require('https');
-const middleware      = require('./lib/middleware');
-const utils           = require('./lib/utils');
-const updateNotifier  = require('update-notifier');
-const pkg             = require('./package.json');
+import clc from 'cli-color';
+import csrf from 'csurf';
+import commander from 'commander';
+import express from 'express';
+import fs from 'fs';
+import https from 'https';
+import middleware from './lib/middleware';
+import utils from './lib/utils';
+import updateNotifier from 'update-notifier';
+import pkg from './package.json';
 
 let app               = express();
 let notifier          = updateNotifier({ pkg });
@@ -56,7 +54,7 @@ commander
   .option('-a, --admin', 'enable authentication as admin')
   .option('-d, --database <database>', 'authenticate to database')
   .option('--port <port>', 'listen on specified port')
-.parse(process.argv);
+  .parse(process.argv);
 
 if (commander.username && commander.password) {
   config.mongodb.admin = !!commander.admin;
@@ -110,12 +108,12 @@ if (config.site.sslEnabled) {
   server = https.createServer(sslOptions, app);
 }
 
-let addressString = (config.site.sslEnabled ? 'https://' : 'http://') + (config.site.host || '0.0.0.0') + ':' + (config.site.port || defaultPort);
+let addressString = `${(config.site.sslEnabled ? 'https://' : 'http://') + (config.site.host || '0.0.0.0')}:${config.site.port || defaultPort}`;
 
-server.listen(config.site.port, config.site.host, function () {
+server.listen(config.site.port, config.site.host, () => {
   if (config.options.console) {
 
-    console.log('Mongo Express server listening', 'at ' + addressString);
+    console.log('Mongo Express server listening', `at ${addressString}`);
 
     if (!config.site.host || config.site.host === '0.0.0.0') {
       console.error(clc.red('Server is open to allow connections from anyone (0.0.0.0)'));
@@ -127,15 +125,16 @@ server.listen(config.site.port, config.site.host, function () {
 
   }
 })
-.on('error', function (e) {
-  if (e.code === 'EADDRINUSE') {
-    console.log();
-    console.error(clc.red('Address ' + addressString + ' already in use! You need to pick a different host and/or port.'));
-    console.log('Maybe mongo-express is already running?');
-  }
+  .on('error', e => {
+    if (e.code === 'EADDRINUSE') {
+      console.log();
+      console.error(clc.red(`Address ${addressString} already in use! You need to pick a different host and/or port.`));
+      console.log('Maybe mongo-express is already running?');
+    }
 
-  console.log();
-  console.log('If you are still having trouble, try Googling for the key parts of the following error object before posting an issue');
-  console.log(JSON.stringify(e));
-  return process.exit(1);
-});
+    console.log();
+    console.log('If you are still having trouble, try Googling for the key parts of the following error object before posting an issue');
+    console.log(JSON.stringify(e));
+    return process.exit(1);
+  });
+
