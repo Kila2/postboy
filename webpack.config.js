@@ -31,6 +31,7 @@ module.exports = {
     vendor: './lib/scripts/vendor.js',
     codemirror: './lib/scripts/codeMirrorLoader.js',
   },
+  devtool: 'source-map',
   output: {
     filename: `[name]${fileSuffix}.js`,
     path: path.join(__dirname, 'build'),
