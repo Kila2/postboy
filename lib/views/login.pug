@@ -16,8 +16,16 @@ html(lang='zh-CN')
         script(type='text/javascript', src=baseHref + 'public/vendor.js')
         script.
             $(document).ready(function(){
+              let data;
+              let callback;
+              let json;
                 $("button#submit").click(function(){
-                $(this).hide();
+                    $.post({
+                      url:"#{baseHref}"+'login',
+                      data:data,
+                      success:callback,
+                      dataType:json
+                    });
                 });
             });
 body
