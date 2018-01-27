@@ -99,6 +99,19 @@ if (!config.site.baseUrl) {
 app.use(config.site.baseUrl, middleware(config));
 app.use(config.site.baseUrl, csrf());
 
+app.use(function (err, req, res, next) {
+  if (err != null) {
+    let rc = {
+      rc : 1,
+      err : err.message,
+    };
+    res.json(rc);
+  }
+  else {
+    next();
+  }
+});
+
 if (config.site.sslEnabled) {
   defaultPort     = 443;
   sslOptions  = {
