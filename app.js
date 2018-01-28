@@ -10,6 +10,7 @@ import middleware from './lib/middleware';
 import utils from './lib/utils';
 import updateNotifier from 'update-notifier';
 import pkg from './package.json';
+import errorHandler from "errorhandler";
 
 let app               = express();
 let notifier          = updateNotifier({ pkg });
@@ -99,18 +100,23 @@ if (!config.site.baseUrl) {
 app.use(config.site.baseUrl, middleware(config));
 app.use(config.site.baseUrl, csrf());
 
-app.use(function (err, req, res, next) {
-  if (err != null) {
-    let rc = {
-      rc : 1,
-      err : err.message,
-    };
-    res.json(rc);
-  }
-  else {
-    next();
-  }
-});
+if (process.env.NODE_ENV === 'development') {
+  app.use(errorHandler());
+}
+else {
+  app.use(function (err, req, res, next) {
+    if (err != null) {
+      res.json({
+        rc:1,
+        error:err.message,
+      });
+    }
+    else {
+      next();
+    }
+  });
+}
+
 
 if (config.site.sslEnabled) {
   defaultPort     = 443;
