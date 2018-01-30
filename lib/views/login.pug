@@ -18,18 +18,30 @@ html(lang='zh-CN')
             $(document).ready(function(){
               let callback;
               let json;
-                $("button#submit").click(function(){
+                $("p#submit").click(function() {
                   let data = {
                     username: $('#inputUsername').val(),
                     password: $('#inputPassword').val(),
                     remember: 1
                   };
-                    $.post({
-                      url:"#{baseHref}"+'login',
-                      data:data,
-                      success:callback,
-                      dataType:json
-                    });
+                  $.post({
+                    data: data,
+                    url: "#{baseHref}" + 'login',
+                    headers:{contentType:'application/json',cacheControl:'no-cache'}
+                  }).done(function (res) {
+                    if(res.rc === 0){
+                        localStorage.setItem('token',res.user.token);
+                         var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
+                         if (arr = document.cookie.match(reg))
+                           arr[2];
+                        window.location.href="http://www.cnblogs.com/daimajun/";
+                    }
+                    else {
+                      alert(res.error);
+                    }
+                  }).fail(function (err) {
+                    alert(err)
+                  })
                 });
             });
 body
@@ -44,5 +56,5 @@ body
                 label
                     input(type='checkbox', value='remember-me')
                     |  Remember me
-            button.btn.btn-lg.btn-primary.btn-block(type='submit',id='submit') Sign in
+            p.btn.btn-lg.btn-primary.btn-block(type='submit',id='submit') Sign in
 
