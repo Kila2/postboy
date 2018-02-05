@@ -23,6 +23,14 @@ a:focus,
 a:hover {
 
 }
+nav > .container > ul > li > a {
+
+}
+
+.button-highlight {
+
+}
+
 .no-padding {
     padding: 0;
 }
@@ -48,12 +56,19 @@ nav > .container > ul > li {
 
 /* Custom default button */
 .btn-default,
-.btn-default:hover,
 .btn-default:focus {
-    color: #333;
+    color: #FFFFFF;
     text-shadow: none; /* Prevent inheritance from `body` */
     background-color: #fff;
-    border: 1px solid #fff;
+    background-image: linear-gradient(#585858, #585858);
+    border :1px solid #585858;
+    background-repeat: repeat;
+}
+
+.btn-default:active:focus,
+.btn-default:hover {
+    color: #FFFFFF;
+    background-image: linear-gradient(#6E6E6E, #6E6E6E);
 }
 .marginr5 {
     margin-right:5px;

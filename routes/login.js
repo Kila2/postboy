@@ -9,6 +9,7 @@ const router = express.Router();
 router.get('/', (req, res) => {
   res.render('login', { title: 'Express' });
 });
+
 router.post('/', (req, res, next) => {
   const payload = req.body;
   const user = {};
