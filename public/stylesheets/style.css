@@ -27,8 +27,8 @@ nav > .container > ul > li > a {
 
 }
 
-.button-highlight {
-
+.button-new {
+    background-image: linear-gradient(#F47023, #F47023);
 }
 
 .no-padding {
