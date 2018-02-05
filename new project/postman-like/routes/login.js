@@ -1,5 +1,4 @@
 import * as DBHelper from '../lib/DBHelper';
-import csrf from 'csurf';
 
 import randomHexString from '../lib/Utils';
 
@@ -19,7 +18,7 @@ router.post('/', (req, res, next) => {
     next(Error('username/password is required.'));
   }
 
-  if (!user.password) {
+  if (!user.password || user.password === '') {
     next(Error('password is required.'));
   }
   if ((typeof user.password !== 'string')
@@ -27,20 +26,31 @@ router.post('/', (req, res, next) => {
     next(Error('Invalid username/password.'));
   }
   let isValidPassword = false;
-  DBHelper.db.collection('User').findOne({ username: user.username }, (err, r) => {
+  return DBHelper.db.collection('User').findOne({ username: user.username }, (err, r) => {
     if (err != null) next(err);
     if (r != null) {
       isValidPassword = r.password === user.password;
       if (isValidPassword === true) {
         user._id = r._id;
-        delete user.password;
-        res.json({
-          rc: 0,
-          user,
-        });
+        user.token = randomHexString(32);
+        res.cookie('postman-like', user.token, { expires: new Date(Date.now() + 900000), httpOnly: true });
+        DBHelper.db.collection('User')
+          .updateOne(
+            { _id: user._id }, { $set: { token: user.token } },
+            (err1, rs1) => {
+              if (err1 != null) next(err1);
+              delete user.password;
+              return res.json({
+                rc: 0,
+                user,
+              });
+            },
+          );
       } else {
         next(Error('password is wrong'));
       }
+    } else {
+      next(Error('you shoud sign in first!'));
     }
   });
 });

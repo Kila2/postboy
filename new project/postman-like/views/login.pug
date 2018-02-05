@@ -30,11 +30,7 @@ html(lang='zh-CN')
                     headers:{contentType:'application/json',cacheControl:'no-cache'}
                   }).done(function (res) {
                     if(res.rc === 0){
-                        localStorage.setItem('token',res.user.token);
-                        //  var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
-                        //  if (arr = document.cookie.match(reg))
-                        //    arr[2];
-                        // window.location.href="http://www.cnblogs.com/daimajun/";
+                        window.location.href="/";
                     }
                     else {
                       alert(res.error);

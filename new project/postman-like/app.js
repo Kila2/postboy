@@ -1,6 +1,6 @@
 import errorHandler from 'errorhandler';
-import csrf from 'csurf';
-import session from 'express-session';
+
+import * as DBHelper from './lib/DBHelper';
 
 const express = require('express');
 const path = require('path');
@@ -26,17 +26,24 @@ app.use(logger('dev'));
 // this is an example; you can use any pattern you like.
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cookieParser('cookiesecret'));
+app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({
-  key: 'mongo-express',
-  resave: true,
-  saveUninitialized: true,
-  secret: 'sessionsecret',
-}));
+app.use((req, res, next) => {
+  if (req.url === '/login') {
+    return next();
+  }
+  return DBHelper.db.collection('User').findOne({ token: req.cookies['postman-like'] }, (err, rs) => {
+    if (err != null) next(err);
+    if (rs != null) {
+      next();
+    } else {
+      res.render('login');
+      res.end();
+    }
+  });
+});
 
 app.use('/login', login);
-app.use('/', csrf({ cookie: true }));
 app.use('/', index);
 app.use('/users', users);
 
