@@ -32,15 +32,18 @@ app.use((req, res, next) => {
   if (req.url === '/login') {
     return next();
   }
-  return DBHelper.db.collection('User').findOne({ token: req.cookies['postman-like'] }, (err, rs) => {
-    if (err != null) next(err);
-    if (rs != null) {
-      next();
-    } else {
-      res.render('login');
-      res.end();
+  return (async function findToken() {
+    try {
+      const rs = await DBHelper.db.collection('User').findOne({ token: req.cookies['postman-like'] });
+      if (rs != null) {
+        next();
+      } else {
+        res.render('login');
+      }
+    } catch (err) {
+      next(err);
     }
-  });
+  }());
 });
 
 app.use('/login', login);

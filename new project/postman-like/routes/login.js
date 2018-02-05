@@ -26,33 +26,31 @@ router.post('/', (req, res, next) => {
     next(Error('Invalid username/password.'));
   }
   let isValidPassword = false;
-  return DBHelper.db.collection('User').findOne({ username: user.username }, (err, r) => {
-    if (err != null) next(err);
-    if (r != null) {
-      isValidPassword = r.password === user.password;
-      if (isValidPassword === true) {
-        user._id = r._id;
-        user.token = randomHexString(32);
-        res.cookie('postman-like', user.token, { expires: new Date(Date.now() + 900000), httpOnly: true });
-        DBHelper.db.collection('User')
-          .updateOne(
-            { _id: user._id }, { $set: { token: user.token } },
-            (err1, rs1) => {
-              if (err1 != null) next(err1);
-              delete user.password;
-              return res.json({
-                rc: 0,
-                user,
-              });
-            },
-          );
+  (async function findUserAndUpdateToken() {
+    try {
+      const r = await DBHelper.db.collection('User').findOne({ username: user.username });
+      if (r != null) {
+        isValidPassword = r.password === user.password;
+        if (isValidPassword === true) {
+          user._id = r._id;
+          user.token = randomHexString(32);
+          res.cookie('postman-like', user.token, { expires: new Date(Date.now() + 900000), httpOnly: true });
+          await DBHelper.db.collection('User').updateOne({ _id: user._id }, { $set: { token: user.token } });
+          delete user.password;
+          res.json({
+            rc: 0,
+            user,
+          });
+        } else {
+          next(Error('password is wrong'));
+        }
       } else {
-        next(Error('password is wrong'));
+        next(Error('you shoud sign in first!'));
       }
-    } else {
-      next(Error('you shoud sign in first!'));
+    } catch (err) {
+      next(err);
     }
-  });
+  }());
 });
 
 module.exports = router;
