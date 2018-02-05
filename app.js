@@ -1,159 +1,79 @@
-#!/usr/bin/env node
+import errorHandler from 'errorhandler';
 
-import clc from 'cli-color';
-import csrf from 'csurf';
-import commander from 'commander';
-import express from 'express';
-import fs from 'fs';
-import https from 'https';
-import middleware from './lib/middleware';
-import utils from './lib/utils';
-import updateNotifier from 'update-notifier';
-import pkg from './package.json';
-import errorHandler from "errorhandler";
+import * as DBHelper from './lib/DBHelper';
 
-let app               = express();
-let notifier          = updateNotifier({ pkg });
+const express = require('express');
+const path = require('path');
+// const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 
-let config;
-let defaultPort = 80;
-let server      = app;
-let sslOptions;
+const index = require('./routes/index');
+const users = require('./routes/users');
+const login = require('./routes/login');
 
-// Notify of any updates
-notifier.notify();
+const app = express();
 
-try {
-  // eslint-disable-next-line import/no-unresolved
-  config = utils.deepmerge(require('./config.default'), require('./config'));
-} catch (e) {
-  if (e.code === 'MODULE_NOT_FOUND') {
-    console.log('No custom config.js found, loading config.default.js');
-  } else {
-    console.error(clc.red('Unable to load config.js!'));
-    console.error(clc.red('Error is:'));
-    console.log(clc.red(e));
-    process.exit(1);
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
+
+// uncomment after placing your favicon in /public
+// app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(logger('dev'));
+
+// this is an example; you can use any pattern you like.
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+app.use((req, res, next) => {
+  if (req.url === '/login') {
+    return next();
   }
-
-  config = require('./config.default');
-}
-
-if (config.options.console) {
-  console.log('Welcome to mongo-express');
-  console.log('------------------------');
-  console.log('\n');
-}
-
-commander
-  .version(require('./package').version)
-  .option('-U, --url <url>', 'connection string url')
-  .option('-H, --host <host>', 'hostname or adress')
-  .option('-P, --dbport <host>', 'port of the db')
-  .option('-u, --username <username>', 'username for authentication')
-  .option('-p, --password <password>', 'password for authentication')
-  .option('-a, --admin', 'enable authentication as admin')
-  .option('-d, --database <database>', 'authenticate to database')
-  .option('--port <port>', 'listen on specified port')
-  .parse(process.argv);
-
-if (commander.username && commander.password) {
-  config.mongodb.admin = !!commander.admin;
-  if (commander.admin) {
-    config.mongodb.adminUsername = commander.username;
-    config.mongodb.adminPassword = commander.password;
-  } else {
-    let user = {
-      database: commander.database,
-      username: commander.username,
-      password: commander.password,
-    };
-    for (let key in user) {
-      if (!user[key]) {
-        commander.help();
+  return (async function findToken() {
+    try {
+      const rs = await DBHelper.db.collection('User').findOne({ token: req.cookies['postman-like'] });
+      if (rs != null) {
+        next();
+      } else {
+        res.render('login');
       }
+    } catch (err) {
+      next(err);
     }
+  }());
+});
 
-    config.mongodb.auth[0] = user;
-  }
+app.use('/login', login);
+app.use('/', index);
+app.use('/users', users);
 
-  config.useBasicAuth = false;
-}
+// catch 404 and forward to error handler
+app.use((req, res, next) => {
+  const err = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
 
-if (commander.url) {
-  config.mongodb.connectionString = commander.url;
-  if (commander.admin) {
-    config.mongodb.admin = true;
-  }
-}
-
-config.mongodb.server = commander.host || config.mongodb.server;
-config.mongodb.port = commander.dbport || config.mongodb.port;
-
-config.site.port = commander.port || config.site.port;
-
-if (!config.site.baseUrl) {
-  console.error('Please specify a baseUrl in your config. Using "/" for now.');
-  config.site.baseUrl = '/';
-}
-
-app.use(config.site.baseUrl, middleware(config));
-app.use(config.site.baseUrl, csrf());
 
 if (process.env.NODE_ENV === 'development') {
   app.use(errorHandler());
-}
-else {
-  app.use(function (err, req, res, next) {
+} else {
+  app.use((err, req, res, next) => {
+    if (res.headersSent) {
+      return next(err);
+    }
     if (err != null) {
       res.json({
-        rc:1,
-        error:err.message,
+        rc: 1,
+        error: err.message,
       });
-    }
-    else {
+    } else {
       next();
     }
   });
 }
 
-
-if (config.site.sslEnabled) {
-  defaultPort     = 443;
-  sslOptions  = {
-    key:  fs.readFileSync(config.site.sslKey),
-    cert: fs.readFileSync(config.site.sslCert),
-  };
-  server = https.createServer(sslOptions, app);
-}
-
-let addressString = `${(config.site.sslEnabled ? 'https://' : 'http://') + (config.site.host || '0.0.0.0')}:${config.site.port || defaultPort}`;
-
-server.listen(config.site.port, config.site.host, () => {
-  if (config.options.console) {
-
-    console.log('Mongo Express server listening', `at ${addressString}`);
-
-    if (!config.site.host || config.site.host === '0.0.0.0') {
-      console.error(clc.red('Server is open to allow connections from anyone (0.0.0.0)'));
-    }
-
-    if (config.basicAuth.username === 'admin' && config.basicAuth.password === 'pass') {
-      console.error(clc.red('basicAuth credentials are "admin:pass", it is recommended you change this in your config.js!'));
-    }
-
-  }
-})
-  .on('error', e => {
-    if (e.code === 'EADDRINUSE') {
-      console.log();
-      console.error(clc.red(`Address ${addressString} already in use! You need to pick a different host and/or port.`));
-      console.log('Maybe mongo-express is already running?');
-    }
-
-    console.log();
-    console.log('If you are still having trouble, try Googling for the key parts of the following error object before posting an issue');
-    console.log(JSON.stringify(e));
-    return process.exit(1);
-  });
-
+module.exports = app;
