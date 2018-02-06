@@ -3,67 +3,65 @@ html(lang='zh-CN')
     head
         meta(charset='utf-8')
         meta(http-equiv='X-UA-Compatible', content='IE=edge')
-        meta(name='viewport', content='width=device-width, initial-scale=1')
+        //meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
         // 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！
         meta(name='description', content='')
         meta(name='author', content='')
         link(rel='icon', href='../../favicon.ico')
-        link(rel='stylesheet', href='/bootstrap-3.3.7/dist/css/bootstrap.min.css')
-        link(rel='stylesheet', href='/bootstrap-3.3.7/dist/css/bootstrap-theme.min.css')
+        link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
         link(rel='stylesheet', href='/stylesheets/style.css')
-        title Starter Template for Bootstrap
-
-            // Custom styles for this template
-    body
-        nav.navbar-inverse.navbar-fixed-top(style='min-width:1024px;background-image:linear-gradient(#484848, #484848);')
-            .container.col-xs-4.masthead-brand
-                ul(style='width:350px')
-                    li.float-left
-                        a.btn.btn-default(style='background-image: linear-gradient(#F47023, #F47023);' type='button', href='#') New
-                            span.glyphicon.glyphicon-plus(style='margin-left:4px', aria-hidden='true')
-                    li.float-left(style='margin-left:0px')
-                        a.btn.btn-default(style='background-image: linear-gradient(#F47023, #F47023)' type='button', href='#')
-                            span.caret()
-                    li.float-left
-                        a.btn.btn-default(type='button', href='#') Import
-                    li.float-left
-                        a.btn.btn-default(type='button', href='#') Runner
-                    li.float-left
-                        button.btn.btn-default(type='button')
-                            span.glyphicon.glyphicon-plus(aria-hidden='true')
-                            span.caret(style='margin-left:4px')
-            .container.col-xs-2.center-block.masthead-md-brand
-                ul.nav.masthead-nav(style='width:220px')
-                    li.active
-                        a(href='#') Builder
-                    li
-                        a(href='#') Team Library
-            .container.col-xs-6.masthead-brand
-                ul.float-right(style='width:445px')
-                    li.float-right
-                        button.btn.btn-default(type='button')
-                            span.glyphicon.glyphicon-cog(aria-hidden='true')
-                            span.caret(style='margin-left:4px')
-                    li.float-right
-                        button.btn.btn-default(type='button')
-                            span.glyphicon.glyphicon-heart(aria-hidden='true')
-                    li.float-right
-                        button.btn.btn-default(type='button')
-                            span.glyphicon.glyphicon-bell(aria-hidden='true')
-                    li.float-right
-                        button.btn.btn-default(type='button')
-                            span.glyphicon.glyphicon-wrench(aria-hidden='true')
-                    li.float-right
-                        button.btn.btn-default(type='button')
-                            span.glyphicon.glyphicon-globe(aria-hidden='true')
-                    li.float-right
-                        h6.marginlr10(style='color:gray') IN SYNC
-                    li.float-right
-                        button.btn.btn-default(type='button')
-                            span.glyphicon.glyphicon-info-sign(aria-hidden='true')
-                    li.float-right
-                        button.btn.btn-default(type='button')
-                            span.glyphicon.glyphicon-question-sign(aria-hidden='true')
-        .container-fluid(style='height:100%;padding-left:0px;padding-right:0px;padding-top:14px')
-            block content
+        script(defer='', src='/fonts/fontawesome-free-5.0.6/svg-with-js/js/fontawesome-all.js')
         script(type='text/javascript', src='/javascripts/jquery-3.2.1.min.js')
+        title PostMan-Like
+    body
+        .container-fluid
+            #navbar.ul.nav.justify-content-between.flex-nowrap(style='height:50px;padding:10px')
+                ul.nav.flex-nowrap(style='width:350px')
+                    #new1.li.nav-item
+                        button(type='button', style='width:65px;background-image: linear-gradient(#F47023, #F47023)')
+                            i.fas.fa-plus-square
+                            | New
+                    #new2.li.nav-item
+                        button(type='button', style='background-image: linear-gradient(#F47023, #F47023)')
+                            i.fas.fa-caret-down
+                    li.nav-item
+                        button Import
+                    li.nav-item
+                        button Runner
+                    li.nav-item
+                        button(style='width:40px')
+                            i.fas.fa-plus
+                            i.fas.fa-caret-down
+                #navcenter.ul.nav.flex-nowrap(style='height:40px')
+                    ul.nav.flex-nowrap
+                        li.active
+                            p(href='#',style='height:40px') Builder
+                        li
+                            p.text-nowrap(href='#',style='height:40px') Team Library
+                ul.flex-nowrap.nav.d-flex.flex-row-reverse(style='width:350px')
+                    li.nav-item
+                        button
+                            i.fas.fa-cog
+                            i.fas.fa-caret-down
+                    li.nav-item
+                        button
+                            i.fas.fa-heart
+                    li.nav-item
+                        button
+                            i.fas.fa-bell
+                    li.nav-item
+                        button
+                            i.fas.fa-wrench
+                    li.nav-item
+                        button
+                            i.fas.fa-globe
+                    li.nav-item
+                        h6.marginlr10(style='color:gray') IN SYNC
+                    li.nav-item
+                        button
+                            i.fas.fa-sign-in-alt
+                    li.nav-item
+                        button
+                            i.fas.fa-question
+        .container-fluid
+            block content
