@@ -1,55 +1,53 @@
-html(lang='zh-CN')
+html(lang='en')
     head
         meta(charset='utf-8')
-        meta(http-equiv='X-UA-Compatible', content='IE=edge')
-        meta(name='viewport', content='width=device-width, initial-scale=1')
-        // 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！
+        meta(name='viewport', content='width=device-width, initial-scale=1, shrink-to-fit=no')
         meta(name='description', content='')
         meta(name='author', content='')
-        link(rel='icon', href='../../favicon.ico')
+        link(rel='icon', href='../../../../favicon.ico')
         title Signin Template for Bootstrap
         // Bootstrap core CSS
         link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
         // Custom styles for this template
-        link(rel='stylesheet', href='/stylesheets/signin.css')
+        link(href='signin.css', rel='stylesheet')
         script(type='text/javascript', src='/javascripts/jquery-3.2.1.min.js')
         script.
-            $(document).ready(function(){
-              let callback;
-              let json;
-                $("p#submit").click(function() {
-                  let data = {
-                    username: $('#inputUsername').val(),
-                    password: $('#inputPassword').val(),
-                    remember: 1
-                  };
-                  $.post({
-                    data: data,
-                    url: "#{baseHref}" + 'login',
-                    headers:{contentType:'application/json',cacheControl:'no-cache'}
-                  }).done(function (res) {
-                    if(res.rc === 0){
-                        window.location.href="/";
-                    }
-                    else {
-                      alert(res.error);
-                    }
-                  }).fail(function (err) {
-                    alert(err)
-                  })
-                });
+          $(document).ready(function () {
+            let callback;
+            let json;
+            $("button#submit").click(function () {
+              let data = {
+                username: $('#inputUsername').val(),
+                password: $('#inputPassword').val(),
+                remember: 1
+              };
+              $.post({
+                data: data,
+                url: "#{baseHref}" + 'login',
+                headers: {contentType: 'application/json', cacheControl: 'no-cache'}
+              }).done(function (res) {
+                if (res.rc === 0) {
+                  window.location.href = "/";
+                }
+                else {
+                  alert(res.error);
+                }
+              }).fail(function (err) {
+                alert(err)
+              })
             });
-body
-    .container
+          });
+    body.text-center
         form.form-signin
-            h2.form-signin-heading Please sign in
+            img.mb-4(src='https://getbootstrap.com/assets/brand/bootstrap-solid.svg', alt='', width='72', height='72')
+            h1.h3.mb-3.font-weight-normal Please sign in
             label.sr-only(for='inputUsername') Username
             input#inputUsername.form-control(type='username', placeholder='Username', required='', autofocus='')
             label.sr-only(for='inputPassword') Password
             input#inputPassword.form-control(type='password', placeholder='Password', required='')
-            .checkbox
+            .checkbox.mb-3
                 label
                     input(type='checkbox', value='remember-me')
                     |  Remember me
-            p.btn.btn-lg.btn-primary.btn-block(type='submit',id='submit') Sign in
-
+            button.btn.btn-lg.btn-primary.btn-block(type='submit',id='submit') Sign in
+            p.mt-5.mb-3.text-muted © 2017-2018
