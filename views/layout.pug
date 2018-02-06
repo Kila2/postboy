@@ -18,11 +18,14 @@ html(lang='zh-CN')
             #navbar.ul.nav.justify-content-between.flex-nowrap(style='height:50px;padding:10px')
                 ul.nav.flex-nowrap(style='width:350px')
                     #new1.li.nav-item
-                        button(type='button', style='width:65px;background-image: linear-gradient(#F47023, #F47023)')
-                            i.fas.fa-plus-square
-                            | New
+                        button.p-0(type='button', style='width:65px')
+                            ul.nav(style='background-color:#0000;margin-left:10px;margin-top:3px;height:20px')
+                                li.m-0.nav-item
+                                    i.fas.fa-plus-square(style='width:17px;height:17px')
+                                li.nav-item(style='margin-left:3px')
+                                    p.m-0 New
                     #new2.li.nav-item
-                        button(type='button', style='background-image: linear-gradient(#F47023, #F47023)')
+                        button(type='button')
                             i.fas.fa-caret-down
                     li.nav-item
                         button Import
@@ -38,7 +41,7 @@ html(lang='zh-CN')
                             p(href='#',style='height:40px') Builder
                         li
                             p.text-nowrap(href='#',style='height:40px') Team Library
-                ul.flex-nowrap.nav.d-flex.flex-row-reverse(style='width:350px')
+                #navleft.ul.flex-nowrap.nav.d-flex.flex-row-reverse(style='width:350px')
                     li.nav-item
                         button
                             i.fas.fa-cog
@@ -56,7 +59,7 @@ html(lang='zh-CN')
                         button
                             i.fas.fa-globe
                     li.nav-item
-                        h6.marginlr10(style='color:gray') IN SYNC
+                        h6.m-0(style='color:gray;line-height:30px;') IN SYNC
                     li.nav-item
                         button
                             i.fas.fa-sign-in-alt
