@@ -35,7 +35,7 @@ router.post('/', (req, res, next) => {
         if (isValidPassword === true) {
           user._id = r._id;
           user.token = randomHexString(32);
-          res.cookie('postman-like', user.token, { expires: new Date(Date.now() + 900000), httpOnly: true });
+          res.cookie('postman-like', user.token, { expires: new Date(Date.now() + (1000 * 60 * 60 * 24)), httpOnly: true });
           await DBHelper.db.collection('User').updateOne({ _id: user._id }, { $set: { token: user.token } });
           delete user.password;
           res.json({

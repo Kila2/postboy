@@ -1,0 +1,23 @@
+version: '3'
+services:
+  db:
+    image: mongo:3.7
+    volumes:
+      - ./data/db:/data/db
+      - ./data/configdb:/data/configdb
+    ports:
+      - 27017:27017
+    networks: 
+      - backend
+  webdb:
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=postmanlike_db_1
+    image: mongo-express:0.44
+    ports:
+      - 8081:8081
+    depends_on:
+      - db
+    networks:
+      - backend
+networks: 
+  backend:
