@@ -1,6 +1,7 @@
 html, body {
     height: 100%;
     margin: 0;
+    background-color: #464646;
 }
 button:focus {
     outline: none;
@@ -126,9 +127,19 @@ nav {
     cursor:ew-resize
 }
 
-@media (min-width: 1020px) {
+@media (min-width: 1025px) {
     #left {
         display: -webkit-flex!important; /* Safari */
         display: flex!important;
     }
+}
+#tab {
+    flex:1;
+}
+#enviornment {
+    min-width:310px;
+    max-width:550px;
+    background-color: darkblue;
+    padding-left:2px;
+    cursor:ew-resize
 }
