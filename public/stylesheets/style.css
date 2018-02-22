@@ -135,11 +135,32 @@ nav {
 }
 #tab {
     flex:1;
+    background-color:#FFFFFF
 }
 #enviornment {
     min-width:310px;
     max-width:550px;
-    background-color: darkblue;
     padding-left:2px;
     cursor:ew-resize
+}
+#enviornment > div {
+    background-color:#FFFFFF
+}
+#enviornment > div > div,
+#enviornment > div > input {
+    background-color: #F0F0F0;
+    margin-left:12px;
+    margin-top:10px;
+    margin-bottom:10px;
+    margin-right:0px;
+    border-radius: 2px;
+    font-size: small;
+}
+
+input {
+    padding-left: 10px;
+    border-width: 0;
+}
+.linecolor {
+    background-color:#DBDBDB
 }
