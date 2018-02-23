@@ -9,7 +9,7 @@ block content
                 .d-flex.flex-row(style='background-color:orange;flex-basis:50px;')
                     #tab.d-flex.flex-row(style='flex-basis:100px')
                     #enviornment.d-flex.flex-row.linecolor
-                        .d-flex.flex-row(style='flex:1;cursor:auto;')
+                        #sub-enviornment.d-flex.flex-row(style='flex:1;cursor:auto;')
                             input.d-flex.flex-row(style='flex:1;margin-left:12px;margin-top:10px;margin-bottom:10px;',type='text',placeholder='')
                             #watch.d-flex.flex-row(style='flex-basis:30px')
                                 i.fas.fa-eye.d-flex(style='color:#B4B4B4;flex:1;height:100%;padding:6px;')
@@ -39,5 +39,8 @@ block content
           $(document).bind("mousemove", function (ev) {
               $("#enviornment").css("flex-basis", width + x-ev.pageX);
           });
+        });
+        $("#sub-enviornment").mousedown(function (e) {
+          e.stopPropagation();
         });
       });
