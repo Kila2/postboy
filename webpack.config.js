@@ -14,7 +14,9 @@ const frontendCodePath = './frontend'
 const bootstrapPath = resolveModulePath('bootstrap');
 
 module.exports = {
+  devtool: 'inline-source-map',
   entry: {
+    index: './frontend/js/index.js',
     vendor: './frontend/js/vendor.js',
   },
   output: {

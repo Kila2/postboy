@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "cross-env NODE_ENV=production babel-node --presets=env app",
-    "start-dev": "cross-env PORT=8082 concurrently --kill-others \"nodemon --exec babel-node --presets=env ./backend/bin/www\" \"npm run build-dev\"",
+    "start-dev": "cross-env PORT=8082 concurrently --kill-others \"nodemon --inspect --exec babel-node --presets=env ./backend/bin/www\" \"npm run build-dev\"",
     "build-dev": "webpack --watch",
     "lint": "eslint .",
     "test": "npm run lint",
