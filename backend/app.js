@@ -16,7 +16,7 @@ const login = require('./routes/login');
 const app = express();
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, '../frontend/views'));
 app.set('view engine', 'pug');
 
 // uncomment after placing your favicon in /public
@@ -27,7 +27,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use('/public',express.static(path.join(__dirname, '../build')));
 
 app.use((req, res, next) => {
   if (req.url === '/login') {

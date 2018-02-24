@@ -1,0 +1,175 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    background-color: #464646;
+}
+input:focus,
+button:focus {
+    outline: none;
+    background-color:#FAFAFA;
+}
+
+button {
+    background-color:#F0F0F0;
+    border-style:solid;
+    border-color:#DBDBDB;
+    border-width:1px;
+}
+
+nav {
+    display: -webkit-flex; /* Safari */
+    display: flex;
+    height: 50px;
+    padding: 0px;
+}
+
+.container-fluid,
+.container {
+    padding: 0px;
+    margin: 0px;
+}
+
+.nav {
+    background-color: #464646;
+}
+
+#navbar > ul > li,
+#navbar > ul > #new2 {
+    padding-right: 10px;
+}
+#navbar > ul > #new1 > button,
+#navbar > ul > #new2 > button {
+    background-color: #F47023;
+}
+
+#navbar > ul > li > button {
+    background-color: #ffffff20;
+}
+
+#navbar > ul > li > button,
+#navbar > ul > #new1 > button,
+#navbar > ul > #new2 > button {
+    height: 30px;
+    border-radius: 0px;
+    color: #CBCBCB;
+    font-size: 12px;
+    font-weight: bold;
+}
+#navbar > ul > li > button:hover {
+    color: #ffffff;
+    background-color: #ffffff60;
+}
+#navbar > ul > #new1 > button:hover,
+#navbar > ul > #new2 > button:hover {
+    color: #ffffff;
+    background-color: #FF8F45;
+}
+
+#navbar > ul > li > button {
+    border-radius: 4px;
+    border-color: #0000;
+}
+
+#navbar > ul > #new1 > button,
+#navbar > ul > #new2 > button {
+    border-top-width: 0px;
+    border-bottom-width: 0px;
+    border-left-width: 0px;
+    color: white;
+}
+
+#navbar > ul > #new1 > button {
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    border-right-width: 1px;
+    border-color: gray;
+}
+
+#navbar > ul > #new2 > button {
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    border-right-width: 0px;
+}
+
+#navbar {
+    padding: 10px;
+}
+
+#navcenter > ul > li > p {
+    color: #aaaaaa;
+    border-bottom: 3px solid transparent;
+    text-decoration: none;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+#navcenter > ul > li > p:hover,
+#navcenter > ul > li > p:focus {
+    color: #eee;
+    text-decoration: none;
+}
+
+#navcenter > ul > .active > p,
+#navcenter > ul > .active > p:hover,
+#navcenter > ul > .active > p:focus {
+    color: #fff;
+    border-bottom-color: #F47023;
+}
+
+#navleft > li > button {
+    background-color: #00000000;
+    border-color: #00000000;
+    color: gray;
+}
+
+#navleft > li > button:hover,
+#navleft > li > button:focus {
+    color: white;
+    background-color: gray;
+    border-radius: 4px;
+}
+
+#left {
+    display:none!important;
+    flex-basis:200px;
+    background-color:red;
+    cursor:ew-resize
+}
+
+@media (min-width: 1025px) {
+    #left {
+        display: -webkit-flex!important; /* Safari */
+        display: flex!important;
+    }
+}
+#tab {
+    flex:1;
+    background-color:#FFFFFF
+}
+#enviornment {
+    min-width:310px;
+    max-width:550px;
+    padding-left:2px;
+    cursor:ew-resize
+}
+#enviornment > div {
+    background-color:#FFFFFF
+}
+#enviornment > div > div,
+#enviornment > div > input {
+    background-color: #F0F0F0;
+    margin-left:12px;
+    margin-top:10px;
+    margin-bottom:10px;
+    margin-right:0px;
+    border-radius: 2px;
+    font-size: small;
+}
+
+input {
+    padding-left: 10px;
+    border-width: 0;
+}
+.linecolor {
+    background-color:#DBDBDB
+}

@@ -7,10 +7,10 @@ html(lang='en')
         link(rel='icon', href='../../../../favicon.ico')
         title Signin Template for Bootstrap
         // Bootstrap core CSS
-        link(rel='stylesheet', href='/bootstrap/css/bootstrap.min.css')
+        link(rel='stylesheet', href='/public/css/bootstrap.min.css')
         // Custom styles for this template
-        link(href='signin.css', rel='stylesheet')
-        script(type='text/javascript', src='/javascripts/jquery-3.2.1.min.js')
+        link(href='/public/css/signin.css', rel='stylesheet')
+        script(type='text/javascript', src='/public/vendor.js')
         script.
           $(document).ready(function () {
             let callback;
@@ -23,7 +23,7 @@ html(lang='en')
               };
               $.post({
                 data: data,
-                url: "#{baseHref}" + 'login',
+                url: '/login',
                 headers: {contentType: 'application/json', cacheControl: 'no-cache'}
               }).done(function (res) {
                 if (res.rc === 0) {
