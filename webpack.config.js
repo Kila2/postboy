@@ -14,6 +14,7 @@ const frontendCodePath = './frontend'
 const bootstrapPath = resolveModulePath('bootstrap');
 
 module.exports = {
+  mode:'development',
   devtool: 'inline-source-map',
   entry: {
     index: './frontend/js/index.js',
@@ -22,9 +23,10 @@ module.exports = {
   output: {
     filename: `[name]${fileSuffix}.js`,
     path: path.resolve(__dirname, 'build'),
+    publicPath: "public/",
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /.js$/,
         loader: 'babel-loader',
