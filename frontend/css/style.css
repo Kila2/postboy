@@ -98,6 +98,7 @@ button {
     border-width: 1px;
     margin-bottom: -1px;
     text-align: left;
+    z-index: 2;
 }
 .tab-normal {
     background: white;
@@ -213,4 +214,13 @@ nav {
     border-color: #DCDCDC;
     border-style: double;
     border-radius: 2px;
+}
+.title-item {
+    padding-left:10px;
+    justify-content:center;
+    border-style:solid;
+    border-color:#DBDBDB;
+    border-width:1px;
+    background-color:#FAFAFA;
+    flex-basis:40px;
 }

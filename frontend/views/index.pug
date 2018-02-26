@@ -4,7 +4,7 @@ block content
     .d-flex.flex-row(style='height:100%')
         #left.d-flex
             .d-flex(style='flex:1;background-color:blue;margin-right:2px;cursor:auto')
-        .d-flex.flex-column(style='flex:1;background-color:yellow;')
+        #rightcontent.d-flex.flex-column(style='flex:1;background-color:yellow;')
             .d-flex.flex-column(style='background-color:red;min-height:110px;z-index:1;')
                 .d-flex.flex-row(style='background-color:orange;flex-basis:50px;')
                     #tab.d-flex.flex-row(style='flex-basis:100px;align-items:flex-end;')
@@ -32,9 +32,12 @@ block content
                     button.right-raduis-0(style='border-right-width:0px;width:50px;margin-left:10px') Save
                     button.left-raduis-0(style='width:30px;')
                         i.fas.fa-caret-down
-            .d-flex.flex-column.position-relative.pre-scrollable(style='top:-110px;max-height:none;margin-bottom:-110px')
-                ul
-                - for (var x = 0; x < 1000; x++)
-                    li item
+            #resultcontent.d-flex.flex-column.position-relative.pre-scrollable(style='height:100%;overflow: hidden !important;max-height:none;')
+                .d-flex.flex-row(style='background-color:red;min-height:35px;')
+                .d-flex.flex-column(style='background-color:green;min-height:200px;')
+                .d-flex.flex-column(style='background-color:gray;min-height:800px;max-height:none;flex-basis:100%')
+                    .d-flex.flex-column.title-item
+                        p.m-0 Response
+                    .d-flex.flex-column(style='background-color:white;flex:1;')
     script(type='text/javascript', src='/public/index.js')
       
