@@ -1,17 +1,46 @@
+/*body*/
 html, body {
     height: 100%;
     margin: 0;
     background-color: #464646;
 }
+/*container*/
+.container-fluid,
+.container {
+    padding: 0px;
+    margin: 0px;
+}
+/*input*/
+input {
+    padding-left: 10px;
+    border-width: 0;
+}
 
+/*button*/
+.left-raduis-0 {
+    border-bottom-left-radius:0px !important;
+    border-top-left-radius:0px !important;
+}
+.right-raduis-0 {
+    border-bottom-right-radius:0px !important;
+    border-top-right-radius:0px !important;
+}
 
 .button-orange {
     background-color:#F47023;
-    border-width: 0;
     color:white !important;
-    border-radius: 2px !important;
-    
 }
+
+.button-blue {
+    background-color:#097BED !important;
+    color:white !important;
+}
+
+.button-lightgray {
+    background-color:#F0F0F0;
+    color:#838383 !important;
+}
+
 .button-orange:focus,
 .button-orange:hover {
     background-color:#FF8F45 !important;
@@ -20,9 +49,7 @@ html, body {
 
 .button-gray {
     background-color:#585858;
-    border-width: 0;
     color:#CACACA;
-    border-radius: 2px;
 }
 .only-title {
     background-color:#585858;
@@ -40,28 +67,64 @@ html, body {
 .button-gray:focus,
 .button-gray:hover {
     background-color:#6E6E6E !important;
-    border-width: 0;
     color:white !important;
-    border-radius: 2px;
-    font-size: 14px;
-    font-weight: bold;
 }
-
 
 input:focus,
 button:focus {
     outline: none;
     background-color:#FAFAFA;
 }
+
 button {
     border-style:solid;
     border-color:#DBDBDB;
-    border-width:1px;
+    border-width: 0;
+    border-radius: 2px;
     height: 30px;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: bold
 }
 
+/*button tap*/
+#tab {
+    flex:1;
+    background-color:#FFFFFF
+}
+
+.tab {
+    font-size: 12px;
+    font-weight: normal;
+    border-width: 1px;
+    margin-bottom: -1px;
+    text-align: left;
+}
+.tab-normal {
+    background: white;
+    color: #B4B4B4;
+    border-color: #DBDBDB;
+    min-width: 130px;
+}
+
+.tab-select {
+    background: #FAFAFA;
+    color: black;
+    min-width: 130px;
+    border-bottom-width: 1px;
+    border-bottom-color: #F0F0F0;
+}
+
+#tab > button {
+    margin-right: 5px;
+}
+
+#tab > button.only-icon  {
+    margin-right: 0px;
+    border-right-width: 0px;
+    text-align: center;
+    min-width: 30px;
+}
+/*nav*/
 nav {
     display: -webkit-flex; /* Safari */
     display: flex;
@@ -69,19 +132,10 @@ nav {
     padding: 0px;
 }
 
-.container-fluid,
-.container {
-    padding: 0px;
-    margin: 0px;
-}
-
 #navbar > ul > li,
 #navbar > ul > #new2 {
     padding-right: 10px;
 }
-
-
-
 
 #navcenter > ul > li > p {
     color: #aaaaaa;
@@ -103,9 +157,7 @@ nav {
     color: #fff;
     border-bottom-color: #F47023;
 }
-
-
-
+/*other*/
 #left {
     display:none!important;
     flex-basis:200px;
@@ -119,10 +171,7 @@ nav {
         display: flex!important;
     }
 }
-#tab {
-    flex:1;
-    background-color:#FFFFFF
-}
+
 #enviornment {
     min-width:310px;
     max-width:550px;
@@ -143,11 +192,25 @@ nav {
     font-size: small;
 }
 
-input {
-    padding-left: 10px;
-    border-width: 0;
-}
-
 .linecolor {
     background-color:#DBDBDB
+}
+/*urlbar*/
+#urlbar {
+    padding:12px;
+    background-color:#FAFAFA;
+    border-style:solid;
+    border-color:#DBDBDB;
+    border-width:1px;
+    flex-basis:60px;
+}
+#urlbar > input,
+#urlbar > button {
+    height:40px;
+    color:#808080;
+    background-color: #F0F0F0;
+    border-width: 1px;
+    border-color: #DCDCDC;
+    border-style: double;
+    border-radius: 2px;
 }

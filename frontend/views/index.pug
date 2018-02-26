@@ -7,7 +7,13 @@ block content
         .d-flex.flex-column(style='flex:1;background-color:yellow;')
             .d-flex.flex-column(style='background-color:red;min-height:110px;z-index:1;')
                 .d-flex.flex-row(style='background-color:orange;flex-basis:50px;')
-                    #tab.d-flex.flex-row(style='flex-basis:100px')
+                    #tab.d-flex.flex-row(style='flex-basis:100px;align-items:flex-end;')
+                        button.tab.tab-select(style='margin-left:10px;') New Tab
+                        button.tab.tab-normal New Tab
+                        button.tab.tab-normal.only-icon
+                            i.fas.fa-plus
+                        button.tab.tab-normal.only-icon(style='border-right-width:1px')
+                            i.fas.fa-ellipsis-h
                     #enviornment.d-flex.flex-row.linecolor
                         #sub-enviornment.d-flex.flex-row(style='flex:1;cursor:auto;')
                             input.d-flex.flex-row(style='flex:1;margin-left:12px;margin-top:10px;margin-bottom:10px;',type='text',placeholder='')
@@ -15,9 +21,17 @@ block content
                                 i.fas.fa-eye.d-flex(style='color:#B4B4B4;flex:1;height:100%;padding:6px;')
                             #setting.d-flex.flex-row(style='flex-basis:30px;margin-right:12px')
                                 i.fas.fa-cog.d-flex(style='color:#B4B4B4;flex:1;height:100%;padding:5px;')
-                .d-flex.flex-row(style='background-color:#FAFAFA;border-style:solid;border-color:#DBDBDB;border-width:1px;flex-basis:60px;')
-                    button(style='width:120px;') GET
+                #urlbar.d-flex.flex-row
+                    button.right-raduis-0(style='width:120px;border-right-width:0px') GET
                         i.fa.fa-angle-down(style='color:#f5f5f5')
+                    input(type="text",style='border-radius:0px;flex:1;border-right-width:0px')
+                    button.left-raduis-0(style='width:84px;font-weight:normal;color:black;') Params
+                    button.button-blue.right-raduis-0(style='border-width:0px;margin-left:10px;width:70px;') Send
+                    button.button-blue.left-raduis-0(style='border-width:0px;width:30px;')
+                        i.fas.fa-caret-down
+                    button.right-raduis-0(style='border-right-width:0px;width:50px;margin-left:10px') Save
+                    button.left-raduis-0(style='width:30px;')
+                        i.fas.fa-caret-down
             .d-flex.flex-column.position-relative.pre-scrollable(style='top:-110px;max-height:none;margin-bottom:-110px')
                 ul
                 - for (var x = 0; x < 1000; x++)
