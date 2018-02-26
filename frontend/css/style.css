@@ -3,17 +3,63 @@ html, body {
     margin: 0;
     background-color: #464646;
 }
+
+
+.button-orange {
+    background-color:#F47023;
+    border-width: 0;
+    color:white !important;
+    border-radius: 2px !important;
+    
+}
+.button-orange:focus,
+.button-orange:hover {
+    background-color:#FF8F45 !important;
+    color: #ffffff;
+}
+
+.button-gray {
+    background-color:#585858;
+    border-width: 0;
+    color:#CACACA;
+    border-radius: 2px;
+}
+.only-title {
+    background-color:#585858;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.only-icon {
+    background-color:transparent !important;
+    padding: 5px;
+    width: 30px;
+    height: 30px;
+    color: gray;
+}
+
+.button-gray:focus,
+.button-gray:hover {
+    background-color:#6E6E6E !important;
+    border-width: 0;
+    color:white !important;
+    border-radius: 2px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+
 input:focus,
 button:focus {
     outline: none;
     background-color:#FAFAFA;
 }
-
 button {
-    background-color:#F0F0F0;
     border-style:solid;
     border-color:#DBDBDB;
     border-width:1px;
+    height: 30px;
+    font-size: 12px;
+    font-weight: bold
 }
 
 nav {
@@ -29,71 +75,13 @@ nav {
     margin: 0px;
 }
 
-.nav {
-    background-color: #464646;
-}
-
 #navbar > ul > li,
 #navbar > ul > #new2 {
     padding-right: 10px;
 }
-#navbar > ul > #new1 > button,
-#navbar > ul > #new2 > button {
-    background-color: #F47023;
-}
 
-#navbar > ul > li > button {
-    background-color: #ffffff20;
-}
 
-#navbar > ul > li > button,
-#navbar > ul > #new1 > button,
-#navbar > ul > #new2 > button {
-    height: 30px;
-    border-radius: 0px;
-    color: #CBCBCB;
-    font-size: 12px;
-    font-weight: bold;
-}
-#navbar > ul > li > button:hover {
-    color: #ffffff;
-    background-color: #ffffff60;
-}
-#navbar > ul > #new1 > button:hover,
-#navbar > ul > #new2 > button:hover {
-    color: #ffffff;
-    background-color: #FF8F45;
-}
 
-#navbar > ul > li > button {
-    border-radius: 4px;
-    border-color: #0000;
-}
-
-#navbar > ul > #new1 > button,
-#navbar > ul > #new2 > button {
-    border-top-width: 0px;
-    border-bottom-width: 0px;
-    border-left-width: 0px;
-    color: white;
-}
-
-#navbar > ul > #new1 > button {
-    border-top-left-radius: 4px;
-    border-bottom-left-radius: 4px;
-    border-right-width: 1px;
-    border-color: gray;
-}
-
-#navbar > ul > #new2 > button {
-    border-top-right-radius: 4px;
-    border-bottom-right-radius: 4px;
-    border-right-width: 0px;
-}
-
-#navbar {
-    padding: 10px;
-}
 
 #navcenter > ul > li > p {
     color: #aaaaaa;
@@ -116,18 +104,7 @@ nav {
     border-bottom-color: #F47023;
 }
 
-#navleft > li > button {
-    background-color: #00000000;
-    border-color: #00000000;
-    color: gray;
-}
 
-#navleft > li > button:hover,
-#navleft > li > button:focus {
-    color: white;
-    background-color: gray;
-    border-radius: 4px;
-}
 
 #left {
     display:none!important;
@@ -170,6 +147,7 @@ input {
     padding-left: 10px;
     border-width: 0;
 }
+
 .linecolor {
     background-color:#DBDBDB
 }

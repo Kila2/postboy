@@ -18,21 +18,21 @@ html(lang='zh-CN')
             #navbar.ul.nav.justify-content-between.flex-nowrap(style='height:50px;padding:10px')
                 ul.nav.flex-nowrap(style='width:350px')
                     #new1.li.nav-item
-                        button.p-0(type='button', style='width:65px')
-                            ul.nav(style='background-color:#0000;margin-left:10px;margin-top:3px;height:20px')
+                        button.button-orange.p-0(type='button', style='width:65px;')
+                            ul.nav.d-flex(style='margin-left:10px;margin-top:3px;padding-bottom:6px;height:100%')
                                 li.m-0.nav-item
-                                    i.fas.fa-plus-square(style='width:17px;height:17px')
-                                li.nav-item(style='margin-left:3px')
-                                    p.m-0 New
+                                    i.fas.fa-plus-square(style='margin-top:3px;width:17px;height:17px')
+                                li.nav-item(style='margin-top:2px;margin-left:3px')
+                                    p.m-0(style='') New
                     #new2.li.nav-item
                         button(type='button')
                             i.fas.fa-caret-down
                     li.nav-item
-                        button Import
+                        button.button-gray.only-title Import
                     li.nav-item
-                        button Runner
+                        button.button-gray.only-title Runner
                     li.nav-item
-                        button(style='width:40px')
+                        button.button-gray.only-title(style='width:40px')
                             i.fas.fa-plus
                             i.fas.fa-caret-down
                 #navcenter.ul.nav.flex-nowrap(style='height:40px')
@@ -43,28 +43,28 @@ html(lang='zh-CN')
                             p.text-nowrap(href='#',style='height:40px') Team Library
                 #navleft.ul.flex-nowrap.nav.d-flex.flex-row-reverse(style='width:350px')
                     li.nav-item
-                        button
+                        button.button-gray.only-icon(style='width:40px')
                             i.fas.fa-cog
                             i.fas.fa-caret-down
                     li.nav-item
-                        button
+                        button.button-gray.only-icon
                             i.fas.fa-heart
                     li.nav-item
-                        button
+                        button.button-gray.only-icon
                             i.fas.fa-bell
                     li.nav-item
-                        button
+                        button.button-gray.only-icon
                             i.fas.fa-wrench
                     li.nav-item
-                        button
+                        button.button-gray.only-icon
                             i.fas.fa-globe
                     li.nav-item
                         h6.m-0(style='color:gray;line-height:30px;') IN SYNC
                     li.nav-item
-                        button
+                        button.button-gray.only-icon
                             i.fas.fa-sign-in-alt
                     li.nav-item
-                        button
+                        button.button-gray.only-icon
                             i.fas.fa-question
     .container-fluid(style='height:100%;margin-top:-50px;padding-top:50px')
         block content
