@@ -11,33 +11,7 @@ html(lang='en')
         // Custom styles for this template
         link(href='/public/css/signin.css', rel='stylesheet')
         script(type='text/javascript', src='/public/vendor.js')
-        script.
-          $(document).ready(function () {
-            let callback;
-            let json;
-            $("button#submit").click(function () {
-              let data = {
-                username: $('#inputUsername').val(),
-                password: $('#inputPassword').val(),
-                remember: 1
-              };
-              $.post({
-                data: data,
-                url: '/login',
-                headers: {contentType: 'application/json', cacheControl: 'no-cache'}
-              }).done(function (res) {
-                if (res.rc === 0) {
-                  window.location.href = "/";
-                }
-                else {
-                  alert(res.error);
-                }
-              }).fail(function (err) {
-                alert(err)
-              })
-              return false;
-            });
-          });
+        script(type='text/javascript', src='/public/login.js')
     body.text-center
         form.form-signin
             img.mb-4(src='https://getbootstrap.com/assets/brand/bootstrap-solid.svg', alt='', width='72', height='72')

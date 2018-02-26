@@ -18,6 +18,7 @@ module.exports = {
   devtool: 'inline-source-map',
   entry: {
     index: './frontend/js/index.js',
+    login: './frontend/js/login.js',
     vendor: './frontend/js/vendor.js',
   },
   output: {
