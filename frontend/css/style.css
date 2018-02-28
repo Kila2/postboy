@@ -73,7 +73,7 @@ input {
 input:focus,
 button:focus {
     outline: none;
-    background-color:#FAFAFA;
+    background-color:#FAFAFA; 
 }
 
 button {
@@ -83,7 +83,8 @@ button {
     border-radius: 2px;
     height: 30px;
     font-size: 14px;
-    font-weight: bold
+    font-weight: bold;
+    cursor: pointer;
 }
 
 /*button tap*/
@@ -138,6 +139,8 @@ nav {
     padding-right: 10px;
 }
 
+.navlightbg-normal,
+.navlightbg-select,
 .nav-select,
 .nav-normal {
     color: #aaaaaa;
@@ -145,30 +148,35 @@ nav {
     text-decoration: none;
     padding-right: 15px;
     padding-left: 15px;
-}
-
-.nav-select {
-    color: #fff;
-    border-bottom-color: #F47023;
-}
-.nav-normal {
-
-}
-
-#navcenter > ul > li > p {
+    padding-top: 0px;
+    padding-bottom: 0px;
+    height: inherit;
     
 }
+.nav-normal > button {
 
-#navcenter > ul > li > p:hover,
-#navcenter > ul > li > p:focus {
+}
+.navlightbg-normal {
+    color: #A9A9A9;
+}
+/* .navlightbg-normal:hover,
+.navlightbg-normal:focus {
+    color: #eee;
+    text-decoration: none;
+} */
+
+.nav-normal:hover,
+.nav-normal:focus {
     color: #eee;
     text-decoration: none;
 }
-
-#navcenter > ul > .active > p,
-#navcenter > ul > .active > p:hover,
-#navcenter > ul > .active > p:focus {
-    
+.navlightbg-select {
+    color:#464646;
+    border-bottom-color: #F47023;
+}
+.nav-select {
+    color: #fff;
+    border-bottom-color: #F47023;
 }
 /*other*/
 #left {
