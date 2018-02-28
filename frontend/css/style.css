@@ -138,12 +138,25 @@ nav {
     padding-right: 10px;
 }
 
-#navcenter > ul > li > p {
+.nav-select,
+.nav-normal {
     color: #aaaaaa;
     border-bottom: 3px solid transparent;
     text-decoration: none;
     padding-right: 15px;
     padding-left: 15px;
+}
+
+.nav-select {
+    color: #fff;
+    border-bottom-color: #F47023;
+}
+.nav-normal {
+
+}
+
+#navcenter > ul > li > p {
+    
 }
 
 #navcenter > ul > li > p:hover,
@@ -155,8 +168,7 @@ nav {
 #navcenter > ul > .active > p,
 #navcenter > ul > .active > p:hover,
 #navcenter > ul > .active > p:focus {
-    color: #fff;
-    border-bottom-color: #F47023;
+    
 }
 /*other*/
 #left {
