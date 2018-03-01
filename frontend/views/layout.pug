@@ -14,7 +14,7 @@ html(lang='zh-CN')
         script(type='text/javascript', src='/public/vendor.js')
         title PostMan-Like
     body
-        .container-fluid
+        .container-fluid(style='box-shadow: 0px 5px 10px #DDDDDD;z-index:3;position: relative')
             #navbar.ul.nav.justify-content-between.flex-nowrap(style='height:50px;padding:10px')
                 ul.nav.flex-nowrap(style='width:350px')
                     #new1.li.nav-item
@@ -68,3 +68,4 @@ html(lang='zh-CN')
                             i.fas.fa-question
     .container-fluid(style='height:100%;margin-top:-50px;padding-top:50px')
         block content
+    .container-fluid.position-relative(style='border-style:solid;border-color:#DBDBDB;border-width:0px;border-top-width:1px;margin-top:-30px;background-color:white;height:30px;z-index:100;')

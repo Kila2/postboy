@@ -151,13 +151,14 @@ nav {
     padding-top: 0px;
     padding-bottom: 0px;
     height: inherit;
-    
 }
-.nav-normal > button {
 
-}
+.navlightbg-select,
 .navlightbg-normal {
     color: #A9A9A9;
+    background-color: #FAFAFA;
+    font-weight: normal;
+    font-size: 13px;
 }
 /* .navlightbg-normal:hover,
 .navlightbg-normal:focus {
@@ -182,8 +183,10 @@ nav {
 #left {
     display:none!important;
     flex-basis:200px;
-    background-color:red;
-    cursor:ew-resize
+    background-color:white;
+    cursor:ew-resize;
+    box-shadow: 4px 2px 4px #DDDDDD;
+    z-index: 2;
 }
 
 @media (min-width: 1025px) {
