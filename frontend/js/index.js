@@ -2,11 +2,14 @@ $(document).ready(() => {
   $(window).resize(() => {
     const height = $('#rightcontent').height();
     $('#resultcontent').css('height', height - 110);
+    const width = $('#rightcontent').width();
+    $('#urlbar').css('width',width-15);
   });
   $(document).ready((ev) => {
     const height = $('#rightcontent').height();
-    console.log(height);
     $('#resultcontent').css('height', height - 110);
+    const width = $('#rightcontent').width();
+    $('#urlbar').css('width',width-15);
   });
 
   $('#left').mousedown((e) => {

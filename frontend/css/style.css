@@ -4,6 +4,11 @@ html, body {
     margin: 0;
     background-color: #464646;
 }
+* {
+    border-width: 0px;
+    border-style:solid;
+    border-color:#DBDBDB;
+}
 div, p, button, input{
     background-color: white;
 }
@@ -239,7 +244,6 @@ nav {
     border-style:solid;
     border-color:#DBDBDB;
     border-width:1px;
-    flex-basis:60px;
 }
 #urlbar > input,
 #urlbar > button {
