@@ -1,33 +1,33 @@
-$(document).ready(function () {
-  $(window).resize(function () {
-    let height = $("#rightcontent").height();
-    $("#resultcontent").css("height", height-110);
+$(document).ready(() => {
+  $(window).resize(() => {
+    const height = $('#rightcontent').height();
+    $('#resultcontent').css('height', height - 110);
   });
-  $(document).ready(function(ev){
-    let height = $("#rightcontent").height();
+  $(document).ready((ev) => {
+    const height = $('#rightcontent').height();
     console.log(height);
-    $("#resultcontent").css("height", height-110);
+    $('#resultcontent').css('height', height - 110);
   });
 
-  $("#left").mousedown(function (e) {
-    $(document).bind("mousemove", function (ev) {
+  $('#left').mousedown((e) => {
+    $(document).bind('mousemove', (ev) => {
       if (ev.pageX >= 200 && ev.pageX <= 500) {
-        $("#left").css("flex-basis", ev.pageX);
+        $('#left').css('flex-basis', ev.pageX);
       }
     });
   });
   $(document).mouseup(function () {
-    $(this).unbind("mousemove");
+    $(this).unbind('mousemove');
   });
-  $("#enviornment").mousedown(function (e) {
-    let x = e.pageX;
-    let y = e.pageY;
-    let width = $('#enviornment').width();
-    $(document).bind("mousemove", function (ev) {
-      $("#enviornment").css("flex-basis", width + x - ev.pageX);
+  $('#enviornment').mousedown((e) => {
+    const x = e.pageX;
+    const y = e.pageY;
+    const width = $('#enviornment').width();
+    $(document).bind('mousemove', (ev) => {
+      $('#enviornment').css('flex-basis', width + x - ev.pageX);
     });
   });
-  $("#sub-enviornment").mousedown(function (e) {
+  $('#sub-enviornment').mousedown((e) => {
     e.stopPropagation();
   });
 });

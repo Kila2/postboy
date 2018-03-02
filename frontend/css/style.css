@@ -4,12 +4,30 @@ html, body {
     margin: 0;
     background-color: #464646;
 }
+div, p, button, input{
+    background-color: white;
+}
 /*container*/
 .container-fluid,
 .container {
     padding: 0px;
     margin: 0px;
 }
+.nav {
+    background-color:#464646;
+}
+.bar {
+    background-color: #fafafa;
+}
+.nav *,
+.bar * {
+    background-color: transparent;
+}
+
+.primary {
+    background-color: #F0F0F0 !important;
+}
+
 /*input*/
 input {
     padding-left: 10px;
@@ -64,6 +82,13 @@ input {
     color: gray;
 }
 
+#resultcontent::-webkit-scrollbar {
+
+}
+
+.element::-webkit-scrollbar {
+    display:none
+}
 .button-gray:focus,
 .button-gray:hover {
     background-color:#6E6E6E !important;
@@ -73,7 +98,6 @@ input {
 input:focus,
 button:focus {
     outline: none;
-    background-color:#FAFAFA; 
 }
 
 button {
@@ -90,7 +114,7 @@ button {
 /*button tap*/
 #tab {
     flex:1;
-    background-color:#FFFFFF
+    flex-basis:100px;align-items:flex-end;
 }
 
 .tab {
@@ -102,14 +126,13 @@ button {
     z-index: 2;
 }
 .tab-normal {
-    background: white;
     color: #B4B4B4;
     border-color: #DBDBDB;
     min-width: 130px;
 }
 
 .tab-select {
-    background: #FAFAFA;
+    background-color: #FAFAFA !important;
     color: black;
     min-width: 130px;
     border-bottom-width: 1px;
@@ -134,6 +157,10 @@ nav {
     padding: 0px;
 }
 
+#navbar {
+    height: 50px;
+    padding: 10px;
+}
 #navbar > ul > li,
 #navbar > ul > #new2 {
     padding-right: 10px;
@@ -156,16 +183,9 @@ nav {
 .navlightbg-select,
 .navlightbg-normal {
     color: #A9A9A9;
-    background-color: #FAFAFA;
     font-weight: normal;
     font-size: 13px;
 }
-/* .navlightbg-normal:hover,
-.navlightbg-normal:focus {
-    color: #eee;
-    text-decoration: none;
-} */
-
 .nav-normal:hover,
 .nav-normal:focus {
     color: #eee;
@@ -202,12 +222,9 @@ nav {
     padding-left:2px;
     cursor:ew-resize
 }
-#enviornment > div {
-    background-color:#FFFFFF
-}
+
 #enviornment > div > div,
 #enviornment > div > input {
-    background-color: #F0F0F0;
     margin-left:12px;
     margin-top:10px;
     margin-bottom:10px;
@@ -216,13 +233,9 @@ nav {
     font-size: small;
 }
 
-.linecolor {
-    background-color:#DBDBDB
-}
 /*urlbar*/
 #urlbar {
     padding:12px;
-    background-color:#FAFAFA;
     border-style:solid;
     border-color:#DBDBDB;
     border-width:1px;
@@ -232,7 +245,6 @@ nav {
 #urlbar > button {
     height:40px;
     color:#808080;
-    background-color: #F0F0F0;
     border-width: 1px;
     border-color: #DCDCDC;
     border-style: double;
@@ -244,6 +256,5 @@ nav {
     border-style:solid;
     border-color:#DBDBDB;
     border-width:1px;
-    background-color:#FAFAFA;
     flex-basis:40px;
 }
