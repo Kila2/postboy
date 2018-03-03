@@ -1,4 +1,5 @@
 $(document).ready(() => {
+  
   $(window).resize(() => {
     const height = $('#rightcontent').height();
     $('#resultcontent').css('height', height - 110);
@@ -16,6 +17,8 @@ $(document).ready(() => {
     $(document).bind('mousemove', (ev) => {
       if (ev.pageX >= 200 && ev.pageX <= 500) {
         $('#left').css('flex-basis', ev.pageX);
+        const width = $('#rightcontent').width();
+        $('#urlbar').css('width',width-15);
       }
     });
   });

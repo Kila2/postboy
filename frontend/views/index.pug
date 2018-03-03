@@ -4,14 +4,17 @@ block content
     .d-flex.flex-row.h-100(style='padding-bottom:30px;')
         #left.d-flex
             .d-flex.flex-column(style='flex:1;margin-right:2px;cursor:auto')
-                input.bar(type="text" placeholder='Filter')
-                .bar.d-flex.flex-row
-                    button.navlightbg-select History
-                    button.navlightbg-normal Collections
-                .bar.d-flex
+                .d-flex.bar(style='min-height:50px;padding:10px 5px 10px;')
+                    input.d-flex.bar.searchbar(style='flex:1;padding-left:40px;min-height:30px;' type="text" placeholder='Filter') 
+                    i.fas.fa-search.position-absolute(style='color:gray;padding-left:10px;padding-right:10px;height:30px;width:40px;')
+                .bar.d-flex.flex-row(style='min-height:30px;border-bottom-width:1px;')
+                    button.col-6.navlightbg-select History
+                    button.col-6.navlightbg-normal Collections
+                .bar.d-flex(style='min-height:40px;border-bottom-width:1px;')
                     button Clear all
-                #historylist.d-flex.flex-column.position-relative.pre-scrollable.h-100(style='max-height:none;overflow:auto;')
-                    .d-flex(style='min-height:35px;')
+                #historylist.d-flex.flex-column.position-relative.pre-scrollable(style='max-height:none;overflow:auto;')
+                    .d-flex(style='min-height:30px;')
+
         #rightcontent.d-flex.flex-column(style='flex:1;')
             .d-flex.flex-column(style='min-height:110px;z-index:1;background-color:transparent')
                 .d-flex.flex-row(style='flex-basis:50px;')

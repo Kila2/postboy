@@ -87,13 +87,6 @@ input {
     color: gray;
 }
 
-#resultcontent::-webkit-scrollbar {
-
-}
-
-.element::-webkit-scrollbar {
-    display:none
-}
 .button-gray:focus,
 .button-gray:hover {
     background-color:#6E6E6E !important;
@@ -261,4 +254,10 @@ nav {
     border-color:#DBDBDB;
     border-width:1px;
     flex-basis:40px;
+}
+/*search bar*/
+.searchbar {
+    border-width: 1px;
+    border-radius: 50px;
+    height:30px;
 }
