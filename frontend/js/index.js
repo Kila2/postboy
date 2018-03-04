@@ -48,7 +48,7 @@ $(document).ready(() => {
     });
   });
   $(document).mouseup(() => {
-    $(this).unbind('mousemove');
+    $(document).unbind('mousemove');
   });
   $('#enviornment').mousedown((e) => {
     const x = e.pageX;

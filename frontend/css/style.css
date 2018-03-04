@@ -3,6 +3,7 @@ html, body {
     height: 100%;
     margin: 0;
     background-color: #464646;
+    overflow: hidden;
 }
 
 * {
@@ -41,10 +42,13 @@ div, p, button, input {
     background-color: transparent;
 }
 
-.primary {
+.mybtn-primary {
     background-color: #F0F0F0 !important;
 }
-
+.mybtn-secondary {
+    color: #F47023;
+    font-size: 11px;
+}
 /*input*/
 input {
     padding-left: 10px;
@@ -286,4 +290,16 @@ nav {
     border-width: 1px;
     border-radius: 50px;
     height: 30px;
+}
+
+.dropdown-item {
+    font-size:11px;
+    color:gray;
+}
+
+.dropdown-item:hover {
+    background-color: #EDEDED;
+}
+#httpmethod-btn > .dropdown-menu {
+    transform: translate3d(12px, 49px, 0px) !important;
 }

@@ -11,7 +11,7 @@ block content
                     button.col-6.navlightbg-select History
                     button.col-6.navlightbg-normal Collections
                 .bar.d-flex.justify-content-sm-end.align-items-center(style='min-height:40px;border-bottom-width:1px;')
-                    button Clear all
+                    button.mybtn-secondary Clear all
                 #historylist.d-flex.flex-column.position-relative.pre-scrollable(style='max-height:none;overflow:auto;')
                     .d-flex(style='min-height:30px;')
         #rightcontent.d-flex.flex-column(style='flex:1;')
@@ -26,25 +26,22 @@ block content
                             i.fas.fa-ellipsis-h
                     #enviornment.d-flex.flex-row(style='background-color: #DBDBDB;')
                         #sub-enviornment.bar.d-flex.flex-row(style='flex:1;cursor:auto;')
-                            input.primary.d-flex.flex-row(style='flex:1;margin-left:12px;margin-top:10px;margin-bottom:10px;' type='text' value='No Environment' placeholder='Type to filter')
-                            #watch.primary.d-flex.flex-row(style='flex-basis:30px')
+                            input.mybtn-primary.d-flex.flex-row(style='flex:1;margin-left:12px;margin-top:10px;margin-bottom:10px;' type='text' value='No Environment' placeholder='Type to filter')
+                            #watch.mybtn-primary.d-flex.flex-row(style='flex-basis:30px')
                                 i.fas.fa-eye.d-flex.h-100(style='color:#B4B4B4;flex:1;padding:6px;')
-                            #setting.primary.d-flex.flex-row(style='flex-basis:30px;margin-right:12px')
+                            #setting.mybtn-primary.d-flex.flex-row(style='flex-basis:30px;margin-right:12px')
                                 i.fas.fa-cog.d-flex.h-100(style='color:#B4B4B4;flex:1;padding:5px;')
                 #urlbar.bar.position-absolute.d-flex.flex-row.align-items-center(style='height:60px;margin-top:50px;margin-right:15px;')
-                    button#httpmethod-btn.primary.right-raduis-0.border-right-0.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false', style='width:120px;') GET
+                    button#httpmethod-btn.mybtn-primary.right-raduis-0.border-right-0.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false', style='width:120px;') GET
                         i.fa.fa-angle-down(style='color:#f5f5f5')
-                        .dropdown-menu(aria-labelledby='dropdownMenuButton')
-                            //a.dropdown-item(href='#') Action
-                            //a.dropdown-item(href='#') Another action
-                            //a.dropdown-item(href='#') Something else here
-                    input.primary.border-right-0(type="text",style='border-radius:0px;flex:1;' placeholder='Enter request URL')
-                    button.primary.left-raduis-0(style='width:84px;font-weight:normal;color:black;') Params
+                        .dropdown-menu(style='min-width:120px;max-width:120px', aria-labelledby='dropdownMenuButton')
+                    input.mybtn-primary.border-right-0(type="text",style='border-radius:0px;flex:1;' placeholder='Enter request URL')
+                    button.mybtn-primary.left-raduis-0(style='width:84px;font-weight:normal;color:black;') Params
                     button.button-blue.right-raduis-0(style='margin-left:10px;width:70px;border-right-width:1px;border-color:#44444433') Send
                     button.button-blue.left-raduis-0(style='border-width:0px;width:30px;')
                         i.fas.fa-caret-down
-                    button.primary.right-raduis-0.border-right-0(style='width:50px;margin-left:10px') Save
-                    button.primary.left-raduis-0(style='width:30px;')
+                    button.mybtn-primary.right-raduis-0.border-right-0(style='width:50px;margin-left:10px') Save
+                    button.mybtn-primary.left-raduis-0(style='width:30px;')
                         i.fas.fa-caret-down
             #resultcontent.d-flex.flex-column.pre-scrollable.h-100(style='padding-top:60px;margin-top:-60px;max-height:none;overflow:auto;')
                 .bar.d-flex.flex-row(style='border-bottom-width:1px;min-height:35px;')
@@ -54,12 +51,12 @@ block content
                     button.navlightbg-normal Pre-request Script
                     button.navlightbg-normal Tests
                     .d-flex.flex-row.justify-content-end(style='padding-right:10px;flex:1')
-                        button Cookies
-                        button Code
+                        button.mybtn-secondary Cookies
+                        button.mybtn-secondary Code
                 .d-flex.flex-row(style='min-height:165px;')
                     .col-4(style='border-right-width:1px;min-width:256px')
                        p(style='font-size:11px;') TYPE
-                       button.primary(style='font-size:11px;') Inherit auth from parent
+                       button.mybtn-primary(style='font-size:11px;') Inherit auth from parent
                        p(style='font-size:11px;') The authorization header will be automatically generated when you send the request. <a href="#"  target="_blank"> Learn more about authorization </a>
                     .col.d-flex.flex-row(style='align-items:center;justify-content:center;padding-left:25px;padding-right:25px')
                        p.text-center(style='color:gray;font-size:13px;') This request is not inheriting any authorization helper at the moment. Save it in a collection to use the parent's authorization helper.
