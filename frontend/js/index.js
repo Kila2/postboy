@@ -1,4 +1,29 @@
+class HTTP {
+  static methods = [
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+    'COPY',
+    'HEAD',
+    'OPTIONS',
+    'LINK',
+    'UNLINK',
+    'PURGE',
+    'LOCK',
+    'UNLOCK',
+    'PROPFIND',
+    'VIEW',
+  ];
+}
 $(document).ready(() => {
+  const methodList = $('#httpmethod-btn').find('div');
+  const methods = HTTP.methods;
+  for (let i = 0; i < methods.length; i += 1) {
+    const item = $('<a class="dropdown-item" href="#"></a>').text(methods[i]);
+    methodList.append(item);
+  }
   const rightcontent = $('#rightcontent');
   $(window).resize(() => {
     const height = rightcontent.height();

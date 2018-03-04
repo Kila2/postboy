@@ -10,11 +10,11 @@ function resolveModulePath(name) {
   const packageJson = '/package.json';
   return path.dirname(require.resolve(`${name}${packageJson}`));
 }
-const frontendCodePath = './frontend'
+const frontendCodePath = './frontend';
 const bootstrapPath = resolveModulePath('bootstrap');
 
 module.exports = {
-  mode:'development',
+  mode: 'development',
   devtool: 'inline-source-map',
   entry: {
     index: './frontend/js/index.js',
@@ -24,7 +24,7 @@ module.exports = {
   output: {
     filename: `[name]${fileSuffix}.js`,
     path: path.resolve(__dirname, 'build'),
-    publicPath: "public/",
+    publicPath: 'public/',
   },
   module: {
     rules: [
@@ -33,7 +33,7 @@ module.exports = {
         loader: 'babel-loader',
         exclude: /(node_modules)/,
         query: {
-          presets: ['env'],
+          presets: ['env', 'stage-0'],
         },
       },
     ],
@@ -47,6 +47,6 @@ module.exports = {
 
       { from: path.join(bootstrapPath, '/dist/css/bootstrap.min.css'), to: 'css/[name].[ext]' },
       { from: path.join(bootstrapPath, '/dist/css/bootstrap.min.css.map'), to: 'css/[name].[ext]' },
-    ])
+    ]),
   ],
 };
