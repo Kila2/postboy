@@ -10,11 +10,10 @@ block content
                 .bar.d-flex.flex-row(style='min-height:30px;border-bottom-width:1px;')
                     button.col-6.navlightbg-select History
                     button.col-6.navlightbg-normal Collections
-                .bar.d-flex(style='min-height:40px;border-bottom-width:1px;')
+                .bar.d-flex.justify-content-sm-end.align-items-center(style='min-height:40px;border-bottom-width:1px;')
                     button Clear all
                 #historylist.d-flex.flex-column.position-relative.pre-scrollable(style='max-height:none;overflow:auto;')
                     .d-flex(style='min-height:30px;')
-
         #rightcontent.d-flex.flex-column(style='flex:1;')
             .d-flex.flex-column(style='min-height:110px;z-index:1;background-color:transparent')
                 .d-flex.flex-row(style='flex-basis:50px;')
@@ -27,15 +26,19 @@ block content
                             i.fas.fa-ellipsis-h
                     #enviornment.d-flex.flex-row(style='background-color: #DBDBDB;')
                         #sub-enviornment.bar.d-flex.flex-row(style='flex:1;cursor:auto;')
-                            input.primary.d-flex.flex-row(style='flex:1;margin-left:12px;margin-top:10px;margin-bottom:10px;',type='text',placeholder='')
+                            input.primary.d-flex.flex-row(style='flex:1;margin-left:12px;margin-top:10px;margin-bottom:10px;' type='text' value='No Environment' placeholder='Type to filter')
                             #watch.primary.d-flex.flex-row(style='flex-basis:30px')
                                 i.fas.fa-eye.d-flex.h-100(style='color:#B4B4B4;flex:1;padding:6px;')
                             #setting.primary.d-flex.flex-row(style='flex-basis:30px;margin-right:12px')
                                 i.fas.fa-cog.d-flex.h-100(style='color:#B4B4B4;flex:1;padding:5px;')
                 #urlbar.bar.position-absolute.d-flex.flex-row.align-items-center(style='height:60px;margin-top:50px;margin-right:15px;')
-                    button.primary.right-raduis-0.border-right-0(style='width:120px;') GET
+                    button#httpmethod-btn.primary.right-raduis-0.border-right-0.dropdown-toggle(type='button', data-toggle='dropdown', aria-haspopup='true', aria-expanded='false', style='width:120px;') GET
                         i.fa.fa-angle-down(style='color:#f5f5f5')
-                    input.primary.border-right-0(type="text",style='border-radius:0px;flex:1;')
+                        .dropdown-menu(aria-labelledby='dropdownMenuButton')
+                            a.dropdown-item(href='#') Action
+                            a.dropdown-item(href='#') Another action
+                            a.dropdown-item(href='#') Something else here
+                    input.primary.border-right-0(type="text",style='border-radius:0px;flex:1;' placeholder='Enter request URL')
                     button.primary.left-raduis-0(style='width:84px;font-weight:normal;color:black;') Params
                     button.button-blue.right-raduis-0(style='margin-left:10px;width:70px;border-right-width:1px;border-color:#44444433') Send
                     button.button-blue.left-raduis-0(style='border-width:0px;width:30px;')

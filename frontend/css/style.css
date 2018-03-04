@@ -4,26 +4,38 @@ html, body {
     margin: 0;
     background-color: #464646;
 }
+
 * {
     border-width: 0px;
-    border-style:solid;
-    border-color:#DBDBDB;
+    border-style: solid;
+    border-color: #DBDBDB;
 }
-div, p, button, input{
+
+div, p, button, input {
     background-color: white;
 }
+
+::-webkit-input-placeholder {
+    color: gray;
+    font-size: 14px;
+}
+
 /*container*/
 .container-fluid,
 .container {
     padding: 0px;
     margin: 0px;
 }
+
 .nav {
-    background-color:#464646;
+    background-color: #464646;
 }
+
+.dropdown-menu.show,
 .bar {
     background-color: #fafafa;
 }
+
 .nav *,
 .bar * {
     background-color: transparent;
@@ -41,46 +53,49 @@ input {
 
 /*button*/
 .left-raduis-0 {
-    border-bottom-left-radius:0px !important;
-    border-top-left-radius:0px !important;
+    border-bottom-left-radius: 0px !important;
+    border-top-left-radius: 0px !important;
 }
+
 .right-raduis-0 {
-    border-bottom-right-radius:0px !important;
-    border-top-right-radius:0px !important;
+    border-bottom-right-radius: 0px !important;
+    border-top-right-radius: 0px !important;
 }
 
 .button-orange {
-    background-color:#F47023;
-    color:white !important;
+    background-color: #F47023;
+    color: white !important;
 }
 
 .button-blue {
-    background-color:#097BED !important;
-    color:white !important;
+    background-color: #097BED !important;
+    color: white !important;
 }
 
 .button-lightgray {
-    background-color:#F0F0F0;
-    color:#838383 !important;
+    background-color: #F0F0F0;
+    color: #838383 !important;
 }
 
 .button-orange:focus,
 .button-orange:hover {
-    background-color:#FF8F45 !important;
+    background-color: #FF8F45 !important;
     color: #ffffff;
 }
 
 .button-gray {
-    background-color:#585858;
-    color:#CACACA;
+    background-color: #585858;
+    color: #CACACA;
 }
+
 .only-title {
-    background-color:#585858;
+    background-color: #585858;
     padding-left: 10px;
     padding-right: 10px;
 }
+
 .only-icon {
-    background-color:transparent !important;
+    background-color: transparent !important;
     padding: 5px;
     width: 30px;
     height: 30px;
@@ -89,8 +104,8 @@ input {
 
 .button-gray:focus,
 .button-gray:hover {
-    background-color:#6E6E6E !important;
-    color:white !important;
+    background-color: #6E6E6E !important;
+    color: white !important;
 }
 
 input:focus,
@@ -99,8 +114,8 @@ button:focus {
 }
 
 button {
-    border-style:solid;
-    border-color:#DBDBDB;
+    border-style: solid;
+    border-color: #DBDBDB;
     border-width: 0;
     border-radius: 2px;
     height: 30px;
@@ -111,8 +126,9 @@ button {
 
 /*button tap*/
 #tab {
-    flex:1;
-    flex-basis:100px;align-items:flex-end;
+    flex: 1;
+    flex-basis: 100px;
+    align-items: flex-end;
 }
 
 .tab {
@@ -123,6 +139,7 @@ button {
     text-align: left;
     z-index: 2;
 }
+
 .tab-normal {
     color: #B4B4B4;
     border-color: #DBDBDB;
@@ -141,12 +158,13 @@ button {
     margin-right: 5px;
 }
 
-#tab > button.only-icon  {
+#tab > button.only-icon {
     margin-right: 0px;
     border-right-width: 0px;
     text-align: center;
     min-width: 30px;
 }
+
 /*nav*/
 nav {
     display: -webkit-flex; /* Safari */
@@ -159,6 +177,7 @@ nav {
     height: 50px;
     padding: 10px;
 }
+
 #navbar > ul > li,
 #navbar > ul > #new2 {
     padding-right: 10px;
@@ -184,80 +203,87 @@ nav {
     font-weight: normal;
     font-size: 13px;
 }
+
 .nav-normal:hover,
 .nav-normal:focus {
     color: #eee;
     text-decoration: none;
 }
+
 .navlightbg-select {
-    color:#464646;
+    color: #464646;
     border-bottom-color: #F47023;
 }
+
 .nav-select {
     color: #fff;
     border-bottom-color: #F47023;
 }
+
 /*other*/
 #left {
-    display:none!important;
-    flex-basis:200px;
-    background-color:white;
-    cursor:ew-resize;
+    display: none !important;
+    flex-basis: 200px;
+    background-color: white;
+    cursor: ew-resize;
     box-shadow: 4px 2px 4px #DDDDDD;
     z-index: 2;
 }
 
 @media (min-width: 1025px) {
     #left {
-        display: -webkit-flex!important; /* Safari */
-        display: flex!important;
+        display: -webkit-flex !important; /* Safari */
+        display: flex !important;
     }
 }
 
 #enviornment {
-    min-width:310px;
-    max-width:550px;
-    padding-left:2px;
-    cursor:ew-resize
+    min-width: 310px;
+    max-width: 550px;
+    padding-left: 2px;
+    cursor: ew-resize
 }
 
 #enviornment > div > div,
 #enviornment > div > input {
-    margin-left:12px;
-    margin-top:10px;
-    margin-bottom:10px;
-    margin-right:0px;
+    margin-left: 12px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: 0px;
     border-radius: 2px;
     font-size: small;
 }
 
 /*urlbar*/
 #urlbar {
-    padding:12px;
-    border-style:solid;
-    border-color:#DBDBDB;
-    border-width:1px;
+    padding: 12px;
+    border-style: solid;
+    border-color: #DBDBDB;
+    border-width: 1px;
 }
+
 #urlbar > input,
 #urlbar > button {
-    height:40px;
-    color:#808080;
+    height: 40px;
+    color: #808080;
     border-width: 1px;
     border-color: #DCDCDC;
     border-style: double;
     border-radius: 2px;
 }
+
 .title-item {
-    padding-left:10px;
-    justify-content:center;
-    border-style:solid;
-    border-color:#DBDBDB;
-    border-width:1px;
-    flex-basis:40px;
+    padding-left: 10px;
+    justify-content: center;
+    border-style: solid;
+    border-color: #DBDBDB;
+    border-width: 1px;
+    flex-basis: 40px;
 }
+
 /*search bar*/
 .searchbar {
     border-width: 1px;
     border-radius: 50px;
-    height:30px;
+    height: 30px;
 }
