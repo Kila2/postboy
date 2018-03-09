@@ -60,4 +60,13 @@ $(document).ready(() => {
   $('#sub-enviornment').mousedown((e) => {
     e.stopPropagation();
   });
+  $('#Params').click((e)=>{
+    const paramstable = $('#paramstable');
+    if(paramstable.css('display')==='none'){
+      paramstable.css('display','table');
+    }
+    else {
+      paramstable.css('display','none');
+    }
+  });
 });

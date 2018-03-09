@@ -15,7 +15,26 @@ html, body {
 div, p, button, input {
     background-color: white;
 }
-
+#paramstable > tbody > tr > td,
+#paramstable > tbody > tr > th {
+    height: 30px;
+    min-height: 30px;
+    border-width: 0px 0px 1px 1px;
+    box-sizing: border-box;
+    text-align: left;
+    vertical-align: middle;
+    padding: 0px 6px 0px 6px !important;
+}
+td,th {
+    margin: 0px;
+}
+th {
+    font-size: smaller;
+    font-weight: bold;
+}
+td > input {
+    padding: 0;
+}
 ::-webkit-input-placeholder {
     color: gray;
     font-size: 14px;
