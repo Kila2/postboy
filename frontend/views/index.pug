@@ -8,8 +8,8 @@ block content
                     input.d-flex.bar.searchbar(style='flex:1;padding-left:40px;min-height:30px;' type="text" placeholder='Filter') 
                     i.fas.fa-search.position-absolute(style='left:0px;color:gray;padding-left:10px;padding-right:10px;height:30px;width:40px;')
                 .bar.d-flex.flex-row(style='min-height:30px;border-bottom-width:1px;')
-                    button.col-6.navlightbg-select History
-                    button.col-6.navlightbg-normal Collections
+                    button#history.col-6.navlightbg-select History
+                    button#collections.col-6.navlightbg-normal Collections
                 .bar.d-flex.justify-content-sm-end.align-items-center(style='min-height:40px;border-bottom-width:1px;')
                     button.mybtn-secondary Clear all
                 #historylist.d-flex.flex-column.position-relative.pre-scrollable(style='max-height:none;overflow:auto;')
@@ -64,11 +64,11 @@ block content
                                 input(placeholder='Description')
 
                 .bar.d-flex.flex-row(style='border-bottom-width:1px;min-height:35px;')
-                    button.navlightbg-select Authorization
-                    button.navlightbg-normal Headers
-                    button.navlightbg-normal Body
-                    button.navlightbg-normal Pre-request Script
-                    button.navlightbg-normal Tests
+                    button#authorization.navlightbg-select Authorization
+                    button#headers.navlightbg-normal Headers
+                    button#body.navlightbg-normal Body
+                    button#pre-requestScript.navlightbg-normal Pre-request Script
+                    button#tests.navlightbg-normal Tests
                     .d-flex.flex-row.justify-content-end(style='padding-right:10px;flex:1')
                         button.mybtn-secondary Cookies
                         button.mybtn-secondary Code

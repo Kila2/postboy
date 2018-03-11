@@ -17,7 +17,45 @@ class HTTP {
     'VIEW',
   ];
 }
+class Tab {
+  static init(tabs, style){
+    let select;
+    let normal;
+    switch(style){
+      case 'top':
+        select = 'nav-select';
+        normal = 'nav-normal';
+        break;
+      default :
+        select = 'navlightbg-select';
+        normal = 'navlightbg-normal';
+        break;
+    }
+    let baki = undefined;
+    for(let i=0;i<tabs.length; i++){
+      if($(tabs[i]).hasClass(select)){
+        baki = $(tabs[i])[0];
+      }
+      $(tabs[i]).click((e)=>{
+        if(e.currentTarget === baki){
+          return;
+        }
+        $(baki).removeClass(select);
+        $(baki).addClass(normal);
+        $(e.currentTarget).removeClass(normal);
+        $(e.currentTarget).addClass(select);
+        baki = e.currentTarget;
+      });
+    }
+  };
+}
 $(document).ready(() => {
+  const lefttabs = ['#history','#collections'];
+  const toptabs = ['#builder','#teamLibrary'];
+  const righttabs = ['#authorization','#headers','#body','#pre-requestScript','#tests'];
+  Tab.init(lefttabs);
+  Tab.init(toptabs,'top');
+  Tab.init(righttabs);
   const methodList = $('#httpmethod-btn').find('div');
   const methods = HTTP.methods;
   for (let i = 0; i < methods.length; i += 1) {
