@@ -33,26 +33,30 @@ class Tab {
     }
     let baki = undefined;
     for(let i=0;i<tabs.length; i++){
-      if($(tabs[i]).hasClass(select)){
-        baki = $(tabs[i])[0];
+      $(tabs[i][0])[0].controlViewTag = tabs[i][1];
+      if($(tabs[i][0]).hasClass(select)){
+        baki = $(tabs[i][0])[0]; 
       }
-      $(tabs[i]).click((e)=>{
+      $(tabs[i][0]).click((e)=>{
         if(e.currentTarget === baki){
           return;
         }
         $(baki).removeClass(select);
         $(baki).addClass(normal);
+        $(baki.controlViewTag).attr('style','display:none !important');
         $(e.currentTarget).removeClass(normal);
         $(e.currentTarget).addClass(select);
+        $(e.currentTarget.controlViewTag).show();
         baki = e.currentTarget;
       });
     }
   };
 }
 $(document).ready(() => {
-  const lefttabs = ['#history','#collections'];
-  const toptabs = ['#builder','#teamLibrary'];
-  const righttabs = ['#authorization','#headers','#body','#pre-requestScript','#tests'];
+  const lefttabs = [['#history','#historyContent'],['#collections','#collectionsContent']];
+  const toptabs = [['#builder',''],['#teamLibrary','']];
+  const righttabs = [['#authorization',''],['#headers',''],['#body',''],['#pre-requestScript',''],['#tests','']];
+  
   Tab.init(lefttabs);
   Tab.init(toptabs,'top');
   Tab.init(righttabs);
