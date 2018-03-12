@@ -17,6 +17,16 @@ class HTTP {
     'VIEW',
   ];
 }
+class Service {
+  static defaultList = [
+    '31000101',
+    '31000102',
+    '31000301',
+    '31000303',
+    '31001501'
+  ];
+}
+
 class Tab {
   static init(tabs, style){
     let select;
@@ -52,14 +62,54 @@ class Tab {
     }
   };
 }
+function GenCusJsonPacket(jsonString) {
+  $.ajax({
+      type: "post",
+      url: "/PacketMocker/GenCustomJson",
+      data: { "jsonString": jsonString },
+      success: function (d) {
+          if (d.Success) {
+              // $("#txtSendPacket").val(d.Data);
+              // $("#txtSendJsonPacket").val(d.Message);
+              $.sticky("生成报文成功，见 [生成的报文] 文本框.", { autoclose: 3000, position: "top-center", type: "st-success" });
+          }
+          else {
+            alert("Error:"+d.Error);
+          }
+      },
+      cache: false,
+      async: false
+  });
+}
+
 $(document).ready(() => {
   const lefttabs = [['#history','#historyContent'],['#collections','#collectionsContent']];
   const toptabs = [['#builder',''],['#teamLibrary','']];
   const righttabs = [['#authorization',''],['#headers',''],['#body',''],['#pre-requestScript',''],['#tests','']];
-  
   Tab.init(lefttabs);
   Tab.init(toptabs,'top');
   Tab.init(righttabs);
+
+  const historylist = $('#historylist').find('ul');
+  const serviceList = Service.defaultList;
+  for(let i = 0; i<serviceList.length; i++){
+    const item = $('<li></>');
+    historylist.append(item);
+    item.append($('<a></>').text(serviceList[i]).val(serviceList[i]));
+    
+    item.click((e)=>{
+
+      $.ajax({
+        headers: {"api":true},
+        type: "get", 
+        cache:  false,
+        url: "/PacketMocker/GetJsonPacket?Version=5&ServiceCode=10001001&SystemCode=17&ClientVersion=711&Encoding=3"
+      }).done((res)=>{
+        
+      });
+    });
+  }
+  
   const methodList = $('#httpmethod-btn').find('div');
   const methods = HTTP.methods;
   for (let i = 0; i < methods.length; i += 1) {
