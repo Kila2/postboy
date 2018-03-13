@@ -19,7 +19,7 @@ block content
                     .bar.d-flex.justify-content-sm-end.align-items-center(style='min-height:40px;border-bottom-width:1px;')
                         button.mybtn-secondary Clear all2
         #rightcontent.d-flex.flex-column(style='flex:1;')
-            .d-flex.flex-column(style='min-height:110px;z-index:1;background-color:transparent')
+            .d-flex.flex-column(style='min-height:110px;z-index:5;background-color:transparent')
                 .d-flex.flex-row(style='flex-basis:50px;')
                     #tab.bar.d-flex.flex-row
                         button.tab.tab-select(style='margin-left:10px;') New Tab
@@ -86,5 +86,6 @@ block content
                 .d-flex.flex-column(style='min-height:800px;max-height:none;flex-basis:100%')
                     .bar.d-flex.flex-column.title-item
                         p.m-0 Response
-                    .d-flex.flex-column(style='flex:1;padding-left:10px;')
+                    #jsoneditor.d-flex.flex-row(style='flex:1;')
+
     script(type='text/javascript', src='/public/index.js')

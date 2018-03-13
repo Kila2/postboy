@@ -1,3 +1,4 @@
+import JSONEditor from 'jsoneditor';
 class HTTP {
   static methods = [
     'GET',
@@ -89,6 +90,14 @@ $(document).ready(() => {
   Tab.init(lefttabs);
   Tab.init(toptabs,'top');
   Tab.init(righttabs);
+  //json editor
+  var container = document.getElementById("jsoneditor");
+  var options = {
+    mode: 'code',
+    ace: ace
+  };
+  var editor = new JSONEditor(container, options);
+
 
   const historylist = $('#historylist').find('ul');
   const serviceList = Service.defaultList;
@@ -103,9 +112,18 @@ $(document).ready(() => {
         headers: {"api":true},
         type: "get", 
         cache:  false,
-        url: "/PacketMocker/GetJsonPacket?Version=5&ServiceCode=10001001&SystemCode=17&ClientVersion=711&Encoding=3"
+        data:{
+          Version:5,
+          ServiceCode:10001001,
+          SystemCode:17,
+          ClientVersion:711,
+          Encoding:3,
+        },
+        url: "/PacketMocker/GetJsonPacket"
       }).done((res)=>{
-        
+        // set json
+        var json = JSON.parse(JSON.parse(res).Message);
+        editor.set(json);
       });
     });
   }

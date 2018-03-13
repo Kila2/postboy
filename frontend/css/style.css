@@ -20,6 +20,22 @@ ul {
     padding: 0px;
     list-style-type:none;
 }
+#jsoneditor * {
+    background-color: transparent
+}
+.jsoneditor-menu{
+    display: none;
+}
+
+div.jsoneditor {
+    border-color: transparent !important;
+    background: transparent;
+}
+div.jsoneditor-outer{
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent;
+}
 #historylist > ul > li{
     margin: 0;
     padding: 0;

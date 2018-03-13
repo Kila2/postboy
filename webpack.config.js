@@ -12,6 +12,7 @@ function resolveModulePath(name) {
 }
 const frontendCodePath = './frontend';
 const bootstrapPath = resolveModulePath('bootstrap');
+const jsoneditorPath = resolveModulePath('jsoneditor');
 
 module.exports = {
   mode: 'development',
@@ -47,6 +48,10 @@ module.exports = {
 
       { from: path.join(bootstrapPath, '/dist/css/bootstrap.min.css'), to: 'css/[name].[ext]' },
       { from: path.join(bootstrapPath, '/dist/css/bootstrap.min.css.map'), to: 'css/[name].[ext]' },
+
+      { from: path.join(jsoneditorPath, '/dist/jsoneditor.css'), to: 'css/[name].[ext]' },
+      { from: path.join(jsoneditorPath, '/dist/jsoneditor.map'), to: 'css/[name].[ext]' },
+      { from: path.join(jsoneditorPath, '/dist/img/*'), to: 'css/img/[name].[ext]' },
     ]),
   ],
 };

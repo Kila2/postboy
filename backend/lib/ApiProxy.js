@@ -2,26 +2,30 @@ var request = require("request");
 
 export default function apiProxy(req, res, next) {
     var options = {
-        method: 'GET',
-        url: 'http://10.2.56.40:8080/PacketMocker/GetJsonPacket',
-        qs:
-            {
-                Version: '5',
-                ServiceCode: '10001001',
-                SystemCode: '17',
-                ClientVersion: '711',
-                Encoding: '3'
-            },
+        method: req.method,
+        url: 'http://10.2.56.40:8080' + req.url,
+        qs: req.query,
         headers:
             {
-                'Postman-Token': '92d22924-65c6-442d-9e15-eff21aa63e0d',
                 'Cache-Control': 'no-cache'
             }
     };
 
     request(options, function (error, response, body) {
         if (error) throw new Error(error);
-        return res.send(body);
-        console.log(body);
+        var options1 = {
+            method: 'POST',
+            url: 'http://10.2.56.40:8080/PacketMocker/GenCustomJson',
+            headers:
+                {
+                    'Cache-Control': 'no-cache',
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+            form: { jsonstring: JSON.parse(body).Data }  
+        };
+        request(options1, function (error1, response1, body1) {
+            if (error1) throw new Error(error1);
+            return res.send(body1);
+        });
     });
 };
