@@ -11,7 +11,7 @@ services:
       - backend
   webdb:
     environment:
-      - ME_CONFIG_MONGODB_SERVER=postmanlike_db_1
+      - ME_CONFIG_MONGODB_SERVER=postman-like_db_1
     image: mongo-express:0.44
     ports:
       - 8081:8081

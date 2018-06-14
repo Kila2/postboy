@@ -10,6 +10,7 @@ const app = require('../app');
 const debug = require('debug')('postman-like:server');
 const http = require('http');
 
+
 /**
  * Get port from environment and store in Express.
  */
@@ -86,7 +87,7 @@ function onListening() {
  */
 
 // Connection URL
-const url = 'mongodb://10.32.76.125:27017';
+const url = 'mongodb://localhost:27017';
 
 // Database Name
 const dbName = 'mockserverdb';
@@ -97,7 +98,6 @@ MongoClient.connect(url, (err, client) => {
   console.log('Connected successfully to server');
 
   DBHelper.db = client.db(dbName);
-
   server.listen(port);
   server.on('error', onError);
   server.on('listening', onListening);

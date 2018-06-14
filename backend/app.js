@@ -1,7 +1,7 @@
 import errorHandler from 'errorhandler';
 
 import * as DBHelper from './lib/DBHelper';
-import apiProxy from './lib/ApiProxy';
+import { apiProxy } from './lib/ApiProxy';
 
 const express = require('express');
 const path = require('path');
@@ -31,7 +31,6 @@ app.use(cookieParser());
 app.use('/public',express.static(path.join(__dirname, '../build')));
 
 app.use((req, res, next) => {
-  console.log(req);
   if(req.headers['api'] === 'true'){
     return apiProxy(req,res,next);
   }
@@ -81,5 +80,4 @@ if (process.env.NODE_ENV === 'development') {
     }
   });
 }
-
 module.exports = app;

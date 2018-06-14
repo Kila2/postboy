@@ -1,4 +1,4 @@
-import JSONEditor from 'jsoneditor';
+import { JSONEditor } from './vendor';
 class HTTP {
   static methods = [
     'GET',
@@ -63,25 +63,6 @@ class Tab {
     }
   };
 }
-function GenCusJsonPacket(jsonString) {
-  $.ajax({
-      type: "post",
-      url: "/PacketMocker/GenCustomJson",
-      data: { "jsonString": jsonString },
-      success: function (d) {
-          if (d.Success) {
-              // $("#txtSendPacket").val(d.Data);
-              // $("#txtSendJsonPacket").val(d.Message);
-              $.sticky("生成报文成功，见 [生成的报文] 文本框.", { autoclose: 3000, position: "top-center", type: "st-success" });
-          }
-          else {
-            alert("Error:"+d.Error);
-          }
-      },
-      cache: false,
-      async: false
-  });
-}
 
 $(document).ready(() => {
   const lefttabs = [['#history','#historyContent'],['#collections','#collectionsContent']];
@@ -107,14 +88,14 @@ $(document).ready(() => {
     item.append($('<a></>').text(serviceList[i]).val(serviceList[i]));
     
     item.click((e)=>{
-
+      console.log("clicked");
       $.ajax({
         headers: {"api":true},
         type: "get", 
         cache:  false,
         data:{
           Version:5,
-          ServiceCode:10001001,
+          ServiceCode:serviceList[i],
           SystemCode:17,
           ClientVersion:711,
           Encoding:3,
