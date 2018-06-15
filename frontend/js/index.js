@@ -76,7 +76,7 @@ class Tab {
 }
 
 $(document).ready(() => {
-  const lefttabs = [['#history','#historyContent'],['#collections','#collectionsContent']];
+  const lefttabs = [['#primary','#historyContent'],['#collections','#collectionsContent']];
   const toptabs = [['#builder',''],['#teamLibrary','']];
   const righttabs = [['#authorization',''],['#headers',''],['#body',''],['#pre-requestScript',''],['#tests','']];
   Tab.init(lefttabs);
