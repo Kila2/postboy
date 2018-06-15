@@ -1,8 +1,6 @@
 import * as DBHelper from '../lib/DBHelper';
-
 import randomHexString from '../lib/Utils';
-
-const express = require('express');
+import express from "express";
 
 const router = express.Router();
 
@@ -54,4 +52,4 @@ router.post('/', (req, res, next) => {
   }());
 });
 
-module.exports = router;
+export default router;

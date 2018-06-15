@@ -13,11 +13,6 @@ class Position {
         this.Remark = 0;
     }
 }
-class QYDecodeError extends Error {
-    constructor(string) {
-        super(string);
-    }
-}
 
 class QYDecode {
 
@@ -73,7 +68,7 @@ class QYDecode {
                 break;
             }
         }
-        if (this.pos.ShortName == 0) {
+        if (this.pos.ShortName === 0) {
             let e = new Error("this service can't decode")
             e.code = 101;
             throw e;
@@ -101,15 +96,13 @@ class QYDecode {
         let sa = XLSX.utils.encode_col(XLSX.utils.decode_range(this.pos.Name).e.c);
         let ea = XLSX.utils.encode_col(XLSX.utils.decode_range(this.pos.ShortName).e.c - 1);
         let rangeStr = sa + (XLSX.utils.decode_range(this.req.cell_ref).e.r + 1) + ":" + ea + (XLSX.utils.decode_range(this.res.cell_ref).e.r);
-        let range = XLSX.utils.decode_range(rangeStr);
-        return range
+        return XLSX.utils.decode_range(rangeStr);
     }
     getResNameRange() {
         let sa = XLSX.utils.encode_col(XLSX.utils.decode_range(this.pos.Name).e.c);
         let ea = XLSX.utils.encode_col(XLSX.utils.decode_range(this.pos.ShortName).e.c - 1);
         let rangeStr = sa + (XLSX.utils.decode_range(this.res.cell_ref).s.r + 1) + ":" + ea + (this.ref.e.r + 1);
-        let range = XLSX.utils.decode_range(rangeStr);
-        return range;
+        return XLSX.utils.decode_range(rangeStr);
     }
 
     getModel(trange) {
@@ -125,36 +118,36 @@ class QYDecode {
                     let cnt = (C - trange.s.c);
                     top[cnt] = cell.w;
                     let shortname = undefined;
-                    let type = undefined
-                    let metadata = undefined
-                    let length = undefined
-                    let required = undefined
-                    let range = undefined
-                    let version = undefined
-                    let remark = undefined
-                    if(this.pos.ShortName != 0){
+                    let type = undefined;
+                    let metadata = undefined;
+                    let length = undefined;
+                    let required = undefined;
+                    let range = undefined;
+                    let version = undefined;
+                    let remark = undefined;
+                    if(this.pos.ShortName !== 0){
                         shortname = this.sheet[XLSX.utils.encode_cell({ c: XLSX.utils.decode_cell(this.pos.ShortName).c, r: R })].w;
                     }
-                    if(this.pos.Type != 0){
+                    if(this.pos.Type !== 0){
                         type = this.sheet[XLSX.utils.encode_cell({ c: XLSX.utils.decode_cell(this.pos.Type).c, r: R })].w;
                     }
-                    if(this.pos.Metadata != 0){
+                    if(this.pos.Metadata !== 0){
                         metadata = this.sheet[XLSX.utils.encode_cell({ c: XLSX.utils.decode_cell(this.pos.Metadata).c, r: R })].w;
                     }
-                    if(this.pos.Length != 0){
+                    if(this.pos.Length !== 0){
                         length = this.sheet[XLSX.utils.encode_cell({ c: XLSX.utils.decode_cell(this.pos.Length).c, r: R })].w;
                     }
-                    if(this.pos.Required != 0){
+                    if(this.pos.Required !== 0){
                         required = this.sheet[XLSX.utils.encode_cell({ c: XLSX.utils.decode_cell(this.pos.Required).c, r: R })].w;
                     }
-                    if(this.pos.Range != 0){
-                        this.sheet[XLSX.utils.encode_cell({ c: XLSX.utils.decode_cell(this.pos.Range).c, r: R })].w;
+                    if(this.pos.Range !== 0){
+                        range = this.sheet[XLSX.utils.encode_cell({ c: XLSX.utils.decode_cell(this.pos.Range).c, r: R })].w;
                     }
-                    if(this.pos.Version != 0){
-                        this.sheet[XLSX.utils.encode_cell({ c: XLSX.utils.decode_cell(this.pos.Version).c, r: R })].w;
+                    if(this.pos.Version !== 0){
+                        version = this.sheet[XLSX.utils.encode_cell({ c: XLSX.utils.decode_cell(this.pos.Version).c, r: R })].w;
                     }
-                    if(this.pos.Remark != 0){
-                        this.sheet[XLSX.utils.encode_cell({ c: XLSX.utils.decode_cell(this.pos.Remark).c, r: R })].w;
+                    if(this.pos.Remark !== 0){
+                        remark = this.sheet[XLSX.utils.encode_cell({ c: XLSX.utils.decode_cell(this.pos.Remark).c, r: R })].w;
                     }
                     if (cnt === 0) {
                         model[cell.w] = {};
@@ -217,4 +210,4 @@ class QYDecode {
     }
 }
 
-module.exports = QYDecode, QYDecodeError;
+export default QYDecode;

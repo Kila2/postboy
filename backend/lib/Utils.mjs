@@ -1,4 +1,4 @@
-import { randomBytes } from 'crypto';
+import {randomBytes} from 'crypto';
 
 export default function randomHexString(size) {
   if (size === 0) {
