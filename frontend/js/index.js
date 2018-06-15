@@ -19,13 +19,24 @@ class HTTP {
   ];
 }
 class Service {
-  static defaultList = [
-    '31000101',
-    '31000102',
-    '31000301',
-    '31000303',
-    '31001501'
-  ];
+  static defaultList = [];
+  static getList(callback){
+    if(Service.defaultList.length === 0){
+      $.ajax({
+        type: "get",
+        cache:  false,
+        url: "/service"
+      }).done((res)=>{
+        // set json
+        Service.defaultList = res.services;
+        callback(Service.defaultList);
+      });
+    }
+    else {
+      callback(Service.defaultList);
+    }
+  }
+
 }
 
 class Tab {
@@ -81,34 +92,35 @@ $(document).ready(() => {
 
 
   const historylist = $('#historylist').find('ul');
-  const serviceList = Service.defaultList;
-  for(let i = 0; i<serviceList.length; i++){
-    const item = $('<li></>');
-    historylist.append(item);
-    item.append($('<a></>').text(serviceList[i]).val(serviceList[i]));
-    
-    item.click((e)=>{
-      console.log("clicked");
-      $.ajax({
-        headers: {"api":true},
-        type: "get", 
-        cache:  false,
-        data:{
-          Version:5,
-          ServiceCode:serviceList[i],
-          SystemCode:17,
-          ClientVersion:711,
-          Encoding:3,
-        },
-        url: "/PacketMocker/GetJsonPacket"
-      }).done((res)=>{
-        // set json
-        var json = JSON.parse(JSON.parse(res).Message);
-        editor.set(json);
+  Service.getList(function(serviceList){
+    for(let i = 0; i<serviceList.length; i++){
+      const item = $('<li></li>');
+      historylist.append(item);
+      item.append($('<a></a>').text(serviceList[i]).val(serviceList[i]));
+
+      item.click((e)=>{
+        console.log("clicked");
+        $.ajax({
+          headers: {"api":true},
+          type: "get",
+          cache:  false,
+          data:{
+            Version:5,
+            ServiceCode:serviceList[i],
+            SystemCode:17,
+            ClientVersion:711,
+            Encoding:3,
+          },
+          url: "/PacketMocker/GetJsonPacket"
+        }).done((res)=>{
+          // set json
+          var json = JSON.parse(JSON.parse(res).Message);
+          editor.set(json);
+        });
       });
-    });
-  }
-  
+    }
+  });
+
   const methodList = $('#httpmethod-btn').find('div');
   const methods = HTTP.methods;
   for (let i = 0; i < methods.length; i += 1) {
