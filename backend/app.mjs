@@ -8,6 +8,12 @@ import usersRouter from "./routes/users";
 import loginRouter from "./routes/login";
 import apiRouter from "./routes/api";
 import { apiProxy } from './lib/ApiProxy';
+import webpackDevMiddleware from "webpack-dev-middleware";
+import webpack from "webpack";
+
+import config from "../webpack.config.js";
+
+const compiler = webpack(config);
 
 const FILENAME = typeof __filename !== 'undefined' ? __filename : (/^ +at (?:file:\/*(?=\/)|)(.*?):\d+:\d+$/m.exec(Error().stack) || '')[1];
 const DIRNAME = typeof __dirname !== 'undefined' ? __dirname : FILENAME.replace(/[\/\\][^\/\\]*?$/, '');
@@ -18,11 +24,14 @@ let app = express();
 app.set('views', path.join(DIRNAME, '../frontend/views'));
 app.set('view engine', 'pug');
 
+app.use(webpackDevMiddleware(compiler, {
+  publicPath: config.output.publicPath
+}));
+
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-console.log(path.join(DIRNAME, '../build'))
 app.use('/public',express.static(path.join(DIRNAME, '../build')));
 
 app.use((req, res, next) => {

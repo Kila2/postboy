@@ -15,23 +15,19 @@ const frontendCodePath = './frontend';
 const bootstrapPath = resolveModulePath('bootstrap');
 const jsoneditorPath = resolveModulePath('jsoneditor');
 
-
 module.exports = {
   mode: 'development',
   devtool: 'inline-source-map',
   entry: {
-    index: './frontend/js/index.js',
-    login: './frontend/js/login.js',
-    vendor: './frontend/js/vendor.js',
+    index: ['./frontend/js/index.js'],
+    login: ['./frontend/js/login.js'],
+    vendor: ['./frontend/js/vendor.js'],
   },
+  watch: true,
   output: {
     filename: `[name]${fileSuffix}.js`,
     path: path.resolve(__dirname, 'build'),
-    publicPath: 'public/',
-  },
-  devServer: {
-    contentBase: './build',
-    hot: true
+    publicPath: '/public',
   },
   module: {
     rules: [
@@ -47,19 +43,17 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(['build']),
-    new CopyWebpackPlugin([
+     new CopyWebpackPlugin([
       { from: path.join(frontendCodePath, 'css/*'), to: 'css/[name].[ext]' },
       { from: path.join(frontendCodePath, 'fonts/css/*'), to: 'fonts/css/[name].[ext]' },
       { from: path.join(frontendCodePath, 'fonts/js/*'), to: 'fonts/js/[name].[ext]' },
 
-      { from: path.join(bootstrapPath, '/dist/css/bootstrap.min.css'), to: 'css/[name].[ext]' },
-      { from: path.join(bootstrapPath, '/dist/css/bootstrap.min.css.map'), to: 'css/[name].[ext]' },
+       { from: path.join(bootstrapPath, '/dist/css/bootstrap.min.css'), to: 'css/[name].[ext]' },
+       { from: path.join(bootstrapPath, '/dist/css/bootstrap.min.css.map'), to: 'css/[name].[ext]' },
 
-      { from: path.join(jsoneditorPath, '/dist/jsoneditor.css'), to: 'css/[name].[ext]' },
-      { from: path.join(jsoneditorPath, '/dist/jsoneditor.map'), to: 'css/[name].[ext]' },
-      { from: path.join(jsoneditorPath, '/dist/img/*'), to: 'css/img/[name].[ext]' },
-    ]),
-    new webpack.NamedModulesPlugin(),
-    new webpack.HotModuleReplacementPlugin()
+       { from: path.join(jsoneditorPath, '/dist/jsoneditor.css'), to: 'css/[name].[ext]' },
+       { from: path.join(jsoneditorPath, '/dist/jsoneditor.map'), to: 'css/[name].[ext]' },
+       { from: path.join(jsoneditorPath, '/dist/img/*'), to: 'css/img/[name].[ext]' },
+     ]),
   ],
 };
