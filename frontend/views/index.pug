@@ -9,15 +9,17 @@ block content
                     i.fas.fa-search.position-absolute(style='left:0px;color:gray;padding-left:10px;padding-right:10px;height:30px;width:40px;')
                 .bar.d-flex.flex-row(style='min-height:30px;border-bottom-width:1px;')
                     button#primary.col-6.navlightbg-select 主板
-                    button#collections.col-6.navlightbg-normal 国际版
-                #historyContent.d-flex.flex-column(style='height:100%;')
+                    button#internation.col-6.navlightbg-normal 国际版
+                #primaryContent.d-flex.flex-column(style='height:100%;')
                     .bar.d-flex.justify-content-sm-end.align-items-center(style='min-height:40px;border-bottom-width:1px;')
                         button.mybtn-secondary Clear all
-                    #historylist.d-flex.flex-column.position-relative.pre-scrollable(style='max-height:none;overflow:auto;')
+                    #primarylist.d-flex.flex-column.position-relative.pre-scrollable(style='max-height:none;overflow:auto;')
                         ul
-                #collectionsContent.d-flex.flex-column(style='height:100%;display:none !important;')        
+                #internationContent.d-flex.flex-column(style='height:100%;display:none !important;')
                     .bar.d-flex.justify-content-sm-end.align-items-center(style='min-height:40px;border-bottom-width:1px;')
                         button.mybtn-secondary Clear all2
+                    #internationlist.d-flex.flex-column.position-relative.pre-scrollable(style='max-height:none;overflow:auto;')
+                        ul
         #rightcontent.d-flex.flex-column(style='flex:1;')
             .d-flex.flex-column(style='min-height:110px;z-index:5;background-color:transparent')
                 .d-flex.flex-row(style='flex-basis:50px;')

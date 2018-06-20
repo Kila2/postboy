@@ -36,7 +36,8 @@ div.jsoneditor-outer{
     padding: 0 !important;
     background: transparent;
 }
-#historylist > ul > li{
+#primarylist > ul > li,
+#internationlist > ul > li{
     margin: 0;
     padding: 0;
     text-align: center;

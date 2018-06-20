@@ -83,7 +83,6 @@ class QYDecode {
             if (cell.w && cell.w.match(this.res.reg)) {
                 this.res.cell_ref = cell_ref;
                 this.res.name = cell.w;
-                this.ref.e.r = R
                 break;
             }
             else if (cell.w && cell.w.match(this.req.reg)) {
@@ -114,7 +113,7 @@ class QYDecode {
                 /* if an A1-style address is needed, encode the address */
                 let cell_ref = XLSX.utils.encode_cell(cell_address);
                 let cell = this.sheet[cell_ref];
-                if (cell.w !== undefined && cell.w !== "") {
+                if (cell && cell.w !== undefined && cell.w !== "") {
                     let cnt = (C - trange.s.c);
                     top[cnt] = cell.w;
                     let shortname = undefined;

@@ -10,4 +10,12 @@ router.get('/', function(req, res, next) {
   }
   res.send({'services':cacheServiceList});
 });
+router.get('/:servicecode', async function(req, res, next) {
+  let r = await DBHelper.db.collection('service').findOne({'servicecode':req.params.servicecode});
+  let model = {};
+  for (let o in r.response){
+    model[o] = "";
+  }
+  res.send(JSON.stringify(model,null,2));
+});
 export default router;

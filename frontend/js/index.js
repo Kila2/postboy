@@ -76,30 +76,32 @@ class Tab {
 }
 
 $(document).ready(() => {
-  const lefttabs = [['#primary','#historyContent'],['#collections','#collectionsContent']];
+  const lefttabs = [['#primary','#primaryContent'],['#internation','#internationContent']];
   const toptabs = [['#builder',''],['#teamLibrary','']];
   const righttabs = [['#authorization',''],['#headers',''],['#body',''],['#pre-requestScript',''],['#tests','']];
   Tab.init(lefttabs);
   Tab.init(toptabs,'top');
   Tab.init(righttabs);
   //json editor
-  var container = document.getElementById("jsoneditor");
-  var options = {
+  let container = document.getElementById("jsoneditor");
+  let options = {
     mode: 'code',
     ace: ace
   };
-  var editor = new JSONEditor(container, options);
+  let editor = new JSONEditor(container, options);
 
 
-  const historylist = $('#historylist').find('ul');
+  const primarylist = $('#primarylist').find('ul');
+  const internationlist = $('#internationlist').find('ul');
   Service.getList(function(serviceList){
     for(let i = 0; i<serviceList.length; i++){
       const item = $('<li></li>');
-      historylist.append(item);
       item.append($('<a></a>').text(serviceList[i]).val(serviceList[i]));
 
       item.click((e)=>{
-        console.log("clicked");
+          proxyApi();
+      });
+      function generationResponse(){
         $.ajax({
           headers: {"api":true},
           type: "get",
@@ -114,10 +116,31 @@ $(document).ready(() => {
           url: "/PacketMocker/GetJsonPacket"
         }).done((res)=>{
           // set json
-          var json = JSON.parse(JSON.parse(res).Message);
+          let json = JSON.parse(JSON.parse(res).Message);
           editor.set(json);
         });
-      });
+      }
+      function proxyApi(){
+        $.ajax({
+          headers: {"api":true},
+          type: "get",
+          cache:  false,
+          data:{
+            Version:5,
+            ServiceCode:serviceList[i],
+            SystemCode:17,
+            ClientVersion:711,
+            Encoding:3,
+          },
+          url: "/PacketMocker/GetJsonPacket"
+        }).done((res)=>{
+          // set json
+          let json = JSON.parse(JSON.parse(res).Message);
+          editor.set(json);
+        });
+      }
+      primarylist.append(item);
+      internationlist.append(item.clone(true));
     }
   });
 
