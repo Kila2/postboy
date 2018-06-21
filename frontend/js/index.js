@@ -100,36 +100,40 @@ $(document).ready(() => {
   Service.getList(function (serviceList) {
     for (let i = 0; i < serviceList.length; i++) {
       const item = $('<li></li>');
-      if(localStorage.serviceClickTimes === undefined){
-        localStorage.serviceClickTimes = "{}";
-      }
-      let serviceClickTimes = JSON.parse(localStorage.serviceClickTimes);
-      item.attr("ct", serviceClickTimes[serviceList[i]] || 0);
       item.append($('<a></a>').text(serviceList[i]).val(serviceList[i]));
       item.click((e) => {
-        let ct = parseInt($(e.currentTarget).attr("ct"), 10) || 0;
+        if($(e.currentTarget).parent().parent('#internationlist').length == 1){
+          sortAndSaveByClickTimes(e.currentTarget,'internationServiceClickTimes','#internationlist');
+        }
+        else {
+          sortAndSaveByClickTimes(e.currentTarget,'primaryServiceClickTimes','#primarylist');
+        }
+        generationResponse();
+      });
+
+      function sortAndSaveByClickTimes(target,localKey,parendId) {
+        let ct = parseInt($(target).attr("ct"), 10) || 0;
         ct++;
-        $(e.currentTarget).attr('ct', ct);
-        let items = primarylist.children($('<a></a>'));
+        $(target).attr('ct', ct);
+        let items = $(parendId).find('li');
         items.sort(function (a, b) {
           let cta = parseInt($(a).attr("ct")) || 0;
           let ctb = parseInt($(b).attr("ct")) || 0;
-          if(cta === ctb){
-            let serviceCodeA = parseInt($(a).children($('<a></a>')).text()) || 0;
-            let serviceCodeB = parseInt($(b).children($('<a></a>')).text()) || 0;
+          if (cta === ctb) {
+            let serviceCodeA = parseInt($(a).children().text()) || 0;
+            let serviceCodeB = parseInt($(b).children().text()) || 0;
             return serviceCodeB - serviceCodeA;
           }
           return ctb - cta;
         });
         let serviceClickTimesBackup = {};
         for (let i = 0; i < items.length; i++) {
-          primarylist.append(items[i]);
-          let serviceCode = $(items[i]).children($('<a></a>')).text();
-          serviceClickTimesBackup[serviceCode] =  parseInt($(items[i]).attr("ct"), 10) || 0;
+          $(parendId).children().append(items[i]);
+          let serviceCode = $(items[i]).children().text();
+          serviceClickTimesBackup[serviceCode] = parseInt($(items[i]).attr("ct"), 10) || 0;
         }
-        localStorage.serviceClickTimes = JSON.stringify(serviceClickTimesBackup);
-        generationResponse();
-      });
+        localStorage[localKey] = JSON.stringify(serviceClickTimesBackup);
+      }
 
       function generationResponse() {
         $.ajax({
@@ -162,9 +166,18 @@ $(document).ready(() => {
           editor.set(json);
         });
       }
-
+      initItemClickTime(item,"primaryServiceClickTimes",serviceList[i]);
       primarylist.append(item);
-      internationlist.append(item.clone(true));
+      let itemCopy = item.clone(true);
+      initItemClickTime(itemCopy,"internationServiceClickTimes",serviceList[i]);
+      internationlist.append(itemCopy);
+    }
+    function initItemClickTime(item,localKey,serviceCode){
+      if (localStorage[localKey] === undefined) {
+        localStorage[localKey] = "{}";
+      }
+      let serviceClickTimes = JSON.parse(localStorage[localKey]);
+      item.attr("ct", serviceClickTimes[serviceCode] || 0);
     }
   });
 
