@@ -97,39 +97,54 @@ $(document).ready(() => {
   const primarylist = $('#primarylist').find('ul');
   const internationlist = $('#internationlist').find('ul');
 
+  let lastTarget = undefined;
+
   Service.getList(function (serviceList) {
     for (let i = 0; i < serviceList.length; i++) {
-      const item = $('<li></li>');
+      const item = $('<li class=\"input-group\"></li>');
+      item.append(
+        '<div class="input-group-prepend">\n' +
+        '    <input type="radio">\n' +
+        '</div>'
+      );
       item.append($('<a></a>').text(serviceList[i]).val(serviceList[i]));
       item.click((e) => {
-        if($(e.currentTarget).parent().parent('#internationlist').length == 1){
-          sortAndSaveByClickTimes(e.currentTarget,'internationServiceClickTimes','#internationlist');
+
+        if ($(e.currentTarget).parent().parent('#internationlist').length == 1) {
+          sortAndSaveByClickTimes(e.currentTarget, 'internationServiceClickTimes', '#internationlist');
         }
         else {
-          sortAndSaveByClickTimes(e.currentTarget,'primaryServiceClickTimes','#primarylist');
+          sortAndSaveByClickTimes(e.currentTarget, 'primaryServiceClickTimes', '#primarylist');
         }
         generationResponse();
       });
 
-      function sortAndSaveByClickTimes(target,localKey,parendId) {
+
+      function sortAndSaveByClickTimes(target, localKey, parendId) {
         let ct = parseInt($(target).attr("ct"), 10) || 0;
         ct++;
         $(target).attr('ct', ct);
-        let items = $(parendId).find('li');
-        items.sort(function (a, b) {
-          let cta = parseInt($(a).attr("ct")) || 0;
-          let ctb = parseInt($(b).attr("ct")) || 0;
-          if (cta === ctb) {
-            let serviceCodeA = parseInt($(a).children().text()) || 0;
-            let serviceCodeB = parseInt($(b).children().text()) || 0;
-            return serviceCodeB - serviceCodeA;
-          }
-          return ctb - cta;
-        });
+        if(lastTarget !== undefined){
+          $(lastTarget).find(':radio').prop('checked',false);
+        }
+        $(target).find(':radio').prop('checked',true);
+        lastTarget = target;
+
+         let items = $(parendId).find('li');
+        // items.sort(function (a, b) {
+        //   let cta = parseInt($(a).attr("ct")) || 0;
+        //   let ctb = parseInt($(b).attr("ct")) || 0;
+        //   if (cta === ctb) {
+        //     let serviceCodeA = parseInt($(a).children().text()) || 0;
+        //     let serviceCodeB = parseInt($(b).children().text()) || 0;
+        //     return serviceCodeB - serviceCodeA;
+        //   }
+        //   return ctb - cta;
+        // });
         let serviceClickTimesBackup = {};
         for (let i = 0; i < items.length; i++) {
           $(parendId).children().append(items[i]);
-          let serviceCode = $(items[i]).children().text();
+          let serviceCode = $(items[i]).children().text().trim();
           serviceClickTimesBackup[serviceCode] = parseInt($(items[i]).attr("ct"), 10) || 0;
         }
         localStorage[localKey] = JSON.stringify(serviceClickTimesBackup);
@@ -172,6 +187,27 @@ $(document).ready(() => {
       initItemClickTime(itemCopy,"internationServiceClickTimes",serviceList[i]);
       internationlist.append(itemCopy);
     }
+
+    sortItems(primarylist);
+    sortItems(internationlist);
+    function sortItems(list){
+      let items = list.children();
+      items.sort(function (a, b) {
+        let cta = parseInt($(a).attr("ct")) || 0;
+        let ctb = parseInt($(b).attr("ct")) || 0;
+        if (cta === ctb) {
+          let serviceCodeA = parseInt($(a).children().text()) || 0;
+          let serviceCodeB = parseInt($(b).children().text()) || 0;
+          return serviceCodeB - serviceCodeA;
+        }
+        return ctb - cta;
+      });
+      let serviceClickTimesBackup = {};
+      for (let i = 0; i < items.length; i++) {
+        list.append(items[i]);
+      }
+    }
+
     function initItemClickTime(item,localKey,serviceCode){
       if (localStorage[localKey] === undefined) {
         localStorage[localKey] = "{}";
@@ -180,6 +216,7 @@ $(document).ready(() => {
       item.attr("ct", serviceClickTimes[serviceCode] || 0);
     }
   });
+
 
   const methodList = $('#httpmethod-btn').find('div');
   const methods = HTTP.methods;
