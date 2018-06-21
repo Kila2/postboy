@@ -1,4 +1,5 @@
-import { JSONEditor } from './vendor';
+import {JSONEditor} from './vendor';
+
 class HTTP {
   static methods = [
     'GET',
@@ -18,15 +19,17 @@ class HTTP {
     'VIEW',
   ];
 }
+
 class Service {
   static defaultList = [];
-  static getList(callback){
-    if(Service.defaultList.length === 0){
+
+  static getList(callback) {
+    if (Service.defaultList.length === 0) {
       $.ajax({
         type: "get",
-        cache:  false,
+        cache: false,
         url: "/service"
-      }).done((res)=>{
+      }).done((res) => {
         // set json
         Service.defaultList = res.services;
         callback(Service.defaultList);
@@ -40,10 +43,10 @@ class Service {
 }
 
 class Tab {
-  static init(tabs, style){
+  static init(tabs, style) {
     let select;
     let normal;
-    switch(style){
+    switch (style) {
       case 'top':
         select = 'nav-select';
         normal = 'nav-normal';
@@ -54,18 +57,18 @@ class Tab {
         break;
     }
     let baki = undefined;
-    for(let i=0;i<tabs.length; i++){
+    for (let i = 0; i < tabs.length; i++) {
       $(tabs[i][0])[0].controlViewTag = tabs[i][1];
-      if($(tabs[i][0]).hasClass(select)){
-        baki = $(tabs[i][0])[0]; 
+      if ($(tabs[i][0]).hasClass(select)) {
+        baki = $(tabs[i][0])[0];
       }
-      $(tabs[i][0]).click((e)=>{
-        if(e.currentTarget === baki){
+      $(tabs[i][0]).click((e) => {
+        if (e.currentTarget === baki) {
           return;
         }
         $(baki).removeClass(select);
         $(baki).addClass(normal);
-        $(baki.controlViewTag).attr('style','display:none !important');
+        $(baki.controlViewTag).attr('style', 'display:none !important');
         $(e.currentTarget).removeClass(normal);
         $(e.currentTarget).addClass(select);
         $(e.currentTarget.controlViewTag).show();
@@ -76,11 +79,11 @@ class Tab {
 }
 
 $(document).ready(() => {
-  const lefttabs = [['#primary','#primaryContent'],['#internation','#internationContent']];
-  const toptabs = [['#builder',''],['#teamLibrary','']];
-  const righttabs = [['#authorization',''],['#headers',''],['#body',''],['#pre-requestScript',''],['#tests','']];
+  const lefttabs = [['#primary', '#primaryContent'], ['#internation', '#internationContent']];
+  const toptabs = [['#builder', ''], ['#teamLibrary', '']];
+  const righttabs = [['#authorization', ''], ['#headers', ''], ['#body', ''], ['#pre-requestScript', ''], ['#tests', '']];
   Tab.init(lefttabs);
-  Tab.init(toptabs,'top');
+  Tab.init(toptabs, 'top');
   Tab.init(righttabs);
   //json editor
   let container = document.getElementById("jsoneditor");
@@ -93,52 +96,73 @@ $(document).ready(() => {
 
   const primarylist = $('#primarylist').find('ul');
   const internationlist = $('#internationlist').find('ul');
-  Service.getList(function(serviceList){
-    for(let i = 0; i<serviceList.length; i++){
-      const item = $('<li></li>');
-      item.append($('<a></a>').text(serviceList[i]).val(serviceList[i]));
 
-      item.click((e)=>{
-          proxyApi();
+  Service.getList(function (serviceList) {
+    for (let i = 0; i < serviceList.length; i++) {
+      const item = $('<li></li>');
+      if(localStorage.serviceClickTimes === undefined){
+        localStorage.serviceClickTimes = "{}";
+      }
+      let serviceClickTimes = JSON.parse(localStorage.serviceClickTimes);
+      item.attr("ct", serviceClickTimes[serviceList[i]] || 0);
+      item.append($('<a></a>').text(serviceList[i]).val(serviceList[i]));
+      item.click((e) => {
+        let ct = parseInt($(e.currentTarget).attr("ct"), 10) || 0;
+        ct++;
+        $(e.currentTarget).attr('ct', ct);
+        let items = primarylist.children($('<a></a>'));
+        items.sort(function (a, b) {
+          let cta = parseInt($(a).attr("ct")) || 0;
+          let ctb = parseInt($(b).attr("ct")) || 0;
+          if(cta === ctb){
+            let serviceCodeA = parseInt($(a).children($('<a></a>')).text()) || 0;
+            let serviceCodeB = parseInt($(b).children($('<a></a>')).text()) || 0;
+            return serviceCodeB - serviceCodeA;
+          }
+          return ctb - cta;
+        });
+        let serviceClickTimesBackup = {};
+        for (let i = 0; i < items.length; i++) {
+          primarylist.append(items[i]);
+          let serviceCode = $(items[i]).children($('<a></a>')).text();
+          serviceClickTimesBackup[serviceCode] =  parseInt($(items[i]).attr("ct"), 10) || 0;
+        }
+        localStorage.serviceClickTimes = JSON.stringify(serviceClickTimesBackup);
+        generationResponse();
       });
-      function generationResponse(){
+
+      function generationResponse() {
         $.ajax({
-          headers: {"api":true},
           type: "get",
-          cache:  false,
-          data:{
-            Version:5,
-            ServiceCode:serviceList[i],
-            SystemCode:17,
-            ClientVersion:711,
-            Encoding:3,
+          cache: false,
+          url: "/service/" + serviceList[i]
+        }).done((res) => {
+          // set json
+          let json = JSON.parse(res);
+          editor.set(json);
+        });
+      }
+
+      function proxyApi() {
+        $.ajax({
+          headers: {"api": true},
+          type: "get",
+          cache: false,
+          data: {
+            Version: 5,
+            ServiceCode: serviceList[i],
+            SystemCode: 17,
+            ClientVersion: 711,
+            Encoding: 3,
           },
           url: "/PacketMocker/GetJsonPacket"
-        }).done((res)=>{
+        }).done((res) => {
           // set json
           let json = JSON.parse(JSON.parse(res).Message);
           editor.set(json);
         });
       }
-      function proxyApi(){
-        $.ajax({
-          headers: {"api":true},
-          type: "get",
-          cache:  false,
-          data:{
-            Version:5,
-            ServiceCode:serviceList[i],
-            SystemCode:17,
-            ClientVersion:711,
-            Encoding:3,
-          },
-          url: "/PacketMocker/GetJsonPacket"
-        }).done((res)=>{
-          // set json
-          let json = JSON.parse(JSON.parse(res).Message);
-          editor.set(json);
-        });
-      }
+
       primarylist.append(item);
       internationlist.append(item.clone(true));
     }
@@ -186,13 +210,13 @@ $(document).ready(() => {
   $('#sub-enviornment').mousedown((e) => {
     e.stopPropagation();
   });
-  $('#Params').click((e)=>{
+  $('#Params').click((e) => {
     const paramstable = $('#paramstable');
-    if(paramstable.css('display')==='none'){
-      paramstable.css('display','table');
+    if (paramstable.css('display') === 'none') {
+      paramstable.css('display', 'table');
     }
     else {
-      paramstable.css('display','none');
+      paramstable.css('display', 'none');
     }
   });
 });
