@@ -14,6 +14,7 @@ function resolveModulePath(name) {
 const frontendCodePath = './frontend';
 const bootstrapPath = resolveModulePath('bootstrap');
 const jsoneditorPath = resolveModulePath('jsoneditor');
+const popperjsPath = resolveModulePath('popper.js');
 
 module.exports = {
   mode: 'development',
@@ -50,6 +51,9 @@ module.exports = {
 
        { from: path.join(bootstrapPath, '/dist/css/bootstrap.min.css'), to: 'css/[name].[ext]' },
        { from: path.join(bootstrapPath, '/dist/css/bootstrap.min.css.map'), to: 'css/[name].[ext]' },
+       { from: path.join(bootstrapPath, '/dist/js/bootstrap.bundle.js'), to: '[name].[ext]' },
+
+       { from: path.join(popperjsPath, '/dist/umd/popper.min.js'), to: '[name].[ext]' },
 
        { from: path.join(jsoneditorPath, '/dist/jsoneditor.css'), to: 'css/[name].[ext]' },
        { from: path.join(jsoneditorPath, '/dist/jsoneditor.map'), to: 'css/[name].[ext]' },

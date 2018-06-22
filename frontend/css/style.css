@@ -44,18 +44,17 @@ div.jsoneditor-outer{
     height:40px;
     line-height: 40px;
     color: #666666;
-    justify-content: center;
+    justify-content: start;
 }
 #primarylist > ul > li > div,
 #internationlist > ul > li > div{
     padding-left: 20px;
     padding-right:10px;
     padding-top: 11px;
-    flex-grow:1;
 }
 #primarylist > ul > li > a,
 #internationlist > ul > li > a{
-    flex-grow:1;
+
 }
 #paramstable > tbody > tr > td,
 #paramstable > tbody > tr > th {
