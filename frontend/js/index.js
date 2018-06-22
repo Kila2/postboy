@@ -109,8 +109,8 @@ $(document).ready(() => {
       );
       item.append($('<a></a>').text(serviceList[i]).val(serviceList[i]));
       item.click((e) => {
-
-        if ($(e.currentTarget).parent().parent('#internationlist').length == 1) {
+        $('#urlInput').val("/PacketMocker/GetJsonPacket?"+"ServiceCode="+serviceList[i]+"&Version=5&"+"SystemCode=17&"+"ClientVersion=711&"+"Encoding=3");
+        if ($(e.currentTarget).parent().parent('#internationlist').length === 1) {
           sortAndSaveByClickTimes(e.currentTarget, 'internationServiceClickTimes', '#internationlist');
         }
         else {
@@ -130,17 +130,7 @@ $(document).ready(() => {
         $(target).find(':radio').prop('checked',true);
         lastTarget = target;
 
-         let items = $(parendId).find('li');
-        // items.sort(function (a, b) {
-        //   let cta = parseInt($(a).attr("ct")) || 0;
-        //   let ctb = parseInt($(b).attr("ct")) || 0;
-        //   if (cta === ctb) {
-        //     let serviceCodeA = parseInt($(a).children().text()) || 0;
-        //     let serviceCodeB = parseInt($(b).children().text()) || 0;
-        //     return serviceCodeB - serviceCodeA;
-        //   }
-        //   return ctb - cta;
-        // });
+        let items = $(parendId).find('li');
         let serviceClickTimesBackup = {};
         for (let i = 0; i < items.length; i++) {
           $(parendId).children().append(items[i]);
