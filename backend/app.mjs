@@ -9,6 +9,8 @@ import loginRouter from "./routes/login";
 import apiRouter from "./routes/api";
 import { apiProxy } from './lib/ApiProxy';
 import webpackDevMiddleware from "webpack-dev-middleware";
+import CtripMockServerProxy from './lib/CtripMockServerProxy';
+
 import webpack from "webpack";
 
 import config from "../webpack.config.js";
@@ -42,7 +44,7 @@ app.use(cookieParser());
 app.use('/public',express.static(path.join(DIRNAME, '../build')));
 
 
-
+app.use('/MockServer/appserver',CtripMockServerProxy);
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/login', loginRouter);

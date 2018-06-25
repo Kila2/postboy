@@ -22,7 +22,7 @@ class HTTP {
 
 class Api {
   static defaultList = [];
-
+  static packet = "";
   static async getList() {
     if (Api.defaultList.length === 0) {
       let result = await $.ajax({
@@ -48,17 +48,36 @@ class Api {
       method: "get",
       cache: false,
       data: aURLObj.query,
-      url: aURLObj.pathname
+      url: aURLObj.pathname,
     });
-    // set json
-    let firstResData = JSON.parse(res.Data);
-    let secondRes = await $.ajax({
+    const settings = {
+      "async": true,
+      "crossDomain": true,
+      "url": "/PacketMocker/GenCustomJson",
+      "method": "POST",
+      "headers": {
+        api: true,
+        proxyreferer: "http://10.2.56.40:8080/",
+        "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8,ja;q=0.7",
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        "Accept": "*/*",
+        "X-Requested-With": "XMLHttpRequest",
+        "Cache-Control": "no-cache",
+      },
+      "data": "jsonString="+ res.Data
+    };
+
+    let secondRes = await $.ajax(settings);
+    Api.packet = secondRes.Data;
+
+    let realResponse = JSON.parse(secondRes.Message);
+    let thirdRes = await $.ajax({
       type: "get",
       cache: false,
       url: "/service?serviceCode=" + aURLObj.query['ServiceCode'] + '&type=request'
     });
-    firstResData.Body = JSON.parse(secondRes);
-    return firstResData;
+    realResponse.Body = JSON.parse(thirdRes);
+    return realResponse;
   }
 
   static async generationResponse(serviceCode) {
@@ -71,6 +90,7 @@ class Api {
   }
 
   static async sendServiceToCtripService(callback) {
+
     let settings = {
       async: true,
       crossDomain: true,
@@ -84,7 +104,11 @@ class Api {
         cache: false,
         "X-Requested-With": "XMLHttpRequest",
       },
-      data: "ip=10.2.240.118&port=443&packet=31393020202020203020202035203320333230317777777777772020202020202020202020202020333230303131323132313030303030303031383861316232747a547a6d71524e4a6e6c6c6136555536303220202020203838393220202020383839322020202033313030303130323135363332313735323634383633323135383936202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020202020207b7d&systemCode=32&clientVersion=602"
+      data: "ip=10.2.240.118" +
+      "&port=443" +
+      "&packet=" + Api.packet +
+      "&systemCode=32" +
+      "&clientVersion=602"
     };
 
     let response = await $.ajax(settings);
@@ -291,6 +315,9 @@ $(document).ready(async () => {
 
     $('#SendRequest').click(async () => {
       let realResponse = await Api.sendServiceToCtripService();
+      if(typeof realResponse === 'string'){
+        realResponse = JSON.parse(realResponse);
+      }
       editor.set(realResponse);
     });
   }
