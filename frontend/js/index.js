@@ -1,4 +1,5 @@
 import {JSONEditor} from './vendor';
+import url from "url";
 
 class HTTP {
   static methods = [
@@ -107,16 +108,38 @@ $(document).ready(() => {
         '    <input type="radio">\n' +
         '</div>'
       );
-      item.append($('<a></a>').text(serviceList[i]).val(serviceList[i]));
-      item.click((e) => {
-        $('#urlInput').val("/PacketMocker/GetJsonPacket?"+"ServiceCode="+serviceList[i]+"&Version=5&"+"SystemCode=17&"+"ClientVersion=711&"+"Encoding=3");
+      item.append($('<a style="width:80px"></a>').text(serviceList[i]).val(serviceList[i]));
+      item.append($('' +
+        '<div class="rebutton">' +
+        '</div>'));
+      const reqItem = $('<button>req</button>');
+      const resItem = $('<button>res</button>');
+      item.find('.rebutton').append(reqItem);
+      item.find('.rebutton').append(resItem);
+
+      reqItem.click((e) => {
+        $('#urlInput').val("http://10.2.56.40:8080/PacketMocker/GetJsonPacket?"+"ServiceCode="+serviceList[i]+"&Version=5&"+"SystemCode=17&"+"ClientVersion=711&"+"Encoding=3");
         if ($(e.currentTarget).parent().parent('#internationlist').length === 1) {
           sortAndSaveByClickTimes(e.currentTarget, 'internationServiceClickTimes', '#internationlist');
         }
         else {
           sortAndSaveByClickTimes(e.currentTarget, 'primaryServiceClickTimes', '#primarylist');
         }
-        generationResponse();
+        generationRequest(serviceList[i],function(json){
+          editor.set(json);
+        });
+      });
+      resItem.click((e) => {
+        $('#urlInput').val("http://10.2.56.40:8080/PacketMocker/GetJsonPacket?"+"ServiceCode="+serviceList[i]+"&Version=5&"+"SystemCode=17&"+"ClientVersion=711&"+"Encoding=3");
+        if ($(e.currentTarget).parent().parent('#internationlist').length === 1) {
+          sortAndSaveByClickTimes(e.currentTarget, 'internationServiceClickTimes', '#internationlist');
+        }
+        else {
+          sortAndSaveByClickTimes(e.currentTarget, 'primaryServiceClickTimes', '#primarylist');
+        }
+        generationResponse(serviceList[i],function(json){
+          editor.set(json);
+        });
       });
 
 
@@ -140,37 +163,6 @@ $(document).ready(() => {
         localStorage[localKey] = JSON.stringify(serviceClickTimesBackup);
       }
 
-      function generationResponse() {
-        $.ajax({
-          type: "get",
-          cache: false,
-          url: "/service/" + serviceList[i]
-        }).done((res) => {
-          // set json
-          let json = JSON.parse(res);
-          editor.set(json);
-        });
-      }
-
-      function proxyApi() {
-        $.ajax({
-          headers: {"api": true},
-          type: "get",
-          cache: false,
-          data: {
-            Version: 5,
-            ServiceCode: serviceList[i],
-            SystemCode: 17,
-            ClientVersion: 711,
-            Encoding: 3,
-          },
-          url: "/PacketMocker/GetJsonPacket"
-        }).done((res) => {
-          // set json
-          let json = JSON.parse(JSON.parse(res).Message);
-          editor.set(json);
-        });
-      }
       initItemClickTime(item,"primaryServiceClickTimes",serviceList[i]);
       primarylist.append(item);
       let itemCopy = item.clone(true);
@@ -258,5 +250,45 @@ $(document).ready(() => {
     else {
       paramstable.css('display', 'none');
     }
+  });
+  function generationResponse(serviceCode,callback) {
+    $.ajax({
+      type: "get",
+      cache: false,
+      url: "/service/" + serviceCode
+    }).done((res) => {
+      // set json
+      let json = JSON.parse(res);
+      callback(json)
+    });
+  }
+  function generationRequest(serviceCode,callback) {
+
+    let aURLObj = url.parse($('#urlInput').val(),true,true);
+    $.ajax({
+      headers: {"api": true},
+      type: "get",
+      cache: false,
+      data: aURLObj.query,
+      url: aURLObj.pathname
+    }).done((res) => {
+      // set json
+      let mainRes = JSON.parse(JSON.parse(res).Message);
+      $.ajax({
+        type: "get",
+        cache: false,
+        url: "/service?serviceCode=" + aURLObj.query.ServiceCode + '&type=request'
+      }).done((res) => {
+        // set json
+        let json = JSON.parse(res);
+        mainRes.Body = json
+        editor.set(mainRes);
+      });
+    });
+
+
+  }
+  $('#SendRequest').click((e)=>{
+
   });
 });
