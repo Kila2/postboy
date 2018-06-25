@@ -11,8 +11,8 @@ router.get('/', async function(req, res, next) {
       cacheServiceList = DBHelper.services
     }
     return res.send({'services':cacheServiceList});
-
   }
+
   else if(req.query.type === 'request'){
     if(req.query.serviceCode === undefined || req.query.serviceCode.trim() === ''){
       return res.send({error:'serviceCode is empty'});
@@ -20,7 +20,6 @@ router.get('/', async function(req, res, next) {
     let r = await DBHelper.db.collection('service').findOne({'servicecode':req.query.serviceCode});
     let model = await processModel(r.request);
     return res.send(JSON.stringify(model,null,2));
-
   }
   return res.send({error:'query not correct'});
 

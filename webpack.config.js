@@ -37,7 +37,8 @@ module.exports = {
         loader: 'babel-loader',
         exclude: /(node_modules)/,
         query: {
-          presets: ['env', 'stage-0'],
+          presets: ['babel-preset-env', 'stage-0'],
+          plugins: ['transform-runtime'],
         },
       },
     ],

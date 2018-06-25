@@ -24,6 +24,13 @@ let app = express();
 app.set('views', path.join(DIRNAME, '../frontend/views'));
 app.set('view engine', 'pug');
 
+app.use((req, res, next) => {
+  if (req.headers['api'] === 'true') {
+    return apiProxy(req, res, next);
+  }
+  next();
+});
+
 app.use(webpackDevMiddleware(compiler, {
   publicPath: config.output.publicPath
 }));
@@ -34,12 +41,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use('/public',express.static(path.join(DIRNAME, '../build')));
 
-app.use((req, res, next) => {
-  if (req.headers['api'] === 'true') {
-    return apiProxy(req, res, next);
-  }
-  next();
-});
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
