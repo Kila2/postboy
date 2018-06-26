@@ -208,8 +208,19 @@ $(document).ready(async () => {
   sortItems(primarylist);
   sortItems(internationlist);
 
-
   bindURLAndParams();
+
+  //checkbox click
+  initCheckBoxClickAction();
+
+  function initCheckBoxClickAction(){
+    $('#left').find(':checkbox').click((e)=>{
+      let check = $(e.currentTarget).prop('checked');
+      if(check === true){
+        console.log(check);
+      }
+    });
+  }
   //private function
   function bindURLAndParams(){
     let tfoot = paramstable.find('tfoot').children();
@@ -250,6 +261,9 @@ $(document).ready(async () => {
 
   function paramsInputBind(){
     let origin = urlInput.val().substring(0,urlInput.val().indexOf("?")+1);
+    if(origin.indexOf("?") === -1){
+      origin += '?';
+    }
     let inputs = paramsContent.find('input');
     for(let i=0;i<inputs.length;i++){
       if(i%3===0){
@@ -297,7 +311,7 @@ $(document).ready(async () => {
       const item = $('<li class=\"input-group\"></li>');
       item.append(
         '<div class="input-group-prepend">\n' +
-        '    <input type="radio">\n' +
+        '    <input type="checkbox">\n' +
         '</div>'
       );
       item.append($('<a style="width:80px"></a>').text(serviceList[i]).val(serviceList[i]));
@@ -311,6 +325,7 @@ $(document).ready(async () => {
 
       reqItem.click(async (e) => {
         urlInput.val('http://10.2.56.40:8080/PacketMocker/GetJsonPacket?' + 'ServiceCode=' + serviceList[i] + '&Version=5&' + 'SystemCode=17&' + 'ClientVersion=711&' + 'Encoding=3');
+        urlInput.trigger('input');
         if ($(e.currentTarget).parent().parent('#internationlist').length === 1) {
           saveClickTimes(e.currentTarget, 'internationServiceClickTimes', '#internationlist');
         }
@@ -322,7 +337,8 @@ $(document).ready(async () => {
       });
 
       resItem.click(async (e) => {
-        $('#urlInput').val("http://10.2.56.40:8080/PacketMocker/GetJsonPacket?" + "ServiceCode=" + serviceList[i] + "&Version=5&" + "SystemCode=17&" + "ClientVersion=711&" + "Encoding=3");
+        urlInput.val("http://10.2.56.40:8080/PacketMocker/GetJsonPacket?" + "ServiceCode=" + serviceList[i] + "&Version=5&" + "SystemCode=17&" + "ClientVersion=711&" + "Encoding=3");
+        urlInput.trigger('input');
         if ($(e.currentTarget).parent().parent('#internationlist').length === 1) {
           saveClickTimes(e.currentTarget, 'internationServiceClickTimes', '#internationlist');
         }
@@ -365,9 +381,9 @@ $(document).ready(async () => {
     ct++;
     $(target).parents('li').attr('ct', ct);
     if (lastTarget !== undefined) {
-      $(lastTarget).parents('li').find(':radio').prop('checked', false);
+      //$(lastTarget).parents('li').find(':checkbox').prop('checked', false);
     }
-    $(target).parents('li').find(':radio').prop('checked', true);
+    //$(target).parents('li').find(':checkbox').prop('checked', true);
     lastTarget = target;
 
     let items = $(parendId).find('li');

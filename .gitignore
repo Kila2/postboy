@@ -86,3 +86,4 @@ mongod
 *.ntvs*
 *.njsproj
 *.sln
+svnconfig.js

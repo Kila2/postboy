@@ -4,7 +4,7 @@ import schedule from 'node-schedule';
 import XLSX from 'js-xlsx';
 import MongoClient from 'mongodb';
 import assert from 'assert';
-
+import svnconfig from '../svnconfig';
 import {exec} from "child_process";
 
 const url = 'mongodb://localhost:27017';
@@ -25,12 +25,12 @@ MongoClient.connect(url, (err, client) => {
 
 class ContractFile {
     constructor() {
-        this.fileName = 'IF_支付_服务接口.xlsx';
-        this.url = 'http://lijunliang@svn.dev.sh.ctripcorp.com/svn/svn_db/iFinance/System%20Design';
+        this.fileName = svnconfig.filename;
+        this.url = svnconfig.url;
         this.client = new SVNClient({
             cwd: './svn',
-            username: 'lijunliang',
-            password: 'Ai2770147175',
+            username: svnconfig.username,
+            password: svnconfig.password,
             noAuthCache: true,
         });
         let that = this;
@@ -42,7 +42,7 @@ class ContractFile {
         });
     }
     getContractFile(callback) {
-        let that = this
+        let that = this;
         this.client.cmd(['checkout', '--depth=empty', this.url, '.'], function (rc) {
             that.updateContractFile(callback);
         });
@@ -59,7 +59,7 @@ class ContractFile {
     read() {
         let workbook = undefined;
         try{
-          workbook = XLSX.readFile(process.cwd() + '/svn/IF_支付_服务接口.xlsx');
+          workbook = XLSX.readFile(process.cwd() + '/svn/'+svnconfig.filename);
         }
         catch(e){
             return
