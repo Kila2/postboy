@@ -51,7 +51,7 @@ block content
                         i.fas.fa-caret-down
             #resultcontent.d-flex.flex-column.pre-scrollable.h-100(style='padding-top:60px;margin-top:-60px;max-height:none;overflow:auto;')
                 table#paramstable.table.m-0(style='display:none;border-bottom-width:1px;')
-                    thread
+                    tbody
                         tr
                             th(style='width:40px;')
                             th Key
@@ -59,15 +59,16 @@ block content
                             th Description
                             th(style='width:40px;text-align: center;') ...
                             th(style='width:75px;text-align: center;') Bulk Edit
-                    tbody
+                    tbody#paramsContent
+                    tfoot
                         tr
                             td
                             td
-                                input(placeholder='New Key')
+                                input(name='firstName' placeholder='New Key' onfocus='this.placeholder = ""' onblur='this.placeholder = "New Key"')
                             td
-                                input(placeholder='Value')
+                                input(placeholder='Value' onfocus='this.placeholder = ""' onblur='this.placeholder = "Value"')
                             td(colspan="3")
-                                input(placeholder='Description')
+                                input(placeholder='Description' onfocus='this.placeholder = ""' onblur='this.placeholder = "Description"')
 
                 .bar.d-flex.flex-row(style='border-bottom-width:1px;min-height:35px;')
                     button#authorization.navlightbg-select Authorization

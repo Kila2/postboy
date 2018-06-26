@@ -66,6 +66,9 @@ div.jsoneditor-outer{
     line-height: 0;
     color: white;
 }
+
+#paramstable > tfoot > tr > td,
+#paramstable > tfoot > tr > th,
 #paramstable > tbody > tr > td,
 #paramstable > tbody > tr > th {
     height: 30px;

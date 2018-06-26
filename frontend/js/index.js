@@ -179,6 +179,12 @@ $(document).ready(async () => {
 
   //service列表中最后一次选中的li
   let lastTarget = undefined;
+  //url input
+  const urlInput = $('#urlInput');
+  //参数列表
+  const paramstable = $('#paramstable');
+  //参数表格
+  const paramsContent = $('#paramsContent');
 
   //初始化tab
   Tab.init(lefttabs);
@@ -202,7 +208,88 @@ $(document).ready(async () => {
   sortItems(primarylist);
   sortItems(internationlist);
 
+
+  bindURLAndParams();
   //private function
+  function bindURLAndParams(){
+    let tfoot = paramstable.find('tfoot').children();
+
+    urlInput.on('input propertychange',(ev)=>{
+      let query = parseQueryString(urlInput.val());
+      paramsContent.children().remove();
+      for(let i=0;i<query.length;i++){
+        let item = tfoot.clone(false);
+        let inputs = item.find('input');
+        let key = $(inputs[0]);
+        let value = $(inputs[1]);
+        let description = $(inputs[2]);
+        inputs.attr('placeholder','');
+        key.val(query[i].key);
+        value.val(query[i].value);
+        paramsContent.append(item);
+        item.find('input').on('input propertychange',()=>{
+          paramsInputBind();
+        });
+      }
+    });
+
+    tfoot.find('input').on('input propertychange',(ev)=> {
+      $(ev.currentTarget).blur();
+      let item = tfoot.clone(false);
+      paramsContent.append(item);
+      tfoot.find('input').val('');
+      let index = $(ev.currentTarget).parent().prevAll().find('input').length;
+      $(item.find('input')[index]).focus();
+      $(item.find('input')[index]).putCursorAtEnd();
+      item.find('input').on('input propertychange',()=>{
+        paramsInputBind();
+      });
+      paramsInputBind();
+    });
+  }
+
+  function paramsInputBind(){
+    let origin = urlInput.val().substring(0,urlInput.val().indexOf("?")+1);
+    let inputs = paramsContent.find('input');
+    for(let i=0;i<inputs.length;i++){
+      if(i%3===0){
+        //key
+        origin+=$(inputs[i]).val()+'=';
+      }
+      else if(i%3===1){
+        //value
+        origin+=$(inputs[i]).val()+'&';
+      }
+    }
+    origin = origin.substring(0,origin.length-1);
+    urlInput.val(origin);
+  }
+
+  function parseQueryString(aURL){
+    let obj = [];
+    if(aURL.indexOf("?") === -1){
+      return obj;
+    }
+    let bURL = aURL.substring(aURL.indexOf("?")+1);
+    let urlArr = bURL.split("&");
+    let key,value,index;
+    for(let i=0;i<urlArr.length;i++){
+      index = urlArr[i].indexOf("=");
+      if(index === -1){
+        key = urlArr[i].substring(index+1);
+        value = "";
+      }
+      else {
+        key = urlArr[i].substring(0,index);
+        value = urlArr[i].substring(index+1);
+      }
+      if(key.trim() !== ''){
+        obj[i] = {key,value};
+      }
+    }
+    return obj;
+  }
+
   //ini servicelist item
   async function initServiceList(){
     const serviceList =  await Api.getList();
@@ -223,14 +310,14 @@ $(document).ready(async () => {
       item.find('.rebutton').append(resItem);
 
       reqItem.click(async (e) => {
-        $('#urlInput').val('http://10.2.56.40:8080/PacketMocker/GetJsonPacket?' + 'ServiceCode=' + serviceList[i] + '&Version=5&' + 'SystemCode=17&' + 'ClientVersion=711&' + 'Encoding=3');
+        urlInput.val('http://10.2.56.40:8080/PacketMocker/GetJsonPacket?' + 'ServiceCode=' + serviceList[i] + '&Version=5&' + 'SystemCode=17&' + 'ClientVersion=711&' + 'Encoding=3');
         if ($(e.currentTarget).parent().parent('#internationlist').length === 1) {
           saveClickTimes(e.currentTarget, 'internationServiceClickTimes', '#internationlist');
         }
         else {
           saveClickTimes(e.currentTarget, 'primaryServiceClickTimes', '#primarylist');
         }
-        let preRequestData = await Api.generationRequest($('#urlInput').val());
+        let preRequestData = await Api.generationRequest(urlInput.val());
         editor.set(preRequestData);
       });
 
@@ -304,7 +391,6 @@ $(document).ready(async () => {
   //click action
   function clickAction(){
     $('#Params').click(() => {
-      const paramstable = $('#paramstable');
       if (paramstable.css('display') === 'none') {
         paramstable.css('display', 'table');
       }
@@ -365,5 +451,4 @@ $(document).ready(async () => {
       e.stopPropagation();
     });
   }
-
 });
