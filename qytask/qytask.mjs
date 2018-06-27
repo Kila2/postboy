@@ -82,7 +82,7 @@ class ContractFile {
                     };
                     db.collection('service').findOneAndUpdate({ "servicecode": servicecode },{$set:model},function(err,rc){
                         if(rc.lastErrorObject.updatedExisting === false){
-                            db.collection('service').insert(model)
+                            db.collection('service').insert(model);
                         }
                     })
                 }

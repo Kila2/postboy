@@ -1,5 +1,6 @@
 import {JSONEditor} from './vendor';
 import url from "url";
+
 class HTTP {
   static methods = [
     'GET',
@@ -23,6 +24,7 @@ class HTTP {
 class Api {
   static defaultList = [];
   static packet = "";
+
   static async getList() {
     if (Api.defaultList.length === 0) {
       let result = await $.ajax({
@@ -64,7 +66,7 @@ class Api {
         "X-Requested-With": "XMLHttpRequest",
         "Cache-Control": "no-cache",
       },
-      "data": "jsonString="+ res.Data
+      "data": "jsonString=" + res.Data
     };
 
     let secondRes = await $.ajax(settings);
@@ -114,6 +116,16 @@ class Api {
     let response = await $.ajax(settings);
     return JSON.parse(response['Message']).Body;
   }
+
+  static async syncConfig(syncdata) {
+    let res = await $.ajax({
+      method: "put",
+      cache: false,
+      url: "/sync/",
+      data: syncdata,
+    });
+    return JSON.parse(res);
+  }
 }
 
 
@@ -162,13 +174,16 @@ $(document).ready(async () => {
   const container = document.getElementById("jsoneditor");
   const options = {
     mode: 'code',
-    ace: ace
+    ace: ace,
+    onChange: () => {
+      onResponseEdited();
+    }
   };
   const editor = new JSONEditor(container, options);
 
   const requestbodyeditorContainer = document.getElementById("requestbodyeditor");
   const options2 = {
-    modes: ['code','text'],
+    modes: ['code', 'text'],
     ace: ace,
   };
   const requestbodyeditor = new JSONEditor(requestbodyeditorContainer, options2);
@@ -219,51 +234,61 @@ $(document).ready(async () => {
   //checkbox click
   initCheckBoxClickAction();
 
-   $('#paramsSwitchBar').find('button').click((e)=>{
-     let id = $(e.currentTarget).attr('id');
-     let idContent = '#'+id+'Content';
-     $.find('.d-flex[name=paramsContent]').forEach((item)=>{
-       console.log($(item));
-       $(item).css('cssText', 'display:none !important');
-     });
-     $(idContent).css('cssText', 'display:table !important');
-     console.log(id);
-   });
-
   //private function
-  function initCheckBoxClickAction(){
-    $('#left').find(':checkbox').click((e)=>{
+  let syncTimeout = undefined;
+
+  function onResponseEdited() {
+    clearTimeout(syncTimeout);
+    syncTimeout = setTimeout(() => {
+      let json = editor.get();
+      let syncData = {
+        username: 'lee',
+        scence: 'default',
+        servicecode: '31000102',
+        response: JSON.stringify(json),
+      };
+      Api.syncConfig(syncData);
+    }, 5e3);//default 5s;
+  }
+
+  function initCheckBoxClickAction() {
+    $('#left').find(':checkbox').click((e) => {
       let check = $(e.currentTarget).prop('checked');
-      if(check === true){
+      if (check === true) {
+        // let syncData = {
+        //   username: 'lee',
+        //   scence: 'default',
+        //   servicecode: '31000101'
+        // }
+        // Api.syncConfig();
         console.log(check);
       }
-
     });
   }
 
-  function bindURLAndParams(){
+  function bindURLAndParams() {
     let tfoot = paramstable.find('tfoot').children();
 
-    urlInput.on('input propertychange',(ev)=>{
+    urlInput.on('input propertychange', (ev) => {
       let query = parseQueryString(urlInput.val());
       paramsContent.children().remove();
-      for(let i=0;i<query.length;i++){
+      for (let i = 0; i < query.length; i++) {
         let item = tfoot.clone(false);
         let inputs = item.find('input');
         let key = $(inputs[0]);
         let value = $(inputs[1]);
         let description = $(inputs[2]);
-        inputs.attr('placeholder','');
+        inputs.attr('placeholder', '');
         key.val(query[i].key);
         value.val(query[i].value);
         paramsContent.append(item);
-        item.find('input').on('input propertychange',()=>{
+        item.find('input').on('input propertychange', () => {
           paramsInputBind();
         });
       }
     });
 
-    tfoot.find('input').on('input propertychange',(ev)=> {
+    tfoot.find('input').on('input propertychange', (ev) => {
       $(ev.currentTarget).blur();
       let item = tfoot.clone(false);
       paramsContent.append(item);
@@ -271,61 +296,61 @@ $(document).ready(async () => {
       let index = $(ev.currentTarget).parent().prevAll().find('input').length;
       $(item.find('input')[index]).focus();
       $(item.find('input')[index]).putCursorAtEnd();
-      item.find('input').on('input propertychange',()=>{
+      item.find('input').on('input propertychange', () => {
         paramsInputBind();
       });
       paramsInputBind();
     });
   }
 
-  function paramsInputBind(){
-    let origin = urlInput.val().substring(0,urlInput.val().indexOf("?")+1);
-    if(origin.indexOf("?") === -1){
+  function paramsInputBind() {
+    let origin = urlInput.val().substring(0, urlInput.val().indexOf("?") + 1);
+    if (origin.indexOf("?") === -1) {
       origin += '?';
     }
     let inputs = paramsContent.find('input');
-    for(let i=0;i<inputs.length;i++){
-      if(i%3===0){
+    for (let i = 0; i < inputs.length; i++) {
+      if (i % 3 === 0) {
         //key
-        origin+=$(inputs[i]).val()+'=';
+        origin += $(inputs[i]).val() + '=';
       }
-      else if(i%3===1){
+      else if (i % 3 === 1) {
         //value
-        origin+=$(inputs[i]).val()+'&';
+        origin += $(inputs[i]).val() + '&';
       }
     }
-    origin = origin.substring(0,origin.length-1);
+    origin = origin.substring(0, origin.length - 1);
     urlInput.val(origin);
   }
 
-  function parseQueryString(aURL){
+  function parseQueryString(aURL) {
     let obj = [];
-    if(aURL.indexOf("?") === -1){
+    if (aURL.indexOf("?") === -1) {
       return obj;
     }
-    let bURL = aURL.substring(aURL.indexOf("?")+1);
+    let bURL = aURL.substring(aURL.indexOf("?") + 1);
     let urlArr = bURL.split("&");
-    let key,value,index;
-    for(let i=0;i<urlArr.length;i++){
+    let key, value, index;
+    for (let i = 0; i < urlArr.length; i++) {
       index = urlArr[i].indexOf("=");
-      if(index === -1){
-        key = urlArr[i].substring(index+1);
+      if (index === -1) {
+        key = urlArr[i].substring(index + 1);
         value = "";
       }
       else {
-        key = urlArr[i].substring(0,index);
-        value = urlArr[i].substring(index+1);
+        key = urlArr[i].substring(0, index);
+        value = urlArr[i].substring(index + 1);
       }
-      if(key.trim() !== ''){
-        obj[i] = {key,value};
+      if (key.trim() !== '') {
+        obj[i] = {key, value};
       }
     }
     return obj;
   }
 
   //ini servicelist item
-  async function initServiceList(){
-    const serviceList =  await Api.getList();
+  async function initServiceList() {
+    const serviceList = await Api.getList();
     for (let i = 0; i < serviceList.length; i++) {
       const item = $('<li class=\"input-group\"></li>');
       item.append(
@@ -353,6 +378,8 @@ $(document).ready(async () => {
         }
         let preRequestData = await Api.generationRequest(urlInput.val());
         requestbodyeditor.set(preRequestData);
+        $('#rightResponseTitle').text('Response');
+        editor.set({});
       });
 
       resItem.click(async (e) => {
@@ -364,7 +391,7 @@ $(document).ready(async () => {
         else {
           saveClickTimes(e.currentTarget, 'primaryServiceClickTimes', '#primarylist');
         }
-        let serviceResponseData =  await Api.generationResponse(serviceList[i]);
+        let serviceResponseData = await Api.generationResponse(serviceList[i]);
         editor.set(serviceResponseData);
       });
 
@@ -424,7 +451,7 @@ $(document).ready(async () => {
   }
 
   //click action
-  function clickAction(){
+  function clickAction() {
     $('#Params').click(() => {
       if (paramstable.css('display') === 'none') {
         paramstable.css('display', 'table');
@@ -436,15 +463,29 @@ $(document).ready(async () => {
 
     $('#SendRequest').click(async () => {
       let realResponse = await Api.sendServiceToCtripService();
-      if(typeof realResponse === 'string'){
+      if (typeof realResponse === 'string') {
         realResponse = JSON.parse(realResponse);
       }
+      let title = requestbodyeditor.get().Head.ServiceCode || 'null';
+      title += ' Response';
+      $('#rightResponseTitle').text(title);
       editor.set(realResponse);
     });
   }
 
   //move layout action
-  function layoutMoveAction(){
+  $('#paramsSwitchBar').find('button').click((e) => {
+    let id = $(e.currentTarget).attr('id');
+    let idContent = '#' + id + 'Content';
+    $.find('.d-flex[name=paramsContent]').forEach((item) => {
+      console.log($(item));
+      $(item).css('cssText', 'display:none !important');
+    });
+    $(idContent).css('cssText', 'display:flex !important');
+    console.log(id);
+  });
+
+  function layoutMoveAction() {
     const rightcontent = $('#rightcontent');
     $(window).resize(() => {
       const height = rightcontent.height();

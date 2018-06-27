@@ -43,6 +43,12 @@ ul {
     border-radius: 2px;
     padding-bottom: 10px;
 }
+#authorizationContent {
+    min-height:165px;
+}
+#bodyContent {
+    min-height:360px;
+}
 div.jsoneditor-outer{
     margin: 0 !important;
     padding: 0 !important;

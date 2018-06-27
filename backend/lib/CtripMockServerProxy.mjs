@@ -15,12 +15,17 @@ router.get('/', async function(req, res, next) {
   }
   let query = {
     'servicecode':servicecode,
-    'uid' :uid,
-    'scene':1,
+    'username' :uid,
+    'scence':'default',
   };
-  let r = await DBHelper.db.collection('mockuser').findOne(query);
-  let model = r.response;
-  return res.send(JSON.stringify(model,null,2));
+  try{
+    let r = await DBHelper.db.collection('mockuser').findOne(query);
+    return res.send(r.response);
+  }
+  catch(e){
+    console.log(e);
+  }
+  return res.send({errorcode:101});
 });
 
 export default router;
