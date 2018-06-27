@@ -28,7 +28,7 @@ router.put('/', async function(req, res, next) {
   catch(e){
     console.log(e);
   }
-  res.render({errorcode:0});
+  res.send({errorcode:0});
 });
 
 export default router;

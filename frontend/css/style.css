@@ -377,8 +377,9 @@ nav {
 }
 
 .title-item {
+    line-height:2.4;
     padding-left: 10px;
-    justify-content: center;
+    justify-content: left;
     border-style: solid;
     border-color: #DBDBDB;
     border-width: 1px;

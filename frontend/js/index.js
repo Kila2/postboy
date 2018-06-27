@@ -124,7 +124,7 @@ class Api {
       url: "/sync/",
       data: syncdata,
     });
-    return JSON.parse(res);
+    return res;
   }
 }
 
@@ -238,17 +238,31 @@ $(document).ready(async () => {
   let syncTimeout = undefined;
 
   function onResponseEdited() {
+    $('#syncresponse').text('UNSYNC');
+    $('#syncresponse').css('color','red');
     clearTimeout(syncTimeout);
     syncTimeout = setTimeout(() => {
-      let json = editor.get();
-      let syncData = {
-        username: 'lee',
-        scence: 'default',
-        servicecode: '31000102',
-        response: JSON.stringify(json),
-      };
-      Api.syncConfig(syncData);
+      syncResponse();
     }, 5e3);//default 5s;
+  }
+
+  async function syncResponse(){
+    let servicecode = $('#rightResponseTitle').val().trim() || '';
+    if(servicecode === ''){
+      return;
+    }
+    let json = editor.get();
+    let syncData = {
+      username: 'lee',
+      scence: 'default',
+      servicecode: $('#rightResponseTitle').val(),
+      response: JSON.stringify(json),
+    };
+    $('#syncresponse').text('IN SYNC...');
+    $('#syncresponse').css('color','red');
+    let rc = await Api.syncConfig(syncData);
+    $('#syncresponse').text('SYNC OK');
+    $('#syncresponse').css('color','green');
   }
 
   function initCheckBoxClickAction() {
@@ -379,10 +393,12 @@ $(document).ready(async () => {
         let preRequestData = await Api.generationRequest(urlInput.val());
         requestbodyeditor.set(preRequestData);
         $('#rightResponseTitle').text('Response');
+        $('#rightResponseTitle').val('');
         editor.set({});
       });
 
       resItem.click(async (e) => {
+        await syncResponse();
         urlInput.val("http://10.2.56.40:8080/PacketMocker/GetJsonPacket?" + "ServiceCode=" + serviceList[i] + "&Version=5&" + "SystemCode=17&" + "ClientVersion=711&" + "Encoding=3");
         urlInput.trigger('input');
         if ($(e.currentTarget).parent().parent('#internationlist').length === 1) {
@@ -393,6 +409,12 @@ $(document).ready(async () => {
         }
         let serviceResponseData = await Api.generationResponse(serviceList[i]);
         editor.set(serviceResponseData);
+        let title = serviceList[i] || '';
+        $('#rightResponseTitle').val(title);
+        title += ' Response';
+        $('#rightResponseTitle').text(title);
+
+
       });
 
       initItemClickTime(item, "primaryServiceClickTimes", serviceList[i]);
@@ -466,9 +488,11 @@ $(document).ready(async () => {
       if (typeof realResponse === 'string') {
         realResponse = JSON.parse(realResponse);
       }
-      let title = requestbodyeditor.get().Head.ServiceCode || 'null';
+      let title = requestbodyeditor.get().Head.ServiceCode || '';
+      $('#rightResponseTitle').val(title);
       title += ' Response';
       $('#rightResponseTitle').text(title);
+
       editor.set(realResponse);
     });
   }
