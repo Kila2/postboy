@@ -70,7 +70,7 @@ block content
                             td(colspan="3")
                                 input(placeholder='Description' onfocus='this.placeholder = ""' onblur='this.placeholder = "Description"')
 
-                .bar.d-flex.flex-row(style='border-bottom-width:1px;min-height:35px;')
+                #paramsSwitchBar.bar.d-flex.flex-row(style='border-bottom-width:1px;min-height:35px;')
                     button#authorization.navlightbg-select Authorization
                     button#headers.navlightbg-normal Headers
                     button#body.navlightbg-normal Body
@@ -79,13 +79,29 @@ block content
                     .d-flex.flex-row.justify-content-end(style='padding-right:10px;flex:1')
                         button.mybtn-secondary Cookies
                         button.mybtn-secondary Code
-                .d-flex.flex-row(style='min-height:165px;')
+                #authorizationContent.d-flex.flex-row(style='min-height:165px;',name='paramsContent')
                     .col-4(style='border-right-width:1px;min-width:256px')
                         p(style='font-size:11px;') TYPE
                         button.mybtn-primary(style='font-size:11px;') Inherit auth from parent
                         p(style='font-size:11px;') The authorization header will be automatically generated when you send the request. <a href="#"  target="_blank"> Learn more about authorization </a>
                     .col.d-flex.flex-row(style='align-items:center;justify-content:center;padding-left:25px;padding-right:25px')
                         p.text-center(style='color:gray;font-size:13px;') This request is not inheriting any authorization helper at the moment. Save it in a collection to use the parent's authorization helper.
+                #bodyContent.d-flex.flex-column(style='min-height:360px',name='paramsContent')
+                    #requestbody.d-flex.flex-row(style='min-height:45px')
+                        label.radio-inline(style='margin-left: 30px;')
+                            input#fromdata(type='radio', name='optionsRadiosinline', value='fromdata')
+                            |  from-data
+                        label.radio-inline
+                            input#xwwwfromurlencoded(type='radio', name='optionsRadiosinline', value='fromurlencoded')
+                            |  x-www-from-urlencoded
+                        label.radio-inline
+                            input#raw(type='radio', name='optionsRadiosinline', value='raw' checked='')
+                            |  raw
+                        label.radio-inline
+                            input#binary(type='radio', name='optionsRadiosinline', value='binary')
+                            |  binary
+                    .d-flex(style='flex:1;margin:10px')
+                        #requestbodyeditor.d-flex.flex-row(style='flex:1;')
                 .d-flex.flex-column(style='min-height:800px;max-height:none;flex-basis:100%')
                     .bar.d-flex.flex-column.title-item
                         p.m-0 Response

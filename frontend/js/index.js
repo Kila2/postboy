@@ -166,6 +166,12 @@ $(document).ready(async () => {
   };
   const editor = new JSONEditor(container, options);
 
+  const requestbodyeditorContainer = document.getElementById("requestbodyeditor");
+  const options2 = {
+    modes: ['code','text'],
+    ace: ace,
+  };
+  const requestbodyeditor = new JSONEditor(requestbodyeditorContainer, options2);
 
   //主板service列表
   const primarylist = $('#primarylist').find('ul');
@@ -213,15 +219,28 @@ $(document).ready(async () => {
   //checkbox click
   initCheckBoxClickAction();
 
+   $('#paramsSwitchBar').find('button').click((e)=>{
+     let id = $(e.currentTarget).attr('id');
+     let idContent = '#'+id+'Content';
+     $.find('.d-flex[name=paramsContent]').forEach((item)=>{
+       console.log($(item));
+       $(item).css('cssText', 'display:none !important');
+     });
+     $(idContent).css('cssText', 'display:table !important');
+     console.log(id);
+   });
+
+  //private function
   function initCheckBoxClickAction(){
     $('#left').find(':checkbox').click((e)=>{
       let check = $(e.currentTarget).prop('checked');
       if(check === true){
         console.log(check);
       }
+
     });
   }
-  //private function
+
   function bindURLAndParams(){
     let tfoot = paramstable.find('tfoot').children();
 
@@ -333,7 +352,7 @@ $(document).ready(async () => {
           saveClickTimes(e.currentTarget, 'primaryServiceClickTimes', '#primarylist');
         }
         let preRequestData = await Api.generationRequest(urlInput.val());
-        editor.set(preRequestData);
+        requestbodyeditor.set(preRequestData);
       });
 
       resItem.click(async (e) => {

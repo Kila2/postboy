@@ -11,31 +11,43 @@ html, body {
     border-color: #DBDBDB;
 }
 
-div, p, button, input {
+.d-flex {
     background-color: white;
 }
+p, button, input
+{
+    background-color: white;
+}
+
+
 
 ul {
     margin: 0px;
     padding: 0px;
     list-style-type:none;
+
 }
-#jsoneditor * {
-    background-color: transparent
+
+
+#requestbodyeditor > div > .jsoneditor-statusbar{
+    display: none;
 }
 .jsoneditor-menu{
     display: none;
 }
-
-div.jsoneditor {
-    border-color: transparent !important;
-    background: transparent;
+.jsoneditor {
+    border-width:0px !important;
+}
+#requestbodyeditor {
+    border:1px solid lightgray;
+    border-radius: 2px;
+    padding-bottom: 10px;
 }
 div.jsoneditor-outer{
     margin: 0 !important;
     padding: 0 !important;
-    background: transparent;
 }
+
 #primarylist > ul > li,
 #internationlist > ul > li{
     margin: 0;
@@ -78,6 +90,15 @@ div.jsoneditor-outer{
     text-align: left;
     vertical-align: middle;
     padding: 0px 6px 0px 6px !important;
+}
+#requestbody > label
+{
+    margin-left: 20px;
+    margin-top:10px
+}
+#requestbody > label > input
+{
+    margin-right:5px;
 }
 td,th {
     margin: 0px;

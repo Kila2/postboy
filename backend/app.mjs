@@ -7,6 +7,7 @@ import indexRouter from "./routes/index";
 import usersRouter from "./routes/users";
 import loginRouter from "./routes/login";
 import apiRouter from "./routes/api";
+import syncRouter from './routes/sync';
 import { apiProxy } from './lib/ApiProxy';
 import webpackDevMiddleware from "webpack-dev-middleware";
 import CtripMockServerProxy from './lib/CtripMockServerProxy';
@@ -49,6 +50,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/login', loginRouter);
 app.use('/service', apiRouter);
+app.use('/sync',syncRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
