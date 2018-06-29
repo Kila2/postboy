@@ -19,6 +19,7 @@ router.put('/', async function(req, res, next) {
       "servicecode": servicecode,
       "scence":scence,
       "response":JSON.parse(req.body.response),
+      "date":new Date(),
     };
     let rc = await DBHelper.db.collection('mockuser').findOneAndUpdate(query,{$set:model});
     if(rc.lastErrorObject.updatedExisting === false){

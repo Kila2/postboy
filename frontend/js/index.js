@@ -91,6 +91,15 @@ class Api {
     return JSON.parse(res);
   }
 
+  static async generationResponseLastUse(uid,serviceCode) {
+    let res = await $.ajax({
+      method: "get",
+      cache: false,
+      url: "/service/" + serviceCode +"?uid=" + uid +'&last=1',
+    });
+    return res;
+  }
+
   static async sendServiceToCtripService(callback) {
 
     let settings = {
@@ -166,9 +175,12 @@ class Tab {
 }
 
 $(document).ready(async () => {
+  let uid = 'lee';
+  let scence = 'default';
   const lefttabs = [['#primary', '#primaryContent'], ['#internation', '#internationContent']];
   const toptabs = [['#builder', ''], ['#teamLibrary', '']];
   const righttabs = [['#authorization', ''], ['#headers', ''], ['#body', ''], ['#pre-requestScript', ''], ['#tests', '']];
+  const settingTabs = [['#cratenew', ''], ['#templates', ''], ['#apinetwork', '']];
 
   //json editor
   const container = document.getElementById("jsoneditor");
@@ -211,7 +223,7 @@ $(document).ready(async () => {
   Tab.init(lefttabs);
   Tab.init(toptabs, 'top');
   Tab.init(righttabs);
-
+  Tab.init(settingTabs);
   //响应布局相关
   layoutMoveAction();
   //点击事件
@@ -253,8 +265,8 @@ $(document).ready(async () => {
     }
     let json = editor.get();
     let syncData = {
-      username: 'lee',
-      scence: 'default',
+      username: uid,
+      scence: scence,
       servicecode: $('#rightResponseTitle').val(),
       response: JSON.stringify(json),
     };

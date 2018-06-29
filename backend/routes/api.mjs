@@ -29,6 +29,44 @@ router.get('/:servicecode', async function(req, res, next) {
   let r = await DBHelper.db.collection('service').findOne({'servicecode':req.params.servicecode});
   let model = await processModel(r.response);
   res.send(JSON.stringify(model,null,2));
+  // let servicecode = req.params.servicecode;
+  // if(Object.keys(req.query).length === 1 && Object.keys(req.query)[0] === '_') {
+  //   let model = await senddefault();
+  //   res.send(JSON.stringify(model,null,2));
+  // }
+  // if(req.query.last === '1') {
+  //   if(req.query.uid === undefined){
+  //     res.send({errorcode:1,errormessage:'uid is undefined'});
+  //   }
+  //   let uid = req.query.uid.trim();
+  //   let query = {
+  //     'servicecode':servicecode,
+  //     'username' :uid,
+  //     'scence':'default',
+  //   };
+  //   try{
+  //     let r = await DBHelper.db.collection('mockuser').find(query).sort({date:-1}).skip(0).limit(1);
+  //     if(!r.hasNext()){
+  //       let model = await senddefault();
+  //       res.send(model);
+  //     }
+  //     else {
+  //       r.forEach((item)=>{
+  //         return res.send(r.response);
+  //       });
+  //     }
+  //   }
+  //   catch(e){
+  //     console.log(e);
+  //   }
+  //   return res.send(senddefault());
+  // }
+  //
+  // async function senddefault(){
+  //   let r = await DBHelper.db.collection('service').findOne({'servicecode':servicecode});
+  //   let model = await processModel(r.response);
+  //   res.send(JSON.stringify(model,null,2));
+  // }
 });
 
 

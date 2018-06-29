@@ -404,3 +404,43 @@ nav {
 #httpmethod-btn > .dropdown-menu {
     transform: translate3d(12px, 49px, 0px) !important;
 }
+
+#settingModal > .modal-dialog {
+    max-width:100%;
+    width:100%;
+    height:100%;
+    padding:40px 10% 60px 10%;
+    margin:0px;
+}
+#settingModal > .modal-dialog > .modal-content {
+    max-height:570px;
+    width:100%;
+    height:100%;
+    padding:0px;
+    margin:0px;
+}
+
+#settingModal > .modal-dialog > .modal-content > .modal-header {
+    flex-basis: 40px;
+    padding: 0px;
+    justify-content: space-between;
+    border-radius: 4px 4px 0px 0px;
+}
+#settingModal > .modal-dialog > .modal-content > .modal-header > button:first-child{
+    border-radius: 4px 0px 0px 0px;
+}
+#settingModal > .modal-dialog > .modal-content > .modal-header > button {
+    padding: 0px;
+    flex: 1;
+    height: 100%;
+    flex-grow: 0;
+    flex-basis: 120px;
+}
+#settingModal > .modal-dialog > .modal-content > .modal-body {
+
+}
+#settingModal > .modal-dialog > .modal-content > .modal-footer {
+    height:35px;
+    background-color: #FAFAFA;
+    border-radius: 0px 0px 4px 4px;
+}
