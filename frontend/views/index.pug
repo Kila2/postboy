@@ -8,17 +8,17 @@ block content
                     input.d-flex.bar.searchbar(style='flex:1;padding-left:40px;min-height:30px;' type="text" placeholder='Filter') 
                     i.fas.fa-search.position-absolute(style='left:0px;color:gray;padding-left:10px;padding-right:10px;height:30px;width:40px;')
                 .bar.d-flex.flex-row(style='min-height:30px;border-bottom-width:1px;')
-                    button#primary.col-6.navlightbg-select 主板
-                    button#internation.col-6.navlightbg-normal 国际版
-                #primaryContent.d-flex.flex-column(style='height:100%;')
+                    button#serviceTab.col-6.navlightbg-select 主板
+                    button#history.col-6.navlightbg-normal history
+                #serviceListContent.d-flex.flex-column(style='height:100%;')
                     .bar.d-flex.justify-content-sm-end.align-items-center(style='min-height:40px;border-bottom-width:1px;')
                         button.mybtn-secondary Clear all
-                    #primarylist.d-flex.flex-column.position-relative.pre-scrollable(style='max-height:none;overflow:auto;')
+                    #serviceList.d-flex.flex-column.position-relative.pre-scrollable(style='max-height:none;overflow:auto;')
                         ul
-                #internationContent.d-flex.flex-column(style='height:100%;display:none !important;')
+                #historyContent.d-flex.flex-column(style='height:100%;display:none !important;')
                     .bar.d-flex.justify-content-sm-end.align-items-center(style='min-height:40px;border-bottom-width:1px;')
                         button.mybtn-secondary Clear all2
-                    #internationlist.d-flex.flex-column.position-relative.pre-scrollable(style='max-height:none;overflow:auto;')
+                    #historylist.d-flex.flex-column.position-relative.pre-scrollable(style='max-height:none;overflow:auto;')
                         ul
         #rightcontent.d-flex.flex-column(style='flex:1;')
             .d-flex.flex-column(style='min-height:110px;z-index:5;background-color:transparent')

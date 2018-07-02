@@ -1,5 +1,6 @@
 import {JSONEditor} from './vendor';
 import url from "url";
+import requestConfig from './Config';
 
 class HTTP {
   static methods = [
@@ -174,10 +175,11 @@ class Tab {
   };
 }
 
+
 $(document).ready(async () => {
   let uid = 'lee';
   let scence = 'default';
-  const lefttabs = [['#primary', '#primaryContent'], ['#internation', '#internationContent']];
+  const lefttabs = [['#serviceTab', '#serviceListContent'], ['#history', '#historyContent']];
   const toptabs = [['#builder', ''], ['#teamLibrary', '']];
   const righttabs = [['#authorization', ''], ['#headers', ''], ['#body', ''], ['#pre-requestScript', ''], ['#tests', '']];
   const settingTabs = [['#cratenew', ''], ['#templates', ''], ['#apinetwork', '']];
@@ -200,18 +202,14 @@ $(document).ready(async () => {
   };
   const requestbodyeditor = new JSONEditor(requestbodyeditorContainer, options2);
 
-  //主板service列表
-  const primarylist = $('#primarylist').find('ul');
-  //国际版service列表
-  const internationlist = $('#internationlist').find('ul');
+  //service列表
+  const servicelist = $('#serviceList').find('ul');
 
   //请求method列表 e.g. get post put delete
   const methodList = $('#httpmethod-btn').find('div');
   //method数组
   const methods = HTTP.methods;
 
-  //service列表中最后一次选中的li
-  let lastTarget = undefined;
   //url input
   const urlInput = $('#urlInput');
   //参数列表
@@ -238,8 +236,7 @@ $(document).ready(async () => {
   //init service list
   await initServiceList();
   //对servicelist 的元素排序
-  sortItems(primarylist);
-  sortItems(internationlist);
+  sortItems(servicelist);
 
   bindURLAndParams();
 
@@ -394,14 +391,15 @@ $(document).ready(async () => {
       item.find('.rebutton').append(resItem);
 
       reqItem.click(async (e) => {
-        urlInput.val('http://10.2.56.40:8080/PacketMocker/GetJsonPacket?' + 'ServiceCode=' + serviceList[i] + '&Version=5&' + 'SystemCode=17&' + 'ClientVersion=711&' + 'Encoding=3');
+        urlInput.val('http://10.2.56.40:8080/PacketMocker/GetJsonPacket?'
+          + 'ServiceCode=' + serviceList[i]
+          + '&Version=' + requestConfig.Version
+          + '&SystemCode=' + requestConfig.SystemCode
+          + '&ClientVersion=' + requestConfig.ClientVersion
+          + '&Encoding=' + requestConfig.Encoding);
         urlInput.trigger('input');
-        if ($(e.currentTarget).parent().parent('#internationlist').length === 1) {
-          saveClickTimes(e.currentTarget, 'internationServiceClickTimes', '#internationlist');
-        }
-        else {
-          saveClickTimes(e.currentTarget, 'primaryServiceClickTimes', '#primarylist');
-        }
+        //2 is internation
+        saveClickTimes(e.currentTarget);
         let preRequestData = await Api.generationRequest(urlInput.val());
         requestbodyeditor.set(preRequestData);
         $('#rightResponseTitle').text('Response');
@@ -413,12 +411,7 @@ $(document).ready(async () => {
         await syncResponse();
         urlInput.val("http://10.2.56.40:8080/PacketMocker/GetJsonPacket?" + "ServiceCode=" + serviceList[i] + "&Version=5&" + "SystemCode=17&" + "ClientVersion=711&" + "Encoding=3");
         urlInput.trigger('input');
-        if ($(e.currentTarget).parent().parent('#internationlist').length === 1) {
-          saveClickTimes(e.currentTarget, 'internationServiceClickTimes', '#internationlist');
-        }
-        else {
-          saveClickTimes(e.currentTarget, 'primaryServiceClickTimes', '#primarylist');
-        }
+        saveClickTimes(e.currentTarget);
         let serviceResponseData = await Api.generationResponse(serviceList[i]);
         editor.set(serviceResponseData);
         let title = serviceList[i] || '';
@@ -429,11 +422,8 @@ $(document).ready(async () => {
 
       });
 
-      initItemClickTime(item, "primaryServiceClickTimes", serviceList[i]);
-      primarylist.append(item);
-      let itemCopy = item.clone(true);
-      initItemClickTime(itemCopy, "internationServiceClickTimes", serviceList[i]);
-      internationlist.append(itemCopy);
+      initItemClickTime(item, serviceList[i]);
+      servicelist.append(item);
     }
   }
 
@@ -456,34 +446,61 @@ $(document).ready(async () => {
   }
 
   //save item click times
-  function saveClickTimes(target, localKey, parendId) {
-    let ct = parseInt($(target).attr("ct"), 10) || 0;
+  function saveClickTimes(target) {
+    let ct = parseInt($(target).parent().parent().attr("ct"), 10) || 0;
     ct++;
-    $(target).parents('li').attr('ct', ct);
-    if (lastTarget !== undefined) {
-      //$(lastTarget).parents('li').find(':checkbox').prop('checked', false);
-    }
-    //$(target).parents('li').find(':checkbox').prop('checked', true);
-    lastTarget = target;
-
-    let items = $(parendId).find('li');
+    $(target).parent().parent().attr('ct', ct);
+    let items = $(servicelist).find('li');
     let serviceClickTimesBackup = {};
     for (let i = 0; i < items.length; i++) {
-      $(parendId).children().append(items[i]);
-      let serviceCode = $(items[i]).children().text().trim();
+      $(servicelist).children().append(items[i]);
+      let serviceCode = $(items[i]).find('a').text().trim();
       serviceClickTimesBackup[serviceCode] = parseInt($(items[i]).attr("ct"), 10) || 0;
     }
-    localStorage[localKey] = JSON.stringify(serviceClickTimesBackup);
+    if (requestConfig.appVer === "2") {
+      localStorage["internationServiceClickTimes"] = JSON.stringify(serviceClickTimesBackup);
+    }
+    else {
+      localStorage["primaryServiceClickTimes"] = JSON.stringify(serviceClickTimesBackup);
+    }
+
   }
 
-  function initItemClickTime(item, localKey, serviceCode) {
+  function initItemClickTime(item, serviceCode) {
+    let localKey = "";
+    if(requestConfig.appVer ===  "2"){
+      localKey = "internationServiceClickTimes";
+    }
+    else {
+      localKey = "primaryServiceClickTimes";
+    }
+
     if (localStorage[localKey] === undefined) {
       localStorage[localKey] = "{}";
     }
     let serviceClickTimes = JSON.parse(localStorage[localKey]);
     item.attr("ct", serviceClickTimes[serviceCode] || 0);
-  }
 
+  }
+  //modal dismiss action
+  $('#settingModal').on('mouseup.dismiss.bs.modal', async function (e) {
+    requestConfig.appVer =  $('#settingModal').find('div[name=appVer]').find(":checked").val() || 1;
+    let inputs = $('#settingModal').find('tbody').find('input');
+    for(let aInput of inputs){
+      requestConfig[$(aInput).attr('name')] = $(aInput).val();
+    }
+    servicelist.children().remove();
+    await initServiceList();
+    sortItems(servicelist);
+    if(requestConfig.appVer === "1"){
+      $('#serviceTab').text('主版');
+    }
+    else {
+      $('#serviceTab').text('国际版');
+    }
+
+
+  });
   //click action
   function clickAction() {
     $('#Params').click(() => {

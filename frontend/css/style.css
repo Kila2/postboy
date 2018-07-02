@@ -54,7 +54,7 @@ div.jsoneditor-outer{
     padding: 0 !important;
 }
 
-#primarylist > ul > li,
+#serviceList > ul > li,
 #internationlist > ul > li{
     margin: 0;
     padding: 0;
@@ -65,17 +65,17 @@ div.jsoneditor-outer{
     justify-content: start;
 }
 
-#primarylist > ul > li > .input-group-prepend,
+#serviceList > ul > li > .input-group-prepend,
 #internationlist > ul > li > .input-group-prepend{
     padding-left: 20px;
     padding-right:10px;
     padding-top: 11px;
 }
-#primarylist > ul > li > .rebutton,
+#serviceList > ul > li > .rebutton,
 #internationlist > ul > li > .rebutton{
     flex: 1;
 }
-#primarylist > ul > li > .rebutton > button,
+#serviceList > ul > li > .rebutton > button,
 #internationlist > ul > li > .rebutton > button{
     background-color: dodgerblue;
     height: 20px;
@@ -443,4 +443,14 @@ nav {
     height:35px;
     background-color: #FAFAFA;
     border-radius: 0px 0px 4px 4px;
+}
+.modal-body >.d-flex > .d-flex > table > tbody > tr > th > label{
+    margin: 0px 0px 0px 10px;
+}
+.modal-body >.d-flex > .d-flex > table > tbody > tr > th {
+    padding-bottom: 8px;
+}
+.modal-body >.d-flex > .d-flex > table > tbody > tr > th > input{
+    margin-left: 8px;
+    border-width: 1px;
 }

@@ -20,6 +20,7 @@ module.exports = {
   mode: 'development',
   devtool: 'inline-source-map',
   entry: {
+    Config: ['./frontend/js/Config.js'],
     index: ['./frontend/js/index.js'],
     login: ['./frontend/js/login.js'],
     vendor: ['./frontend/js/vendor.js'],

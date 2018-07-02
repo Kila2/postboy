@@ -81,7 +81,45 @@ html(lang='zh-CN')
                         button.close(type='button', data-dismiss='modal', aria-hidden='true',style='flex-basis: 40px;padding: 0px;margin: -5px 0 0 0 ')
                             | ×
                     .modal-body
-                        | 在这里添加一些文本
+                        .d-flex.flex-column
+                            .d-flex(name='appVer')
+                                label.radio-inline(style='margin-left: 30px;')
+                                    input(type='radio', name='appVer', value='1' checked='')
+                                    |  主板
+                                label.radio-inline(style='margin-left: 30px;')
+                                    input(type='radio', name='appVer', value='2')
+                                    |  国际版
+                            .d-flex(style='flex:1;align-items: center;align-content:flex-start;flex-wrap:wrap;')
+                                table
+                                    thead
+                                        tr
+                                            th
+                                                label Request Params
+                                    tbody
+                                        tr
+                                            th
+                                                label(style='')
+                                                    |  Version
+                                            th
+                                                input(type='text', placeholder="e.g 5" value="5" name='Version')
+                                        tr
+                                            th
+                                                label(style='')
+                                                    |  SystemCode
+                                            th
+                                                input(type='text', placeholder="e.g 17" value="17" name='SystemCode')
+                                        tr
+                                            th
+                                                label(style='')
+                                                    |  ClientVersion
+                                            th
+                                                input(type='text', placeholder="e.g 711" value="711" name='ClientVersion')
+                                        tr
+                                            th
+                                                label(style='')
+                                                    |  Encoding
+                                            th
+                                                input(type='text',placeholder="e.g 3" value="3" name='Encoding')
                     .d-flex.modal-footer.align-content-center
                         button.btn.btn-default(type='button', data-dismiss='modal' , style='line-height:0px')
                             | 关闭
