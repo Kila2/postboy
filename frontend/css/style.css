@@ -53,30 +53,28 @@ div.jsoneditor-outer{
     margin: 0 !important;
     padding: 0 !important;
 }
+#serviceList > ul > li > .collapse {
+    min-height: 40px;
+}
 
-#serviceList > ul > li,
-#internationlist > ul > li{
+#serviceList > ul > li {
     margin: 0;
     padding: 0;
     text-align: center;
-    height:40px;
     line-height: 40px;
     color: #666666;
     justify-content: start;
 }
 
-#serviceList > ul > li > .input-group-prepend,
-#internationlist > ul > li > .input-group-prepend{
+#serviceList > ul > li > div > .input-group-prepend{
     padding-left: 20px;
     padding-right:10px;
     padding-top: 11px;
 }
-#serviceList > ul > li > .rebutton,
-#internationlist > ul > li > .rebutton{
+#serviceList > ul > li > div > .rebutton{
     flex: 1;
 }
-#serviceList > ul > li > .rebutton > button,
-#internationlist > ul > li > .rebutton > button{
+#serviceList > ul > li > div > .rebutton > button{
     background-color: dodgerblue;
     height: 20px;
     vertical-align: middle;

@@ -25,6 +25,19 @@ router.get('/', async function(req, res, next) {
 
 });
 
+router.get('/response', async function(req, res, next) {
+  let query = {
+    servicecode:"95004801",
+    username:"lee"
+  };
+  let r = await DBHelper.db.collection('mockuser').find(query);
+  let count = await r.count();
+  let model = {services:[]};
+  model.services = await r.toArray();
+  res.send(JSON.stringify(model,null,2));
+});
+
+
 router.get('/:servicecode', async function(req, res, next) {
   let r = await DBHelper.db.collection('service').findOne({'servicecode':req.params.servicecode});
   let model = await processModel(r.response);

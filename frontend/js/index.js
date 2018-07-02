@@ -83,6 +83,14 @@ class Api {
     return realResponse;
   }
 
+  static async getResponseList(serviceCode) {
+    let res = await $.ajax({
+      method: "get",
+      cache: false,
+      url: "service/response?servicecode="+serviceCode +"&username=lee"
+    });
+    return JSON.parse(res);
+  }
   static async generationResponse(serviceCode) {
     let res = await $.ajax({
       method: "get",
@@ -375,21 +383,25 @@ $(document).ready(async () => {
   async function initServiceList() {
     const serviceList = await Api.getList();
     for (let i = 0; i < serviceList.length; i++) {
-      const item = $('<li class=\"input-group\"></li>');
-      item.append(
-        '<div class="input-group-prepend">\n' +
-        '    <input type="checkbox">\n' +
-        '</div>'
-      );
-      item.append($('<a style="width:80px"></a>').text(serviceList[i]).val(serviceList[i]));
-      item.append($('' +
-        '<div class="rebutton">' +
-        '</div>'));
-      const reqItem = $('<button>req</button>');
-      const resItem = $('<button>res</button>');
-      item.find('.rebutton').append(reqItem);
-      item.find('.rebutton').append(resItem);
-
+      const item = $(`<li class="input-group;flex-direction: column"></li>`);
+      item.append($(
+        `<div class="d-flex flex-row">
+            <div class="input-group-prepend">
+                <input type="checkbox">
+            </div>
+            <a style="width:80px">${serviceList[i]}</a>
+            <div class="rebutton">
+                <button>req</button>
+                <button data-toggle="collapse" href=#${serviceList[i]}collapse>res</button>
+            </div>
+        </div>
+        <div class="collapse" id=${serviceList[i]}collapse>
+            <div class="card card-body">
+            </div>
+        </div>`
+      ));
+      let reqItem = $(item.find('.rebutton').children()[0]);
+      let resItem = $(item.find('.rebutton').children()[1]);
       reqItem.click(async (e) => {
         urlInput.val('http://10.2.56.40:8080/PacketMocker/GetJsonPacket?'
           + 'ServiceCode=' + serviceList[i]
@@ -406,24 +418,33 @@ $(document).ready(async () => {
         $('#rightResponseTitle').val('');
         editor.set({});
       });
-
       resItem.click(async (e) => {
-        await syncResponse();
-        urlInput.val("http://10.2.56.40:8080/PacketMocker/GetJsonPacket?" + "ServiceCode=" + serviceList[i] + "&Version=5&" + "SystemCode=17&" + "ClientVersion=711&" + "Encoding=3");
-        urlInput.trigger('input');
-        saveClickTimes(e.currentTarget);
-        let serviceResponseData = await Api.generationResponse(serviceList[i]);
-        editor.set(serviceResponseData);
-        let title = serviceList[i] || '';
-        $('#rightResponseTitle').val(title);
-        title += ' Response';
-        $('#rightResponseTitle').text(title);
 
-
+      let target = $(e.currentTarget);
+       await initScenceList(serviceList[i]);
+        // await syncResponse();
+        // urlInput.val("http://10.2.56.40:8080/PacketMocker/GetJsonPacket?" + "ServiceCode=" + serviceList[i] + "&Version=5&" + "SystemCode=17&" + "ClientVersion=711&" + "Encoding=3");
+        // urlInput.trigger('input');
+        // saveClickTimes(e.currentTarget);
+        // let serviceResponseData = await Api.generationResponse(serviceList[i]);
+        // editor.set(serviceResponseData);
+        // let title = serviceList[i] || '';
+        // $('#rightResponseTitle').val(title);
+        // title += ' Response';
+        // $('#rightResponseTitle').text(title);
       });
 
       initItemClickTime(item, serviceList[i]);
       servicelist.append(item);
+    }
+  }
+
+  async function initScenceList(servicecode) {
+    let responses =  await Api.getResponseList(servicecode) || {services:[]};
+    for(let response of responses.services) {
+      const item = $('<label></label>');
+      item.append($(`<input type="radio" name="scencesRadiosinline" value="${response.scence}"/>`));
+      item.append(response.scence);
     }
   }
 
