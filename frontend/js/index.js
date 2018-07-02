@@ -400,6 +400,7 @@ $(document).ready(async () => {
             </div>
         </div>`
       ));
+
       let reqItem = $(item.find('.rebutton').children()[0]);
       let resItem = $(item.find('.rebutton').children()[1]);
       reqItem.click(async (e) => {
@@ -421,7 +422,7 @@ $(document).ready(async () => {
       resItem.click(async (e) => {
 
       let target = $(e.currentTarget);
-       await initScenceList(serviceList[i]);
+        await initScenceList(serviceList[i]);
         // await syncResponse();
         // urlInput.val("http://10.2.56.40:8080/PacketMocker/GetJsonPacket?" + "ServiceCode=" + serviceList[i] + "&Version=5&" + "SystemCode=17&" + "ClientVersion=711&" + "Encoding=3");
         // urlInput.trigger('input');
@@ -441,10 +442,12 @@ $(document).ready(async () => {
 
   async function initScenceList(servicecode) {
     let responses =  await Api.getResponseList(servicecode) || {services:[]};
+    $("#"+servicecode+"collapse").children().children().remove();
     for(let response of responses.services) {
       const item = $('<label></label>');
-      item.append($(`<input type="radio" name="scencesRadiosinline" value="${response.scence}"/>`));
+      item.append($(`<input type="radio" name=${servicecode}radio value="${response.scence}"/>`));
       item.append(response.scence);
+      $("#"+servicecode+"collapse").children().append(item);
     }
   }
 

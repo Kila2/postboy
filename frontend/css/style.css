@@ -53,8 +53,31 @@ div.jsoneditor-outer{
     margin: 0 !important;
     padding: 0 !important;
 }
+
+
 #serviceList > ul > li > .collapse {
-    min-height: 40px;
+    min-height: 45px;
+}
+#serviceList > ul > li > .collapsing > div > label,
+#serviceList > ul > li > .collapse > div > label {
+    margin: 0px;
+    height: 25px;
+    line-height: 1.7;
+}
+#serviceList > ul > li > .collapsing > div > label > input,
+#serviceList > ul > li > .collapse > div > label > input {
+    margin-left: 10px;
+    margin-right: 8px;
+    line-height: 0;
+    height: 100%;
+    vertical-align: sub;
+}
+
+#serviceList > ul > li > .collapsing > .card,
+#serviceList > ul > li > .collapse > .card {
+   align-items: flex-start;
+   padding: 5px 20px 5px 20px;
+   min-height: 45px;
 }
 
 #serviceList > ul > li {
