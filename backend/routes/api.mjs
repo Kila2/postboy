@@ -7,7 +7,6 @@ const router = express.Router();
 let cacheServiceList = undefined;
 /* GET home page. */
 router.get('/', async function(req, res, next) {
-
   if(Object.keys(req.query).length === 1 && Object.keys(req.query)[0] === '_'){
     if(cacheServiceList === undefined){
       cacheServiceList = DBHelper.services
@@ -24,7 +23,6 @@ router.get('/', async function(req, res, next) {
     return res.send(JSON.stringify(model,null,2));
   }
   return res.send({error:'query not correct'});
-
 });
 
 router.get('/scenceList', async function(req, res, next) {
