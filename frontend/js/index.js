@@ -1,4 +1,5 @@
-import {JSONEditor} from './vendor';
+//import JSONEditor from './vendor';
+import JSONEditor from 'jsoneditor';
 import requestConfig from './Config';
 import Api from './Api';
 
@@ -412,9 +413,29 @@ $(document).ready(async () => {
 
   }
   //modal dismiss action
-
-
+  $('#settingModal').on('hidden.bs.modal', function () {
+    alert('hidden event fired!');
   });
+  $('#settingModal').on('shown.bs.modal', function () {
+    alert('show event fired!');
+  });
+  $('#settingModal').on('mouseup.dismiss.bs.modal', async function (e) {
+    requestConfig.appVer =  $('#settingModal').find('div[name=appVer]').find(":checked").val() || 1;
+    let inputs = $('#settingModal').find('tbody').find('input');
+    for(let aInput of inputs){
+      requestConfig[$(aInput).attr('name')] = $(aInput).val();
+    }
+    servicelist.children().remove();
+    await initServiceList();
+    sortItems(servicelist);
+    if(requestConfig.appVer === "1"){
+      $('#serviceTab').text('主版');
+    }
+    else {
+      $('#serviceTab').text('国际版');
+    }
+  });
+
   //click action
   function clickAction() {
     $('#Params').click(() => {

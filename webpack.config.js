@@ -24,7 +24,7 @@ module.exports = {
     Config: ['./frontend/js/Config.js'],
     index: ['./frontend/js/index.js'],
     login: ['./frontend/js/login.js'],
-    vendor: ['./frontend/js/vendor.js'],
+    vendor: ['./frontend/js/vendor.js']
   },
   watch: true,
   output: {
@@ -55,6 +55,7 @@ module.exports = {
        { from: path.join(bootstrapPath, '/dist/css/bootstrap.min.css'), to: 'css/[name].[ext]' },
        { from: path.join(bootstrapPath, '/dist/css/bootstrap.min.css.map'), to: 'css/[name].[ext]' },
        { from: path.join(bootstrapPath, '/dist/js/bootstrap.bundle.js'), to: '[name].[ext]' },
+       { from: path.join(bootstrapPath, '/dist/js/bootstrap.bundle.js.map'), to: '[name].[ext]' },
 
        { from: path.join(popperjsPath, '/dist/umd/popper.min.js'), to: '[name].[ext]' },
 
