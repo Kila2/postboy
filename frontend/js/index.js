@@ -82,34 +82,34 @@ class Api {
     realResponse.Body = JSON.parse(thirdRes);
     return realResponse;
   }
-
-  static async getResponseList(serviceCode) {
+  static async getServiceResponse(serviceCode) {
     let res = await $.ajax({
       method: "get",
       cache: false,
-      url: "service/response?servicecode="+serviceCode +"&username=lee"
-    });
-    return JSON.parse(res);
-  }
-  static async generationResponse(serviceCode) {
-    let res = await $.ajax({
-      method: "get",
-      cache: false,
-      url: "/service/" + serviceCode
-    });
-    return JSON.parse(res);
-  }
-
-  static async generationResponseLastUse(uid,serviceCode) {
-    let res = await $.ajax({
-      method: "get",
-      cache: false,
-      url: "/service/" + serviceCode +"?uid=" + uid +'&last=1',
+      url: "/service/response/" + serviceCode
     });
     return res;
   }
 
-  static async sendServiceToCtripService(callback) {
+  static async getResponse(scenceID) {
+    let res = await $.ajax({
+      method: "get",
+      cache: false,
+      url: "service/response?scenceid="+scenceID
+    });
+    return res;
+  }
+
+  static async getServiceScenceList(serviceCode,username) {
+    let res = await $.ajax({
+      method: "get",
+      cache: false,
+      url: "service/scenceList?servicecode="+serviceCode +"&username="+username
+    });
+    return res;
+  }
+
+  static async sendServiceToCtripService() {
 
     let settings = {
       async: true,
@@ -186,7 +186,7 @@ class Tab {
 
 $(document).ready(async () => {
   let uid = 'lee';
-  let scence = 'default';
+  let scence = 'default1';
   const lefttabs = [['#serviceTab', '#serviceListContent'], ['#history', '#historyContent']];
   const toptabs = [['#builder', ''], ['#teamLibrary', '']];
   const righttabs = [['#authorization', ''], ['#headers', ''], ['#body', ''], ['#pre-requestScript', ''], ['#tests', '']];
@@ -264,7 +264,7 @@ $(document).ready(async () => {
   }
 
   async function syncResponse(){
-    let servicecode = $('#rightResponseTitle').val().trim() || '';
+    let servicecode = $(`#rightResponseTitle`).val().trim() || '';
     if(servicecode === ''){
       return;
     }
@@ -272,14 +272,14 @@ $(document).ready(async () => {
     let syncData = {
       username: uid,
       scence: scence,
-      servicecode: $('#rightResponseTitle').val(),
+      servicecode: $(`#rightResponseTitle`).val(),
       response: JSON.stringify(json),
     };
-    $('#syncresponse').text('IN SYNC...');
-    $('#syncresponse').css('color','red');
+    $(`#syncresponse`).text('IN SYNC...');
+    $(`#syncresponse`).css('color','red');
     let rc = await Api.syncConfig(syncData);
-    $('#syncresponse').text('SYNC OK');
-    $('#syncresponse').css('color','green');
+    $(`#syncresponse`).text('SYNC OK');
+    $(`#syncresponse`).css('color','green');
   }
 
   function initCheckBoxClickAction() {
@@ -423,16 +423,10 @@ $(document).ready(async () => {
 
       let target = $(e.currentTarget);
         await initScenceList(serviceList[i]);
-        // await syncResponse();
-        // urlInput.val("http://10.2.56.40:8080/PacketMocker/GetJsonPacket?" + "ServiceCode=" + serviceList[i] + "&Version=5&" + "SystemCode=17&" + "ClientVersion=711&" + "Encoding=3");
-        // urlInput.trigger('input');
-        // saveClickTimes(e.currentTarget);
-        // let serviceResponseData = await Api.generationResponse(serviceList[i]);
-        // editor.set(serviceResponseData);
-        // let title = serviceList[i] || '';
-        // $('#rightResponseTitle').val(title);
-        // title += ' Response';
-        // $('#rightResponseTitle').text(title);
+        //await syncResponse();
+        urlInput.val("");
+        urlInput.trigger('input');
+        saveClickTimes(e.currentTarget);
       });
 
       initItemClickTime(item, serviceList[i]);
@@ -441,16 +435,52 @@ $(document).ready(async () => {
   }
 
   async function initScenceList(servicecode) {
-    let responses =  await Api.getResponseList(servicecode) || {services:[]};
-    $("#"+servicecode+"collapse").children().children().remove();
+    let collapseItem = $("#"+servicecode+"collapse");
+    $(`#${servicecode}collapse`).children().children().remove();
+    //add default
+
+    addScenceItem(servicecode,'default','default', async (item)=>{
+      let responses =  await Api.getServiceResponse(servicecode);
+      editor.set(responses);
+    });
+
+    if(requestConfig.getSelectedScenceID(servicecode) === 'default'){
+      collapseItem.prev().find('input').attr('checked',true);
+    }
+
+    let responses =  await Api.getServiceScenceList(servicecode,"lee") || {services:[]};
     for(let response of responses.services) {
-      const item = $('<label></label>');
-      item.append($(`<input type="radio" name=${servicecode}radio value="${response.scence}"/>`));
-      item.append(response.scence);
-      $("#"+servicecode+"collapse").children().append(item);
+      addScenceItem(servicecode,response._id,response.scence, async (item)=>{
+        let responses =  await Api.getResponse(response._id);
+        editor.set(responses);
+      });
+    }
+
+    if (requestConfig.getChecked(servicecode) === true){
+      collapseItem.prev().find('input').attr('checked',true);
     }
   }
 
+  function addScenceItem(servicecode,scenceID,scenceName,itemAction){
+    let collapseItem = $("#"+servicecode+"collapse");
+    const item = $(`<label></label>`);
+    item.append($(`<input type="radio" name=${servicecode}radio value="${scenceID}"/>`));
+    item.append(scenceName);
+    item.find('input').click((e)=>{
+      requestConfig.setSelect(servicecode,scenceID);
+      requestConfig.setChecked(servicecode,true);
+      item.parents('.collapse').prev().find('input').attr('checked',true);
+      let title = servicecode || '';
+      $('#rightResponseTitle').val(title);
+      title += ' Response ' + 'ScenceName:'+scenceName;
+      $('#rightResponseTitle').text(title);
+      itemAction($(e.currentTarget));
+    });
+    collapseItem.children().append(item);
+    if(requestConfig.getSelectedScenceID(servicecode) === scenceID){
+      item.find('input').attr('checked',true);
+    }
+  }
   //sort items by click times
   function sortItems(list) {
     let items = list.children();
@@ -555,11 +585,9 @@ $(document).ready(async () => {
     let id = $(e.currentTarget).attr('id');
     let idContent = '#' + id + 'Content';
     $.find('.d-flex[name=paramsContent]').forEach((item) => {
-      console.log($(item));
       $(item).css('cssText', 'display:none !important');
     });
     $(idContent).css('cssText', 'display:flex !important');
-    console.log(id);
   });
 
   function layoutMoveAction() {
@@ -573,7 +601,7 @@ $(document).ready(async () => {
 
     $(document).ready(() => {
       const height = rightcontent.height();
-      $('#resultcontent').css('height', height - 110);
+      $(`#resultcontent`).css('height', height - 110);
       const width = rightcontent.width();
       $('#urlbar').css('width', width - 15);
     });

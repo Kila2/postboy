@@ -1,5 +1,7 @@
-import express from "express";
+import express from 'express';
 import DBHelper from '../lib/DBHelper';
+import MongoDB from "mongodb";
+const ObjectID = MongoDB.ObjectID;
 
 const router = express.Router();
 let cacheServiceList = undefined;
@@ -25,61 +27,45 @@ router.get('/', async function(req, res, next) {
 
 });
 
-router.get('/response', async function(req, res, next) {
+router.get('/scenceList', async function(req, res, next) {
   let query = {
-    servicecode:"95004801",
-    username:"lee"
+    servicecode:req.query.servicecode,
+    username:req.query.username
   };
   let r = await DBHelper.db.collection('mockuser').find(query);
   let count = await r.count();
   let model = {services:[]};
-  model.services = await r.toArray();
-  res.send(JSON.stringify(model,null,2));
+  try{
+    r.forEach((item)=>{
+      let tmp = {
+        _id : item._id,
+        scence:item.scence,
+      };
+      model.services.push(tmp);
+    },(e)=>{
+      res.send(model,null,2);
+    });
+  }
+  catch(e){
+    res.send({error:"for each error"});
+  }
+
 });
 
+router.get('/response/', async function(req, res, next) {
+  try{
+    let r = await DBHelper.db.collection('mockuser').findOne({'_id':ObjectID(req.query.scenceid)});
+    res.send(r.response);
+  }
+  catch(e){
+    res.send({error:e.message});
+  }
+});
 
-router.get('/:servicecode', async function(req, res, next) {
+router.get('/response/:servicecode', async function(req, res, next) {
   let r = await DBHelper.db.collection('service').findOne({'servicecode':req.params.servicecode});
   let model = await processModel(r.response);
-  res.send(JSON.stringify(model,null,2));
-  // let servicecode = req.params.servicecode;
-  // if(Object.keys(req.query).length === 1 && Object.keys(req.query)[0] === '_') {
-  //   let model = await senddefault();
-  //   res.send(JSON.stringify(model,null,2));
-  // }
-  // if(req.query.last === '1') {
-  //   if(req.query.uid === undefined){
-  //     res.send({errorcode:1,errormessage:'uid is undefined'});
-  //   }
-  //   let uid = req.query.uid.trim();
-  //   let query = {
-  //     'servicecode':servicecode,
-  //     'username' :uid,
-  //     'scence':'default',
-  //   };
-  //   try{
-  //     let r = await DBHelper.db.collection('mockuser').find(query).sort({date:-1}).skip(0).limit(1);
-  //     if(!r.hasNext()){
-  //       let model = await senddefault();
-  //       res.send(model);
-  //     }
-  //     else {
-  //       r.forEach((item)=>{
-  //         return res.send(r.response);
-  //       });
-  //     }
-  //   }
-  //   catch(e){
-  //     console.log(e);
-  //   }
-  //   return res.send(senddefault());
-  // }
-  //
-  // async function senddefault(){
-  //   let r = await DBHelper.db.collection('service').findOne({'servicecode':servicecode});
-  //   let model = await processModel(r.response);
-  //   res.send(JSON.stringify(model,null,2));
-  // }
+  res.send(model);
 });
 
 
