@@ -50,5 +50,33 @@ router.put('/', async function (req, res, next) {
 
 });
 
+router.get('/', async function (req, res, next) {
+  try {
+    let username = req.query.username;
+    let query = {
+      "username": username
+    };
+    let rc = await DBHelper.db.collection('useconfig').findOne(query);
+    if (rc !== null){
+      res.send(rc);
+    }
+    else {
+      res.send({
+        errorcode: 101,
+        errormsg: 'username:'+username+' not found',
+      });
+    }
+
+  }
+  catch (e) {
+    res.send({
+      errorcode: 102,
+      errormsg: e.message,
+      errorstack: e.stack,
+    });
+  }
+
+});
+
 export default router;
 

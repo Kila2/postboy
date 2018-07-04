@@ -99,6 +99,13 @@ $(document).ready(async () => {
   //参数表格
   const paramsContent = $('#paramsContent');
 
+  requestConfig.sync();
+  if(requestConfig.username !== ""){
+    $('input[name=username]').val(requestConfig.username);
+  }
+  else {
+    $('#settingModal').modal().show();
+  }
   //初始化tab
   Tab.init(lefttabs);
   Tab.init(toptabs, 'top');
@@ -413,18 +420,23 @@ $(document).ready(async () => {
 
   }
   //modal dismiss action
-  $('#settingModal').on('hidden.bs.modal', function () {
-    alert('hidden event fired!');
-  });
-  $('#settingModal').on('shown.bs.modal', function () {
-    alert('show event fired!');
-  });
-  $('#settingModal').on('mouseup.dismiss.bs.modal', async function (e) {
-    requestConfig.appVer =  $('#settingModal').find('div[name=appVer]').find(":checked").val() || 1;
+  $('#settingModal').on('hidden.bs.modal', async function () {
+    let config = {
+      appVer:$('#settingModal').find('div[name=appVer]').find(":checked").val() || 1,
+    };
     let inputs = $('#settingModal').find('tbody').find('input');
     for(let aInput of inputs){
-      requestConfig[$(aInput).attr('name')] = $(aInput).val();
+      config[$(aInput).attr('name')] = $(aInput).val();
     }
+    requestConfig.setConfig(config);
+    if(requestConfig.username === ""){
+      alert('username不能为空');
+      $('#settingModal').modal().show()
+    }
+    else {
+      localStorage['username'] = requestConfig.username;
+    }
+
     servicelist.children().remove();
     await initServiceList();
     sortItems(servicelist);

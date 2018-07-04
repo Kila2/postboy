@@ -72,15 +72,15 @@ html(lang='zh-CN')
         // 模态框（Modal）
         #settingModal.modal.fade(tabindex='-1', role='dialog', aria-hidden='true')
             .modal-dialog
-                .modal-content
-                    .d-flex.modal-header
+                .modal-content(style='min-height:298px;')
+                    .d-flex.modal-header(style='min-height:40px;')
                         button#cratenew.col-6.navlightbg-select Create New
                         button#templates.col-6.navlightbg-normal Templates
                         button#apinetwork.col-6.navlightbg-normal API Network
                         .d-flex(style='flex:1')
                         button.close(type='button', data-dismiss='modal', aria-hidden='true',style='flex-basis: 40px;padding: 0px;margin: -5px 0 0 0 ')
                             | ×
-                    .modal-body
+                    .modal-body(style='min-height:253px;')
                         .d-flex.flex-column
                             .d-flex(name='appVer')
                                 label.radio-inline(style='margin-left: 30px;')
@@ -126,7 +126,7 @@ html(lang='zh-CN')
                                                     |  Encoding
                                             th
                                                 input(type='text',placeholder="e.g 3" value="3" name='Encoding')
-                    .d-flex.modal-footer.align-content-center
+                    .d-flex.modal-footer.align-content-center(style='min-height:33px;')
                         button.btn.btn-default(type='button', data-dismiss='modal' , style='line-height:0px')
                             | 关闭
     .container-fluid.h-100(style='margin-top:-50px;padding-top:50px')
