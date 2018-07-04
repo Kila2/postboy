@@ -1,6 +1,6 @@
 //import JSONEditor from './vendor';
 import JSONEditor from 'jsoneditor';
-import requestConfig from './Config';
+import requestConfig from './UserConfig';
 import Api from './Api';
 
 class HTTP {

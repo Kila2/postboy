@@ -1,4 +1,4 @@
-import requestConfig from "./Config";
+import requestConfig from "./UserConfig";
 import url from "url";
 
 export default class Api {
