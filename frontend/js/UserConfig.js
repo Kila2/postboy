@@ -18,7 +18,7 @@ class Config {
     if(this.username !== ""){
       let res = await Api.getSyncConfig();
       delete res._id;
-      this.setConfig(res);1
+      this.setConfig(res);
     }
   }
 

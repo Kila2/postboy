@@ -99,9 +99,15 @@ $(document).ready(async () => {
   //参数表格
   const paramsContent = $('#paramsContent');
 
-  requestConfig.sync();
+  await requestConfig.sync();
+
   if(requestConfig.username !== ""){
     $('input[name=username]').val(requestConfig.username);
+    $('input[name=appVer]').val(requestConfig.appVer);
+    $('input[name=Version]').val(requestConfig.Version);
+    $('input[name=SystemCode]').val(requestConfig.SystemCode);
+    $('input[name=ClientVersion]').val(requestConfig.ClientVersion);
+    $('input[name=Encoding]').val(requestConfig.Encoding);
   }
   else {
     $('#settingModal').modal().show();
@@ -446,6 +452,9 @@ $(document).ready(async () => {
     else {
       $('#serviceTab').text('国际版');
     }
+    Api.syncConfig({
+      configData:requestConfig
+    });
   });
 
   //click action

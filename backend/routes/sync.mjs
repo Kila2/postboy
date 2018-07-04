@@ -7,27 +7,29 @@ let router = express.Router();
 router.put('/', async function (req, res, next) {
   try {
     let body = req.body;
-    let responseData = body.responseData;
-    let servicecode = responseData.servicecode;
-    let scence = responseData.scence;
     let configData = body.configData;
     let username = configData.username;
-    let model = {
-      "username": username,
-      "servicecode": servicecode,
-      "scence": scence,
-      "response": responseData.response,
-      "date": new Date(),
-    };
     {
-      let query = {
-        "username": username,
-        "servicecode": servicecode,
-        "scence": scence,
-      };
-      let rc = await DBHelper.db.collection('mockuser').findOneAndUpdate(query, {$set: model});
-      if (rc.lastErrorObject.updatedExisting === false) {
-        DBHelper.db.collection('mockuser').insert(model)
+      let responseData = body.responseData;
+      if(responseData !== undefined) {
+        let servicecode = responseData.servicecode;
+        let scence = responseData.scence;
+        let model = {
+          "username": username,
+          "servicecode": servicecode,
+          "scence": scence,
+          "response": responseData.response,
+          "date": new Date(),
+        };
+        let query = {
+          "username": username,
+          "servicecode": servicecode,
+          "scence": scence,
+        };
+        let rc = await DBHelper.db.collection('mockuser').findOneAndUpdate(query, {$set: model});
+        if (rc.lastErrorObject.updatedExisting === false) {
+          DBHelper.db.collection('mockuser').insert(model)
+        }
       }
     }
     {
@@ -47,7 +49,6 @@ router.put('/', async function (req, res, next) {
       errorstack: e.stack,
     });
   }
-
 });
 
 router.get('/', async function (req, res, next) {
