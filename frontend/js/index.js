@@ -101,13 +101,8 @@ $(document).ready(async () => {
 
   await requestConfig.sync();
 
-  if(requestConfig.username !== ""){
-    $('input[name=username]').val(requestConfig.username);
-    $('input[name=appVer]').val(requestConfig.appVer);
-    $('input[name=Version]').val(requestConfig.Version);
-    $('input[name=SystemCode]').val(requestConfig.SystemCode);
-    $('input[name=ClientVersion]').val(requestConfig.ClientVersion);
-    $('input[name=Encoding]').val(requestConfig.Encoding);
+  if (requestConfig.username !== "") {
+    bindInputAndData();
   }
   else {
     $('#settingModal').modal().show();
@@ -130,60 +125,77 @@ $(document).ready(async () => {
 
   //init service list
   await initServiceList();
-  //对servicelist 的元素排序
-  sortItems(servicelist);
 
   bindURLAndParams();
 
-  //checkbox click
-  initCheckBoxClickAction();
-
   //private function
-  let syncTimeout = undefined;
 
+  function bindInputAndData() {
+    $('input[name=username]').val(requestConfig.username);
+    $('input[name=appVer]').val(requestConfig.appVer);
+    $('input[name=Version]').val(requestConfig.Version);
+    $('input[name=SystemCode]').val(requestConfig.SystemCode);
+    $('input[name=ClientVersion]').val(requestConfig.ClientVersion);
+    $('input[name=Encoding]').val(requestConfig.Encoding);
+  }
+
+  function bindCheckboxAndSelect(){
+    let serviceConfig;
+    if(requestConfig.appVer === "1"){
+      serviceConfig = requestConfig.ServiceConfig.primary;
+    }
+    else {
+      serviceConfig = requestConfig.ServiceConfig.internation;
+    }
+    for(let key in serviceConfig){
+      $('#'+key+"checkbox").prop('checked',serviceConfig[key].checked);
+    }
+  }
+
+  let syncTimeout = undefined;
   function onResponseEdited() {
     $('#syncresponse').text('UNSYNC');
-    $('#syncresponse').css('color','red');
+    $('#syncresponse').css('color', 'red');
     clearTimeout(syncTimeout);
     syncTimeout = setTimeout(() => {
       syncResponse();
     }, 5e3);//default 5s;
   }
 
-  async function syncResponse(){
+  async function syncResponse() {
     let servicecode = $(`#rightResponseTitle`).val().trim() || '';
-    if(servicecode === ''){
+    if (servicecode === '') {
       return;
     }
     let json = editor.get();
+
     let syncData = {
-      responseData:{
+      responseData: {
         scence: scence,
         servicecode: $(`#rightResponseTitle`).val(),
         response: json,
       },
-      configData:requestConfig
+      configData: requestConfig
     };
-    $(`#syncresponse`).text('IN SYNC...');
-    $(`#syncresponse`).css('color','red');
-    let rc = await Api.syncConfig(syncData);
-    $(`#syncresponse`).text('SYNC OK');
-    $(`#syncresponse`).css('color','green');
+    await syncDatas(syncData);
   }
 
-  function initCheckBoxClickAction() {
-    $('#left').find(':checkbox').click((e) => {
-      let check = $(e.currentTarget).prop('checked');
-      if (check === true) {
-        // let syncData = {
-        //   username: 'lee',
-        //   scence: 'default',
-        //   servicecode: '31000101'
-        // }
-        // Api.syncConfig();
-        console.log(check);
-      }
-    });
+  async function syncDatas(data) {
+    $(`#syncresponse`).text('IN SYNC...');
+    $(`#syncresponse`).css('color', 'red');
+    let rc = await Api.syncConfig(data);
+    $(`#syncresponse`).text('SYNC OK');
+    $(`#syncresponse`).css('color', 'green');
+  }
+
+  let syncConfigTimeout = undefined;
+  function syncConfig() {
+    $('#syncresponse').text('UNSYNC');
+    $('#syncresponse').css('color', 'red');
+    clearTimeout(syncConfigTimeout);
+    syncConfigTimeout = setTimeout(() => {
+      syncDatas({configData:requestConfig});
+    }, 5e3);//default 5s;
   }
 
   function bindURLAndParams() {
@@ -276,7 +288,7 @@ $(document).ready(async () => {
       item.append($(
         `<div class="d-flex flex-row">
             <div class="input-group-prepend">
-                <input type="checkbox">
+                <input type="checkbox" id=${serviceList[i]}checkbox value=${serviceList[i]}>
             </div>
             <a style="width:80px">${serviceList[i]}</a>
             <div class="rebutton">
@@ -310,7 +322,7 @@ $(document).ready(async () => {
       });
       resItem.click(async (e) => {
 
-      let target = $(e.currentTarget);
+        let target = $(e.currentTarget);
         await initScenceList(serviceList[i]);
         //await syncResponse();
         urlInput.val("");
@@ -320,56 +332,69 @@ $(document).ready(async () => {
 
       initItemClickTime(item, serviceList[i]);
       servicelist.append(item);
+      bindCheckboxAndSelect();
+
+      //checkbox click
+      item.find(':checkbox').click((e) => {
+        let check = item.find(':checkbox').prop('checked');
+        let serviceCode = item.find(':checkbox').attr('value');
+        requestConfig.setChecked(serviceCode,check);
+        syncConfig();
+      });
     }
+    //对servicelist 的元素排序
+    sortItems(servicelist);
   }
 
   async function initScenceList(servicecode) {
-    let collapseItem = $("#"+servicecode+"collapse");
+    let collapseItem = $("#" + servicecode + "collapse");
     $(`#${servicecode}collapse`).children().children().remove();
     //add default
 
-    addScenceItem(servicecode,'default','default', async (item)=>{
-      let responses =  await Api.getServiceResponse(servicecode);
+    addScenceItem(servicecode, 'default', 'default', async (item) => {
+      let responses = await Api.getServiceResponse(servicecode);
       editor.set(responses);
     });
 
-    if(requestConfig.getSelectedScenceID(servicecode) === 'default'){
-      collapseItem.prev().find('input').attr('checked',true);
+    if (requestConfig.getSelectedScenceID(servicecode) === 'default') {
+      collapseItem.prev().find('input').attr('checked', true);
     }
 
-    let responses =  await Api.getServiceScenceList(servicecode,requestConfig.username) || {services:[]};
-    for(let response of responses.services) {
-      addScenceItem(servicecode,response._id,response.scence, async (item)=>{
-        let responses =  await Api.getResponse(response._id);
+    let responses = await Api.getServiceScenceList(servicecode, requestConfig.username) || {services: []};
+    for (let response of responses.services) {
+      addScenceItem(servicecode, response._id, response.scence, async (item) => {
+        let responses = await Api.getResponse(response._id);
         editor.set(responses);
       });
     }
 
-    if (requestConfig.getChecked(servicecode) === true){
-      collapseItem.prev().find('input').attr('checked',true);
+    if (requestConfig.getChecked(servicecode) === true) {
+      collapseItem.prev().find('input').attr('checked', true);
     }
   }
 
-  function addScenceItem(servicecode,scenceID,scenceName,itemAction){
-    let collapseItem = $("#"+servicecode+"collapse");
+  function addScenceItem(servicecode, scenceID, scenceName, itemAction) {
+    let collapseItem = $("#" + servicecode + "collapse");
     const item = $(`<label></label>`);
     item.append($(`<input type="radio" name=${servicecode}radio value="${scenceID}"/>`));
     item.append(scenceName);
-    item.find('input').click((e)=>{
-      requestConfig.setSelect(servicecode,scenceID);
-      requestConfig.setChecked(servicecode,true);
-      item.parents('.collapse').prev().find('input').attr('checked',true);
+    item.find('input').click((e) => {
+      requestConfig.setSelect(servicecode, scenceID);
+      requestConfig.setChecked(servicecode, true);
+      item.parents('.collapse').prev().find('input').attr('checked', true);
       let title = servicecode || '';
       $('#rightResponseTitle').val(title);
-      title += ' Response ' + 'ScenceName:'+scenceName;
+      title += ' Response ' + 'ScenceName:' + scenceName;
       $('#rightResponseTitle').text(title);
       itemAction($(e.currentTarget));
+      syncConfig();
     });
     collapseItem.children().append(item);
-    if(requestConfig.getSelectedScenceID(servicecode) === scenceID){
-      item.find('input').attr('checked',true);
+    if (requestConfig.getSelectedScenceID(servicecode) === scenceID) {
+      item.find('input').attr('checked', true);
     }
   }
+
   //sort items by click times
   function sortItems(list) {
     let items = list.children();
@@ -411,7 +436,7 @@ $(document).ready(async () => {
 
   function initItemClickTime(item, serviceCode) {
     let localKey = "";
-    if(requestConfig.appVer ===  "2"){
+    if (requestConfig.appVer === "2") {
       localKey = "internationServiceClickTimes";
     }
     else {
@@ -425,17 +450,18 @@ $(document).ready(async () => {
     item.attr("ct", serviceClickTimes[serviceCode] || 0);
 
   }
+
   //modal dismiss action
   $('#settingModal').on('hidden.bs.modal', async function () {
     let config = {
-      appVer:$('#settingModal').find('div[name=appVer]').find(":checked").val() || 1,
+      appVer: $('#settingModal').find('div[name=appVer]').find(":checked").val() || "1",
     };
     let inputs = $('#settingModal').find('tbody').find('input');
-    for(let aInput of inputs){
+    for (let aInput of inputs) {
       config[$(aInput).attr('name')] = $(aInput).val();
     }
     requestConfig.setConfig(config);
-    if(requestConfig.username === ""){
+    if (requestConfig.username === "") {
       alert('username不能为空');
       $('#settingModal').modal().show()
     }
@@ -446,14 +472,14 @@ $(document).ready(async () => {
     servicelist.children().remove();
     await initServiceList();
     sortItems(servicelist);
-    if(requestConfig.appVer === "1"){
+    if (requestConfig.appVer === "1") {
       $('#serviceTab').text('主版');
     }
     else {
       $('#serviceTab').text('国际版');
     }
     Api.syncConfig({
-      configData:requestConfig
+      configData: requestConfig
     });
   });
 

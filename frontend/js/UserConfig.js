@@ -4,11 +4,11 @@ class Config {
   constructor(){
     this.username = localStorage["username"] || "";
     this.username = this.username.trim();
-    this.appVer = 1;//1主板，2国际版
-    this.Version = 5;//通信协议版本号
-    this.SystemCode = 17;//17 iOS
-    this.ClientVersion = 711;//客户端版本
-    this.Encoding = 3;//请求返回JSON
+    this.appVer = "1";//1主板，2国际版
+    this.Version = "5";//通信协议版本号
+    this.SystemCode = "17";//17 iOS
+    this.ClientVersion = "711";//客户端版本
+    this.Encoding = "3";//请求返回JSON
     this.ServiceConfig = {
       internation:{},//主版配置文件
       primary:{},//国际版配置文件
@@ -24,7 +24,7 @@ class Config {
 
   getSelectedScenceID(serviceCode){
     let serviceCodeConfig;
-    if(this.appVer === 1){
+    if(this.appVer === "1"){
       serviceCodeConfig = this.ServiceConfig.primary[serviceCode];
     }
     else {
@@ -33,7 +33,7 @@ class Config {
     return serviceCodeConfig !== undefined ? (serviceCodeConfig['selectScenceID'] || 'default') : 'default';
   }
   setSelect(serviceCode,selectScenceID) {
-    if(this.appVer === 1){
+    if(this.appVer === "1"){
       if(this.ServiceConfig.primary[serviceCode] === undefined){
         this.ServiceConfig.primary[serviceCode] = {};
       }
@@ -48,7 +48,7 @@ class Config {
   }
   getChecked(serviceCode){
     let serviceCodeConfig;
-    if(this.appVer === 1){
+    if(this.appVer === "1"){
       serviceCodeConfig = this.ServiceConfig.primary[serviceCode];
     }
     else {
@@ -57,7 +57,7 @@ class Config {
     return serviceCodeConfig !== undefined ? (serviceCodeConfig['checked'] || false) : false;
   }
   setChecked(serviceCode,isChecked) {
-    if(this.appVer === 1){
+    if(this.appVer === "1"){
       if(this.ServiceConfig.primary[serviceCode] === undefined){
         this.ServiceConfig.primary[serviceCode] = {};
       }
@@ -70,12 +70,19 @@ class Config {
       this.ServiceConfig.internation[serviceCode]['checked'] = isChecked;
     }
   }
-  setConfig(config){
-    for (let key in config){
-      this[key] = config[key];
-    }
+  setConfig(config) {
+    this.username = config.username || "";
     this.username = this.username.trim();
+    this.appVer = config.appVer;
+    this.Version = config.Version;
+    this.SystemCode = config.SystemCode;
+    this.ClientVersion = config.ClientVersion;
+    this.Encoding = config.Encoding;
+    if (config.ServiceConfig !== undefined) {
+      this.ServiceConfig = config.ServiceConfig;
+    }
   }
+
 }
 let config = new Config();
 
