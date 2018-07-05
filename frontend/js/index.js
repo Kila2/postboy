@@ -359,7 +359,7 @@ $(document).ready(async () => {
       collapseItem.prev().find('input').attr('checked', true)
     }
 
-    let responses = await Api.getServiceScenceList(servicecode, requestConfig.username) || {services: []};
+    let responses = await Api.getServiceScenceList(servicecode) || {services: []};
     for (let response of responses.services) {
       addScenceItem(servicecode, response._id, response.scence, async (item) => {
         let responses = await Api.getResponse(response._id);
@@ -373,9 +373,33 @@ $(document).ready(async () => {
 
     //add new button
     let addNewItem = $(`<button name="addNew">新增</button>`);
+    let newInputItem = $(`<input name="addNewInput" placeholder="请输入场景名称"/>`);
     collapseItem.children().append(addNewItem);
-    addNewItem.click((e)=>{
-      
+    addNewItem.click(async (e)=>{
+      if(addNewItem.text() === '新增'){
+        if(addNewItem.prev().attr('name')!=='addNew'){
+          addNewItem.before(newInputItem);
+        }
+        newInputItem.focus();
+        newInputItem.one('input propertychange',(e)=>{
+          if(addNewItem.text() === '新增'){
+            addNewItem.text('确认添加');
+          }
+        });
+        newInputItem.on('blur',(e)=>{
+          let newInputVal = newInputItem.val().trim() || "";
+          if(newInputVal === ""){
+            newInputItem.remove();
+            newInputItem.unbind();
+            addNewItem.text('新增');
+          }
+        });
+      }
+      else {
+        //确认添加
+        let scenceName = newInputItem.val().trim();
+        let res = await Api.addServiceScence(servicecode,scenceName);
+      }
     });
   }
 

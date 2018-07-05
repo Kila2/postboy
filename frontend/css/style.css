@@ -94,16 +94,22 @@ div.jsoneditor-outer{
     padding-right:10px;
     padding-top: 11px;
 }
+input[name="addNewInput"],
 button[name="addNew"] {
     width:100%;
-    margin-top:8px;
-    margin-bottom:8px;
+    margin-top: 8px;
 }
+button[name="addNew"] {
+    width:100%;
+    margin-bottom: 8px;
+}
+input[name="addNewInput"],
 button[name="addNew"],
 #serviceList > ul > li > div > .rebutton{
     flex: 1;
 }
 
+input[name="addNewInput"],
 button[name="addNew"],
 #serviceList > ul > li > div > .rebutton > button{
     background-color: dodgerblue;
@@ -112,6 +118,13 @@ button[name="addNew"],
     margin-left: 8px;
     line-height: 0;
     color: white;
+}
+
+input[name="addNewInput"] {
+    border-width: 1px;
+    background-color: white;
+    border-color: dodgerblue;
+    color: #000;
 }
 
 #paramstable > tfoot > tr > td,

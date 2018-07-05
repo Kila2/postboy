@@ -79,14 +79,29 @@ export default class Api {
     return res;
   }
 
-  static async getServiceScenceList(serviceCode,username) {
+  static async getServiceScenceList(serviceCode) {
     let res = await $.ajax({
       method: "get",
       cache: false,
-      url: "service/scenceList?servicecode="+serviceCode +"&username="+username
+      url: "service/scenceList?servicecode="+serviceCode +"&username="+requestConfig.username
     });
     return res;
   }
+
+  static async addServiceScence(serviceCode,scenceName) {
+    let res = await $.ajax({
+      method: "post",
+      cache: false,
+      url: "service/scence",
+      data:{
+        servicecode:serviceCode,
+        scencename:scenceName,
+        username:requestConfig.username,
+      }
+    });
+    return res;
+  }
+
 
   static async sendServiceToCtripService() {
 
