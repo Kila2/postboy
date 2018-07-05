@@ -350,6 +350,9 @@ $(document).ready(async () => {
     $(`#${servicecode}collapse`).children().children().remove();
     //add default
 
+    let addNewItem = $(`<button name="addNew">新增</button>`);
+    collapseItem.children().append(addNewItem);
+
     addScenceItem(servicecode, 'default', 'default', async (item) => {
       let responses = await Api.getServiceResponse(servicecode);
       editor.set(responses);
@@ -372,9 +375,8 @@ $(document).ready(async () => {
     }
 
     //add new button
-    let addNewItem = $(`<button name="addNew">新增</button>`);
+
     let newInputItem = $(`<input name="addNewInput" placeholder="请输入场景名称"/>`);
-    collapseItem.children().append(addNewItem);
     addNewItem.click(async (e)=>{
       if(addNewItem.text() === '新增'){
         if(addNewItem.prev().attr('name')!=='addNew'){
@@ -387,18 +389,27 @@ $(document).ready(async () => {
           }
         });
         newInputItem.on('blur',(e)=>{
-          let newInputVal = newInputItem.val().trim() || "";
-          if(newInputVal === ""){
-            newInputItem.remove();
-            newInputItem.unbind();
-            addNewItem.text('新增');
-          }
+          setTimeout(()=>{
+            let newInputVal = newInputItem.val().trim() || "";
+            if(newInputVal === ""){
+              newInputItem.remove();
+              newInputItem.unbind();
+              addNewItem.text('新增');
+            }
+          });
         });
       }
       else {
         //确认添加
         let scenceName = newInputItem.val().trim();
         let res = await Api.addServiceScence(servicecode,scenceName);
+        newInputItem.remove();
+        newInputItem.unbind();
+        addNewItem.text('新增');
+        addScenceItem(servicecode, res.scenceId, scenceName, async (item) => {
+          let responses = await Api.getResponse(res.scenceId);
+          editor.set(responses);
+        });
       }
     });
   }
@@ -419,7 +430,7 @@ $(document).ready(async () => {
       itemAction($(e.currentTarget));
       syncConfig();
     });
-    collapseItem.children().append(item);
+    collapseItem.children().children(':last').before(item);
     if (requestConfig.getSelectedScenceID(servicecode) === scenceID) {
       item.find('input').attr('checked', true).trigger('click');
     }

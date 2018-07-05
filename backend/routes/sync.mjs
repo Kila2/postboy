@@ -38,7 +38,7 @@ router.put('/', async function (req, res, next) {
       };
       let rc = await DBHelper.db.collection('userconfig').findOneAndUpdate(query, {$set: configData});
       if (rc.lastErrorObject.updatedExisting === false) {
-        DBHelper.db.collection('userconfig').insert(configData)
+        await DBHelper.db.collection('userconfig').insert(configData)
       }
     }
     res.send({errorcode: 0});
