@@ -1,5 +1,7 @@
 import express from "express";
 import DBHelper from './DBHelper';
+import MongoDB from "mongodb";
+const ObjectID = MongoDB.ObjectID;
 
 let router = express.Router();
 
@@ -13,14 +15,32 @@ router.get('/', async function(req, res, next) {
       resultMessage:"uid不能为空或servicecode不能为空"
     });
   }
-  let query = {
-    'servicecode':servicecode,
-    'username' :uid,
-    'scence':'default',
-  };
   try{
-    let r = await DBHelper.db.collection('mockuser').findOne(query);
-    return res.send(r.response);
+    let userconfig = await DBHelper.db.collection('userconfig').findOne({username:uid});
+    let serviceConfig;
+    if(userconfig.appVer === "1"){
+      serviceConfig = userconfig.ServiceConfig.primary;
+    }
+    else {
+      serviceConfig = userconfig.ServiceConfig.internation;
+    }
+
+    if(serviceConfig[servicecode] !== undefined && serviceConfig[servicecode].checked){
+      let selectScenceID = serviceConfig[servicecode].selectScenceID || "default";
+      if(selectScenceID === "default"){
+        res.redirect('../service/response/'+servicecode);
+      }
+      else {
+        let query = {
+          '_id':ObjectID(serviceConfig[servicecode].selectScenceID),
+        };
+        let r = await DBHelper.db.collection('mockuser').findOne(query);
+        return res.send(r.response);
+      }
+    }
+    else {
+      return res.send("");
+    }
   }
   catch(e){
     console.log(e);

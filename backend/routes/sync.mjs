@@ -36,9 +36,9 @@ router.put('/', async function (req, res, next) {
       let query = {
         "username": username
       };
-      let rc = await DBHelper.db.collection('useconfig').findOneAndUpdate(query, {$set: configData});
+      let rc = await DBHelper.db.collection('userconfig').findOneAndUpdate(query, {$set: configData});
       if (rc.lastErrorObject.updatedExisting === false) {
-        DBHelper.db.collection('useconfig').insert(configData)
+        DBHelper.db.collection('userconfig').insert(configData)
       }
     }
     res.send({errorcode: 0});
@@ -57,7 +57,7 @@ router.get('/', async function (req, res, next) {
     let query = {
       "username": username
     };
-    let rc = await DBHelper.db.collection('useconfig').findOne(query);
+    let rc = await DBHelper.db.collection('userconfig').findOne(query);
     if (rc !== null){
       res.send(rc);
     }
