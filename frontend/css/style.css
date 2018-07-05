@@ -94,9 +94,17 @@ div.jsoneditor-outer{
     padding-right:10px;
     padding-top: 11px;
 }
+button[name="addNew"] {
+    width:100%;
+    margin-top:8px;
+    margin-bottom:8px;
+}
+button[name="addNew"],
 #serviceList > ul > li > div > .rebutton{
     flex: 1;
 }
+
+button[name="addNew"],
 #serviceList > ul > li > div > .rebutton > button{
     background-color: dodgerblue;
     height: 20px;

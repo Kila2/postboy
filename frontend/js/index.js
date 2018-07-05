@@ -321,7 +321,6 @@ $(document).ready(async () => {
         editor.set({});
       });
       resItem.click(async (e) => {
-
         let target = $(e.currentTarget);
         await initScenceList(serviceList[i]);
         //await syncResponse();
@@ -357,7 +356,7 @@ $(document).ready(async () => {
     });
 
     if (requestConfig.getSelectedScenceID(servicecode) === 'default') {
-      collapseItem.prev().find('input').attr('checked', true);
+      collapseItem.prev().find('input').attr('checked', true)
     }
 
     let responses = await Api.getServiceScenceList(servicecode, requestConfig.username) || {services: []};
@@ -371,6 +370,13 @@ $(document).ready(async () => {
     if (requestConfig.getChecked(servicecode) === true) {
       collapseItem.prev().find('input').attr('checked', true);
     }
+
+    //add new button
+    let addNewItem = $(`<button name="addNew">新增</button>`);
+    collapseItem.children().append(addNewItem);
+    addNewItem.click((e)=>{
+      
+    });
   }
 
   function addScenceItem(servicecode, scenceID, scenceName, itemAction) {
@@ -391,7 +397,7 @@ $(document).ready(async () => {
     });
     collapseItem.children().append(item);
     if (requestConfig.getSelectedScenceID(servicecode) === scenceID) {
-      item.find('input').attr('checked', true);
+      item.find('input').attr('checked', true).trigger('click');
     }
   }
 
