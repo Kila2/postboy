@@ -416,9 +416,14 @@ $(document).ready(async () => {
 
   function addScenceItem(servicecode, scenceID, scenceName, itemAction) {
     let collapseItem = $("#" + servicecode + "collapse");
-    const item = $(`<label></label>`);
-    item.append($(`<input type="radio" name=${servicecode}radio value="${scenceID}"/>`));
-    item.append(scenceName);
+    const item = $(`
+    <div>
+        <label class="flex:1">
+            <input type="radio" name=${servicecode}radio value="${scenceID}"/>
+            ${scenceName}
+        </label>
+        <button class="fas fa-trash-alt"></button>
+    </div>`);
     item.find('input').click((e) => {
       requestConfig.setSelect(servicecode, scenceID);
       requestConfig.setChecked(servicecode, true);

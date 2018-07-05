@@ -29,7 +29,7 @@ ul {
 }
 
 
-#requestbodyeditor > div > .jsoneditor-statusbar{
+#requestbodyeditor .jsoneditor-statusbar{
     display: none;
 }
 .jsoneditor-menu{
@@ -55,17 +55,21 @@ div.jsoneditor-outer{
 }
 
 
-#serviceList > ul > li > .collapse {
+#serviceList .collapse {
     min-height: 45px;
 }
-#serviceList > ul > li > .collapsing > div > label,
-#serviceList > ul > li > .collapse > div > label {
+#serviceList .collapsing > div > div,
+#serviceList .collapse > div > div {
+    height: 30px;
+}
+#serviceList .collapsing > div > div > label,
+#serviceList .collapse > div > div  label {
     margin: 0px;
     height: 25px;
     line-height: 1.7;
 }
-#serviceList > ul > li > .collapsing > div > label > input,
-#serviceList > ul > li > .collapse > div > label > input {
+#serviceList .collapsing label input,
+#serviceList .collapse label input {
     margin-left: 10px;
     margin-right: 8px;
     line-height: 0;
@@ -73,8 +77,8 @@ div.jsoneditor-outer{
     vertical-align: sub;
 }
 
-#serviceList > ul > li > .collapsing > .card,
-#serviceList > ul > li > .collapse > .card {
+#serviceList .collapsing > .card,
+#serviceList .collapse > .card {
    align-items: flex-start;
    padding: 5px 20px 5px 20px;
    min-height: 45px;
@@ -89,7 +93,7 @@ div.jsoneditor-outer{
     justify-content: start;
 }
 
-#serviceList > ul > li > div > .input-group-prepend{
+#serviceList .input-group-prepend{
     padding-left: 20px;
     padding-right:10px;
     padding-top: 11px;
@@ -105,13 +109,13 @@ button[name="addNew"] {
 }
 input[name="addNewInput"],
 button[name="addNew"],
-#serviceList > ul > li > div > .rebutton{
+#serviceList  .rebutton{
     flex: 1;
 }
 
 input[name="addNewInput"],
 button[name="addNew"],
-#serviceList > ul > li > div > .rebutton > button{
+#serviceList .rebutton > button{
     background-color: dodgerblue;
     height: 20px;
     vertical-align: middle;
@@ -127,10 +131,8 @@ input[name="addNewInput"] {
     color: #000;
 }
 
-#paramstable > tfoot > tr > td,
-#paramstable > tfoot > tr > th,
-#paramstable > tbody > tr > td,
-#paramstable > tbody > tr > th {
+#paramstable td,
+#paramstable th {
     height: 30px;
     min-height: 30px;
     border-width: 0px 0px 1px 1px;
@@ -454,7 +456,7 @@ nav {
     padding:40px 10% 60px 10%;
     margin:0px;
 }
-#settingModal > .modal-dialog > .modal-content {
+#settingModal .modal-content {
     max-height:570px;
     width:100%;
     height:100%;
@@ -462,37 +464,37 @@ nav {
     margin:0px;
 }
 
-#settingModal > .modal-dialog > .modal-content > .modal-header {
+#settingModal .modal-header {
     flex-basis: 40px;
     padding: 0px;
     justify-content: space-between;
     border-radius: 4px 4px 0px 0px;
 }
-#settingModal > .modal-dialog > .modal-content > .modal-header > button:first-child{
+#settingModal .modal-header > button:first-child{
     border-radius: 4px 0px 0px 0px;
 }
-#settingModal > .modal-dialog > .modal-content > .modal-header > button {
+#settingModal .modal-header button {
     padding: 0px;
     flex: 1;
     height: 100%;
     flex-grow: 0;
     flex-basis: 120px;
 }
-#settingModal > .modal-dialog > .modal-content > .modal-body {
+#settingModal .modal-body {
 
 }
-#settingModal > .modal-dialog > .modal-content > .modal-footer {
+#settingModal .modal-footer {
     height:35px;
     background-color: #FAFAFA;
     border-radius: 0px 0px 4px 4px;
 }
-.modal-body >.d-flex > .d-flex > table > tbody > tr > th > label{
+.modal-body tbody label{
     margin: 0px 0px 0px 10px;
 }
-.modal-body >.d-flex > .d-flex > table > tbody > tr > th {
+.modal-body tbody th {
     padding-bottom: 8px;
 }
-.modal-body >.d-flex > .d-flex > table > tbody > tr > th > input{
+.modal-body tbody input{
     margin-left: 8px;
     border-width: 1px;
 }
