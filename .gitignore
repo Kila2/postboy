@@ -87,3 +87,5 @@ mongod
 *.njsproj
 *.sln
 svnconfig.js
+svn/.svn
+*.xlsx
