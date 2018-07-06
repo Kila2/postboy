@@ -10,15 +10,16 @@ how to run?
 6.`$mv svnconfig.js.tmpl svnconfig.js`<br>
 7.`$npm run gendata`<br>
 8.`$npm run start-dev` If failed please check if you install webapack.
-
+9. Next you can add and edit some datas. and enter http://localhost:8083/MockServer/appserver?uid=lee&servicecode=1234561 find mockdata.
 
 what is it?
 ===
-It's a Web UI copy from Postman. It's use NodeJS JS HTML Pug CSS etc. for develop language.
+I Dont know
+<!-- It's a Web UI copy from Postman. It's use NodeJS JS HTML Pug CSS etc. for develop language.
 Welcome to Pull requests
 <p align="center" >
   <img src="https://github.com/Kila2/postboy/blob/master/md/main.png" title="postboy">
-</p>
+</p> -->
 
 Todo List
 ===
