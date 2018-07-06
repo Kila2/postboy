@@ -286,7 +286,7 @@ $(document).ready(async () => {
     for (let i = 0; i < serviceList.length; i++) {
       const item = $(`<li class="input-group;flex-direction: column"></li>`);
       item.append($(
-        `<div class="d-flex flex-row">
+        `<div class="d-flex flex-row" style="min-width:220px">
             <div class="input-group-prepend">
                 <input type="checkbox" id=${serviceList[i]}checkbox value=${serviceList[i]}>
             </div>

@@ -3,11 +3,12 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "cross-env NODE_ENV=production node --experimental-modules ./backend/bin/www",
-    "start-dev": "cross-env DEBUG=postboy:* cross-env PORT=8082 node --experimental-modules ./backend/bin/www \"npm run build-dev\"",
+    "start": "cross-env NODE_ENV=production cross-env PORT=8082 node --experimental-modules ./backend/bin/www",
+    "start-dev": "cross-env DEBUG=postboy:* cross-env PORT=8083 node --experimental-modules ./backend/bin/www",
     "start-qytask": "node --experimental-modules ./qytask/qytask",
     "lint": "eslint .",
-    "build": "webpack-cli"
+    "build": "webpack-cli --config webpack.pro.config.js",
+    "dist": "forever start -c \"npm start\" ./"
   },
   "dependencies": {
     "algorithms": "^0.10.0",
@@ -45,6 +46,7 @@
     "eslint-plugin-import": "^2.12.0",
     "http-proxy-middleware": "^0.18.0",
     "mime": "^2.3.1",
+    "uglifyjs-webpack-plugin": "^1.2.7",
     "webpack": "4",
     "webpack-cli": "^3.0.7",
     "webpack-dev-middleware": "^3.1.3"

@@ -44,7 +44,6 @@ module.exports = {
     ],
   },
   plugins: [
-    new CleanWebpackPlugin(['build']),
      new CopyWebpackPlugin([
       { from: path.join(frontendCodePath, 'css/*'), to: 'css/[name].[ext]' },
       { from: path.join(frontendCodePath, 'fonts/css/*'), to: 'fonts/css/[name].[ext]' },

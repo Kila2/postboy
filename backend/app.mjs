@@ -11,10 +11,9 @@ import syncRouter from './routes/sync';
 import { apiProxy } from './lib/ApiProxy';
 import webpackDevMiddleware from "webpack-dev-middleware";
 import CtripMockServerProxy from './lib/CtripMockServerProxy';
-
 import webpack from "webpack";
 
-import config from "../webpack.config.js";
+import config from "../webpack.dev.config.js";
 
 const compiler = webpack(config);
 
@@ -34,9 +33,12 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(webpackDevMiddleware(compiler, {
-  publicPath: config.output.publicPath
-}));
+
+if(process.env.NODE_ENV !== "production"){
+  app.use(webpackDevMiddleware(compiler, {
+    publicPath: config.output.publicPath
+  }));
+}
 
 app.use(logger('dev'));
 app.use(express.json());
