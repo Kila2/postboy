@@ -98,13 +98,16 @@ $(document).ready(async () => {
   //参数表格
   const paramsContent = $('#paramsContent');
 
+  const settingModal = $('#settingModal');
+  const syncresponse = $('#syncresponse');
+  const rightResponseTitle = $(`#rightResponseTitle`);
   await requestConfig.sync();
 
   if (requestConfig.username !== "") {
     bindInputAndData();
   }
   else {
-    $('#settingModal').modal().show();
+    settingModal.modal().show();
   }
   //初始化tab
   Tab.init(lefttabs);
@@ -138,31 +141,34 @@ $(document).ready(async () => {
     $('input[name=Encoding]').val(requestConfig.Encoding);
   }
 
-  function bindCheckboxAndSelect(){
+  function bindCheckboxAndSelect() {
     let serviceConfig;
-    if(requestConfig.appVer === "1"){
+    if (requestConfig.appVer === "1") {
       serviceConfig = requestConfig.ServiceConfig.primary;
     }
     else {
       serviceConfig = requestConfig.ServiceConfig.internation;
     }
-    for(let key in serviceConfig){
-      $('#'+key+"checkbox").prop('checked',serviceConfig[key].checked);
+    for (let key in serviceConfig) {
+      if (serviceConfig.hasOwnProperty(key)) {
+        $(`#${key}checkbox`).prop('checked', serviceConfig[key].checked);
+      }
     }
   }
 
   let syncTimeout = undefined;
+
   function onResponseEdited() {
-    $('#syncresponse').text('UNSYNC');
-    $('#syncresponse').css('color', 'red');
+    syncresponse.text('UNSYNC');
+    syncresponse.css('color', 'red');
     clearTimeout(syncTimeout);
-    syncTimeout = setTimeout(() => {
-      syncResponse();
+    syncTimeout = setTimeout(async () => {
+      await syncResponse();
     }, 5e3);//default 5s;
   }
 
   async function syncResponse() {
-    let servicecode = $(`#rightResponseTitle`).val().trim() || '';
+    let servicecode = rightResponseTitle.val().trim() || '';
     if (servicecode === '') {
       return;
     }
@@ -170,8 +176,8 @@ $(document).ready(async () => {
 
     let syncData = {
       responseData: {
-        scence: $(`#rightResponseTitle`).attr('scencename'),
-        servicecode: $(`#rightResponseTitle`).val(),
+        scence: rightResponseTitle.attr('scencename'),
+        servicecode: rightResponseTitle.val(),
         response: json,
       },
       configData: requestConfig
@@ -180,27 +186,28 @@ $(document).ready(async () => {
   }
 
   async function syncDatas(data) {
-    $(`#syncresponse`).text('IN SYNC...');
-    $(`#syncresponse`).css('color', 'red');
-    let rc = await Api.syncConfig(data);
-    $(`#syncresponse`).text('SYNC OK');
-    $(`#syncresponse`).css('color', 'green');
+    syncresponse.text('IN SYNC...');
+    syncresponse.css('color', 'red');
+    await Api.syncConfig(data);
+    syncresponse.text('SYNC OK');
+    syncresponse.css('color', 'green');
   }
 
   let syncConfigTimeout = undefined;
+
   function syncConfig() {
-    $('#syncresponse').text('UNSYNC');
-    $('#syncresponse').css('color', 'red');
+    syncresponse.text('UNSYNC');
+    syncresponse.css('color', 'red');
     clearTimeout(syncConfigTimeout);
-    syncConfigTimeout = setTimeout(() => {
-      syncDatas({configData:requestConfig});
+    syncConfigTimeout = setTimeout(async () => {
+      await syncDatas({configData: requestConfig});
     }, 5e3);//default 5s;
   }
 
   function bindURLAndParams() {
     let tfoot = paramstable.find('tfoot').children();
 
-    urlInput.on('input propertychange', (ev) => {
+    urlInput.on('input propertychange', () => {
       let query = parseQueryString(urlInput.val());
       paramsContent.children().remove();
       for (let i = 0; i < query.length; i++) {
@@ -208,7 +215,7 @@ $(document).ready(async () => {
         let inputs = item.find('input');
         let key = $(inputs[0]);
         let value = $(inputs[1]);
-        let description = $(inputs[2]);
+        //let description = $(inputs[2]);
         inputs.attr('placeholder', '');
         key.val(query[i].key);
         value.val(query[i].value);
@@ -315,14 +322,12 @@ $(document).ready(async () => {
         saveClickTimes(e.currentTarget);
         let preRequestData = await Api.generationRequest(urlInput.val());
         requestbodyeditor.set(preRequestData);
-        $('#rightResponseTitle').text('Response');
-        $('#rightResponseTitle').val('');
+        rightResponseTitle.text('Response');
+        rightResponseTitle.val('');
         editor.set({});
       });
       resItem.click(async (e) => {
-        let target = $(e.currentTarget);
         await initScenceList(serviceList[i]);
-        //await syncResponse();
         urlInput.val("");
         urlInput.trigger('input');
         saveClickTimes(e.currentTarget);
@@ -333,10 +338,10 @@ $(document).ready(async () => {
       bindCheckboxAndSelect();
 
       //checkbox click
-      item.find(':checkbox').click((e) => {
+      item.find(':checkbox').click(() => {
         let check = item.find(':checkbox').prop('checked');
         let serviceCode = item.find(':checkbox').attr('value');
-        requestConfig.setChecked(serviceCode,check);
+        requestConfig.setChecked(serviceCode, check);
         syncConfig();
       });
     }
@@ -352,7 +357,7 @@ $(document).ready(async () => {
     let addNewItem = $(`<button name="addNew">新增</button>`);
     collapseItem.children().append(addNewItem);
 
-    addScenceItem(servicecode, 'default', 'default', async (item) => {
+    addScenceItem(servicecode, 'default', 'default', async () => {
       let responses = await Api.getServiceResponse(servicecode);
       editor.set(responses);
     });
@@ -364,7 +369,7 @@ $(document).ready(async () => {
 
     let responses = await Api.getServiceScenceList(servicecode) || {services: []};
     for (let response of responses.services) {
-      addScenceItem(servicecode, response._id, response.scence, async (item) => {
+      addScenceItem(servicecode, response._id, response.scence, async () => {
         let responses = await Api.getResponse(response._id);
         editor.set(responses);
       });
@@ -377,21 +382,21 @@ $(document).ready(async () => {
     //add new button
 
     let newInputItem = $(`<input name="addNewInput" placeholder="请输入场景名称"/>`);
-    addNewItem.click(async (e)=>{
-      if(addNewItem.text() === '新增'){
-        if(addNewItem.prev().attr('name')!=='addNew'){
+    addNewItem.click(async () => {
+      if (addNewItem.text() === '新增') {
+        if (addNewItem.prev().attr('name') !== 'addNew') {
           addNewItem.before(newInputItem);
         }
         newInputItem.focus();
-        newInputItem.one('input propertychange',(e)=>{
-          if(addNewItem.text() === '新增'){
+        newInputItem.one('input propertychange', () => {
+          if (addNewItem.text() === '新增') {
             addNewItem.text('确认添加');
           }
         });
-        newInputItem.on('blur',(e)=>{
-          setTimeout(()=>{
+        newInputItem.on('blur', () => {
+          setTimeout(() => {
             let newInputVal = newInputItem.val().trim() || "";
-            if(newInputVal === ""){
+            if (newInputVal === "") {
               newInputItem.remove();
               newInputItem.unbind();
               addNewItem.text('新增');
@@ -402,11 +407,11 @@ $(document).ready(async () => {
       else {
         //确认添加
         let scenceName = newInputItem.val().trim();
-        let res = await Api.addServiceScence(servicecode,scenceName);
+        let res = await Api.addServiceScence(servicecode, scenceName);
         newInputItem.remove();
         newInputItem.unbind();
         addNewItem.text('新增');
-        addScenceItem(servicecode, res.scenceId, scenceName, async (item) => {
+        addScenceItem(servicecode, res.scenceId, scenceName, async () => {
           let responses = await Api.getResponse(res.scenceId);
           editor.set(responses);
         });
@@ -424,7 +429,7 @@ $(document).ready(async () => {
         </label>
         <button class="fas fa-trash-alt"></button>
     </div>`);
-    if(scenceName === 'default'){
+    if (scenceName === 'default') {
       item.find('button').remove();
     }
     item.find('input').click((e) => {
@@ -432,11 +437,11 @@ $(document).ready(async () => {
       requestConfig.setChecked(servicecode, true);
       item.parents('.collapse').prev().find('input').attr('checked', true);
       let title = servicecode || '';
-      $('#rightResponseTitle').attr('servicecode',title);
-      $('#rightResponseTitle').attr('scencename',scenceName);
-      $('#rightResponseTitle').val(title);
+      rightResponseTitle.attr('servicecode', title);
+      rightResponseTitle.attr('scencename', scenceName);
+      rightResponseTitle.val(title);
       title += ' Response ' + 'ScenceName:' + scenceName;
-      $('#rightResponseTitle').text(title);
+      rightResponseTitle.text(title);
       itemAction($(e.currentTarget));
       syncConfig();
     });
@@ -503,18 +508,18 @@ $(document).ready(async () => {
   }
 
   //modal dismiss action
-  $('#settingModal').on('hidden.bs.modal', async function () {
+  settingModal.on('hidden.bs.modal', async function () {
     let config = {
-      appVer: $('#settingModal').find('div[name=appVer]').find(":checked").val() || "1",
+      appVer: settingModal.find('div[name=appVer]').find(":checked").val() || "1",
     };
-    let inputs = $('#settingModal').find('tbody').find('input');
+    let inputs = settingModal.find('tbody').find('input');
     for (let aInput of inputs) {
       config[$(aInput).attr('name')] = $(aInput).val();
     }
     requestConfig.setConfig(config);
     if (requestConfig.username === "") {
       alert('username不能为空');
-      $('#settingModal').modal().show()
+      settingModal.modal().show()
     }
     else {
       localStorage['username'] = requestConfig.username;
@@ -529,7 +534,7 @@ $(document).ready(async () => {
     else {
       $('#serviceTab').text('国际版');
     }
-    Api.syncConfig({
+    await Api.syncConfig({
       configData: requestConfig
     });
   });
@@ -550,10 +555,17 @@ $(document).ready(async () => {
       if (typeof realResponse === 'string') {
         realResponse = JSON.parse(realResponse);
       }
-      let title = requestbodyeditor.get().Head.ServiceCode || '';
-      $('#rightResponseTitle').val(title);
+      let title = '';
+      if(requestbodyeditor.get().hasOwnProperty('Head') &&
+        requestbodyeditor.get()['Head'].hasOwnProperty('ServiceCode')){
+        title = requestbodyeditor.get()['Head']['ServiceCode'];
+      }
+      if(title === ''){
+        return;
+      }
+      rightResponseTitle.val(title);
       title += ' Response';
-      $('#rightResponseTitle').text(title);
+      rightResponseTitle.text(title);
 
       editor.set(realResponse);
     });

@@ -1,6 +1,4 @@
 $(document).ready(() => {
-  let callback;
-  let json;
   $('button#submit').click(() => {
     const data = {
       username: $('#inputUsername').val(),

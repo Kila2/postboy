@@ -8,7 +8,7 @@ window.jQuery.fn.putCursorAtEnd = function() {
   return this.each(function() {
 
     // Cache references
-    var $el = $(this),
+    let $el = $(this),
       el = this;
 
     // Only focus if input isn't already
@@ -20,7 +20,7 @@ window.jQuery.fn.putCursorAtEnd = function() {
     if (el.setSelectionRange) {
 
       // Double the length because Opera is inconsistent about whether a carriage return is one character or two.
-      var len = $el.val().length * 2;
+      let len = $el.val().length * 2;
 
       // Timeout seems to be required for Blink
       setTimeout(function() {

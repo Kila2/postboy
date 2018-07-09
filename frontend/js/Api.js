@@ -21,12 +21,11 @@ export default class Api {
   }
 
   static async getServiceResponse(serviceCode) {
-    let res = await $.ajax({
+    return await $.ajax({
       method: "get",
       cache: false,
       url: "/service/" + serviceCode
     });
-    return res;
   }
 
   static async generationRequest(aURL) {
@@ -61,7 +60,7 @@ export default class Api {
     let secondRes = await $.ajax(settings);
     Api.packet = secondRes.Data;
 
-    let realResponse = JSON.parse(secondRes.Message);
+    let realResponse = JSON.parse(secondRes['Message']);
     let thirdRes = await $.ajax({
       type: "get",
       cache: false,
@@ -72,35 +71,32 @@ export default class Api {
   }
 
   static async getResponse(scenceID) {
-    let res = await $.ajax({
+    return await $.ajax({
       method: "get",
       cache: false,
-      url: "scence/"+scenceID
+      url: "scence/" + scenceID
     });
-    return res;
   }
 
   static async getServiceScenceList(serviceCode) {
-    let res = await $.ajax({
+    return await $.ajax({
       method: "get",
       cache: false,
-      url: "scence?servicecode="+serviceCode +"&username="+requestConfig.username
+      url: "scence?servicecode=" + serviceCode + "&username=" + requestConfig.username
     });
-    return res;
   }
 
   static async addServiceScence(serviceCode,scenceName) {
-    let res = await $.ajax({
+    return await $.ajax({
       method: "post",
       cache: false,
       url: "scence",
-      data:{
-        servicecode:serviceCode,
-        scencename:scenceName,
-        username:requestConfig.username,
+      data: {
+        servicecode: serviceCode,
+        scencename: scenceName,
+        username: requestConfig.username,
       }
     });
-    return res;
   }
 
 
@@ -131,21 +127,19 @@ export default class Api {
   }
 
   static async syncConfig(syncdata) {
-    let res = await $.ajax({
+    return await $.ajax({
       method: "put",
       cache: false,
       url: "/sync/",
       data: JSON.stringify(syncdata),
       contentType: "application/json"
     });
-    return res;
   }
-  static async getSyncConfig(syncdata) {
-    let res = await $.ajax({
+  static async getSyncConfig() {
+    return await $.ajax({
       method: "get",
       cache: false,
-      url: "/sync?username="+requestConfig.username,
+      url: "/sync?username=" + requestConfig.username,
     });
-    return res;
   }
 }
