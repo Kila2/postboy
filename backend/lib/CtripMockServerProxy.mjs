@@ -28,13 +28,13 @@ router.get('/', async function(req, res, next) {
     if(serviceConfig[servicecode] !== undefined && serviceConfig[servicecode].checked){
       let selectScenceID = serviceConfig[servicecode].selectScenceID || "default";
       if(selectScenceID === "default"){
-        res.redirect('../service/response/'+servicecode);
+        res.redirect('../scence/'+servicecode);
       }
       else {
         let query = {
           '_id':ObjectID(serviceConfig[servicecode].selectScenceID),
         };
-        let r = await DBHelper.db.collection('mockuser').findOne(query);
+        let r = await DBHelper.db.collection('scence').findOne(query);
         return res.send(r.response);
       }
     }

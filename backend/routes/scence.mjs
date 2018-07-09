@@ -25,6 +25,10 @@ router.post('/', async function (req, res, next) {
     scence: scencename,
   };
 
+  if(scencename === 'default'){
+    res.send({scenceId: 'default'});
+  }
+
   let rc = await DBHelper.db.collection('scence').findOne(query);
   if (rc === null) {
     let r = await DBHelper.db.collection('scence').insert(model);

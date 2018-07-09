@@ -121,7 +121,7 @@ $(document).ready(async () => {
 
   //init method list
   for (let i = 0; i < methods.length; i += 1) {
-    const item = $('<a class="dropdown-item" href="#"></a>').text(methods[i]);
+    const item = $(`<a class="dropdown-item" href="#"></a>`).text(methods[i]);
     methodList.append(item);
   }
 
