@@ -297,7 +297,7 @@ $(document).ready(async () => {
             </div>
         </div>
         <div class="collapse" id=${serviceList[i]}collapse>
-            <div class="card card-body">
+            <div class="card card-body d-flex flex-column">
             </div>
         </div>`
       ));
@@ -358,6 +358,7 @@ $(document).ready(async () => {
       editor.set(responses);
     });
 
+
     if (requestConfig.getSelectedScenceID(servicecode) === 'default') {
       collapseItem.prev().find('input').attr('checked', true)
     }
@@ -417,13 +418,16 @@ $(document).ready(async () => {
   function addScenceItem(servicecode, scenceID, scenceName, itemAction) {
     let collapseItem = $("#" + servicecode + "collapse");
     const item = $(`
-    <div>
-        <label class="flex:1">
+    <div class="d-flex flex-row" style="width:100%">
+        <label style="flex:1; text-align:left">
             <input type="radio" name=${servicecode}radio value="${scenceID}"/>
             ${scenceName}
         </label>
         <button class="fas fa-trash-alt"></button>
     </div>`);
+    if(scenceName === 'default'){
+      item.find('button').remove();
+    }
     item.find('input').click((e) => {
       requestConfig.setSelect(servicecode, scenceID);
       requestConfig.setChecked(servicecode, true);
