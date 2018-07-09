@@ -4,9 +4,8 @@ import path from "path";
 import cookieParser from "cookie-parser";
 import logger from "morgan";
 import indexRouter from "./routes/index";
-import usersRouter from "./routes/users";
 import loginRouter from "./routes/login";
-import apiRouter from "./routes/api";
+import apiRouter from "./routes/service";
 import syncRouter from './routes/sync';
 import { apiProxy } from './lib/ApiProxy';
 import webpackDevMiddleware from "webpack-dev-middleware";
@@ -49,7 +48,6 @@ app.use('/public',express.static(path.join(DIRNAME, '../build')));
 
 app.use('/MockServer/appserver',CtripMockServerProxy);
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/login', loginRouter);
 app.use('/service', apiRouter);
 app.use('/sync',syncRouter);

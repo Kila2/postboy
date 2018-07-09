@@ -5,6 +5,7 @@ const ObjectID = MongoDB.ObjectID;
 
 const router = express.Router();
 let cacheServiceList = undefined;
+
 /* GET home page. */
 router.get('/', async function(req, res, next) {
   if(Object.keys(req.query).length === 1 && Object.keys(req.query)[0] === '_'){
@@ -132,7 +133,9 @@ async function processModel(res){
   }
   return model;
 }
+
 function uncap_first(str){
   return str.substring(0,1).toLowerCase()+str.substring(1);
 }
+
 export default router;
