@@ -26,9 +26,9 @@ router.put('/', async function (req, res, next) {
           "servicecode": servicecode,
           "scence": scence,
         };
-        let rc = await DBHelper.db.collection('mockuser').findOneAndUpdate(query, {$set: model});
+        let rc = await DBHelper.db.collection('scence').findOneAndUpdate(query, {$set: model});
         if (rc.lastErrorObject.updatedExisting === false) {
-          DBHelper.db.collection('mockuser').insert(model)
+          DBHelper.db.collection('scence').insert(model)
         }
       }
     }

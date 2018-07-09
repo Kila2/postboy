@@ -5,9 +5,11 @@ import cookieParser from "cookie-parser";
 import logger from "morgan";
 import indexRouter from "./routes/index";
 import loginRouter from "./routes/login";
-import apiRouter from "./routes/service";
+import serviceRouter from "./routes/service";
 import syncRouter from './routes/sync';
+import scenceRouter from './routes/scence';
 import { apiProxy } from './lib/ApiProxy';
+
 import webpackDevMiddleware from "webpack-dev-middleware";
 import CtripMockServerProxy from './lib/CtripMockServerProxy';
 import webpack from "webpack";
@@ -49,8 +51,9 @@ app.use('/public',express.static(path.join(DIRNAME, '../build')));
 app.use('/MockServer/appserver',CtripMockServerProxy);
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
-app.use('/service', apiRouter);
+app.use('/service', serviceRouter);
 app.use('/sync',syncRouter);
+app.use('/scence',scenceRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

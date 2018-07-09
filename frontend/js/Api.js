@@ -20,6 +20,15 @@ export default class Api {
     }
   }
 
+  static async getServiceResponse(serviceCode) {
+    let res = await $.ajax({
+      method: "get",
+      cache: false,
+      url: "/service/" + serviceCode
+    });
+    return res;
+  }
+
   static async generationRequest(aURL) {
     let aURLObj = url.parse(aURL, true, true);
     let res = await $.ajax({
@@ -61,20 +70,12 @@ export default class Api {
     realResponse.Body = JSON.parse(thirdRes);
     return realResponse;
   }
-  static async getServiceResponse(serviceCode) {
-    let res = await $.ajax({
-      method: "get",
-      cache: false,
-      url: "/service/response/" + serviceCode
-    });
-    return res;
-  }
 
   static async getResponse(scenceID) {
     let res = await $.ajax({
       method: "get",
       cache: false,
-      url: "service/response?scenceid="+scenceID
+      url: "scence/"+scenceID
     });
     return res;
   }
@@ -83,7 +84,7 @@ export default class Api {
     let res = await $.ajax({
       method: "get",
       cache: false,
-      url: "service/scenceList?servicecode="+serviceCode +"&username="+requestConfig.username
+      url: "scence?servicecode="+serviceCode +"&username="+requestConfig.username
     });
     return res;
   }
@@ -92,7 +93,7 @@ export default class Api {
     let res = await $.ajax({
       method: "post",
       cache: false,
-      url: "service/scence",
+      url: "scence",
       data:{
         servicecode:serviceCode,
         scencename:scenceName,

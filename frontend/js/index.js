@@ -60,7 +60,6 @@ class Tab {
 }
 
 $(document).ready(async () => {
-  let scence = 'default1';
   const lefttabs = [['#serviceTab', '#serviceListContent'], ['#history', '#historyContent']];
   const toptabs = [['#builder', ''], ['#teamLibrary', '']];
   const righttabs = [['#authorization', ''], ['#headers', ''], ['#body', ''], ['#pre-requestScript', ''], ['#tests', '']];
@@ -171,7 +170,7 @@ $(document).ready(async () => {
 
     let syncData = {
       responseData: {
-        scence: scence,
+        scence: $(`#rightResponseTitle`).attr('scencename'),
         servicecode: $(`#rightResponseTitle`).val(),
         response: json,
       },
@@ -433,6 +432,8 @@ $(document).ready(async () => {
       requestConfig.setChecked(servicecode, true);
       item.parents('.collapse').prev().find('input').attr('checked', true);
       let title = servicecode || '';
+      $('#rightResponseTitle').attr('servicecode',title);
+      $('#rightResponseTitle').attr('scencename',scenceName);
       $('#rightResponseTitle').val(title);
       title += ' Response ' + 'ScenceName:' + scenceName;
       $('#rightResponseTitle').text(title);
