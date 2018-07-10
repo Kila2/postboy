@@ -551,7 +551,7 @@ $(document).ready(async () => {
     });
 
     $('#SendRequest').click(async () => {
-      let realResponse = await Api.sendServiceToCtripService();
+      let realResponse = await Api.sendServiceToCtripService(requestbodyeditor.get());
       if (typeof realResponse === 'string') {
         realResponse = JSON.parse(realResponse);
       }

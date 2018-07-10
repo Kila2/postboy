@@ -28,18 +28,7 @@ export default class Api {
     });
   }
 
-  static async generationRequest(aURL) {
-    let aURLObj = url.parse(aURL, true, true);
-    let res = await $.ajax({
-      headers: {
-        api: true,
-        proxyreferer: "http://10.2.56.40:8080/"
-      },
-      method: "get",
-      cache: false,
-      data: aURLObj.query,
-      url: aURLObj.pathname,
-    });
+  static async genCustomJson(dataString){
     const settings = {
       "async": true,
       "crossDomain": true,
@@ -54,12 +43,29 @@ export default class Api {
         "X-Requested-With": "XMLHttpRequest",
         "Cache-Control": "no-cache",
       },
-      "data": "jsonString=" + res.Data
+      "data": "jsonString=" + dataString
     };
-
     let secondRes = await $.ajax(settings);
-    Api.packet = secondRes.Data;
 
+    Api.packet = secondRes.Data;
+    return secondRes;
+  }
+
+  static async generationRequest(aURL) {
+    let aURLObj = url.parse(aURL, true, true);
+    let res = await $.ajax({
+      headers: {
+        api: true,
+        proxyreferer: "http://10.2.56.40:8080/"
+      },
+      method: "get",
+      cache: false,
+      data: aURLObj.query,
+      url: aURLObj.pathname,
+    });
+
+    let secondRes = await Api.genCustomJson(res.Data);
+    //Api.packet = secondRes.Data;
     let realResponse = JSON.parse(secondRes['Message']);
     let thirdRes = await $.ajax({
       type: "get",
@@ -100,7 +106,11 @@ export default class Api {
   }
 
 
-  static async sendServiceToCtripService() {
+  static async sendServiceToCtripService(data) {
+    let body = data.Body;
+    data.Body = {};
+    await Api.genCustomJson(JSON.stringify(data));
+    data.Body = body;
 
     let settings = {
       async: true,
