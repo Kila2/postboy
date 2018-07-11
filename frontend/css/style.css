@@ -98,6 +98,7 @@ div.jsoneditor-outer{
     padding-right:10px;
     padding-top: 11px;
 }
+
 input[name="addNewInput"],
 button[name="addNew"] {
     width:100%;
@@ -113,6 +114,8 @@ button[name="addNew"],
     flex: 1;
 }
 
+#serialize,
+#deserialize,
 input[name="addNewInput"],
 button[name="addNew"],
 #serviceList .rebutton > button{
@@ -122,6 +125,11 @@ button[name="addNew"],
     margin-left: 8px;
     line-height: 0;
     color: white;
+}
+
+#serialize,
+#deserialize {
+
 }
 
 input[name="addNewInput"] {

@@ -3,6 +3,10 @@ import JSONEditor from 'jsoneditor';
 import requestConfig from './UserConfig';
 import Api from './Api';
 
+var aceM = require('brace');
+var Range = aceM.acequire('ace/range').Range;
+
+
 class HTTP {
   static methods = [
     'GET',
@@ -72,7 +76,11 @@ $(document).ready(async () => {
     ace: ace,
     onChange: () => {
       onResponseEdited();
-    }
+    },
+    // onTextSelectionChange:(startPos, endPos, text)=>{
+    //   editor.aceEditor.session.replace(editor.aceEditor.selection.getRange(), "ddd");
+    //   //window.ace.edit("jsoneditor").replace("ddd");
+    // },
   };
   const editor = new JSONEditor(container, options);
 

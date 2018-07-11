@@ -103,9 +103,11 @@ block content
                     .d-flex(style='flex:1;margin:10px;min-height:285px')
                         #requestbodyeditor.d-flex.flex-row(style='flex:1;')
                 .d-flex.flex-column(style='min-height:800px;max-height:none;flex-basis:100%')
-                    .bar.d-flex.flex-row.title-item
+                    .bar.d-flex.flex-row.title-item.align-items-center
                         p#rightResponseTitle.m-0 Response
-                        p#syncresponse(style='margin-left:10px;color:green')
+                        button#serialize serialize
+                        button#deserialize deserialize
+                        p#syncresponse(style='margin:0px 0px 0px 10px;color:green')
                     #jsoneditor.d-flex.flex-row(style='flex:1;')
 
     script(type='text/javascript', src='/public/index.js')
