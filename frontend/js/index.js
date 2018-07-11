@@ -548,6 +548,16 @@ $(document).ready(async () => {
   });
 
   //click action
+  $('#addEscapeString').click((e)=>{
+    let selectText = editor.getTextSelection().text;
+    selectText = selectText.replace(/\\/g,"\\\\").replace(/\"/g,"\\\"");
+    editor.aceEditor.session.replace(editor.aceEditor.selection.getRange(), selectText);
+  });
+  $('#removeEscapeString').click((e)=>{
+    let selectText = editor.getTextSelection().text;
+    selectText = selectText.replace(/\\\\/g,"\\").replace(/\\\"/g,'\"');
+    editor.aceEditor.session.replace(editor.aceEditor.selection.getRange(), selectText);
+  });
   function clickAction() {
     $('#Params').click(() => {
       if (paramstable.css('display') === 'none') {

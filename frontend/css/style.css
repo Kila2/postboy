@@ -114,8 +114,8 @@ button[name="addNew"],
     flex: 1;
 }
 
-#serialize,
-#deserialize,
+#addEscapeString,
+#removeEscapeString,
 input[name="addNewInput"],
 button[name="addNew"],
 #serviceList .rebutton > button{
@@ -127,10 +127,6 @@ button[name="addNew"],
     color: white;
 }
 
-#serialize,
-#deserialize {
-
-}
 
 input[name="addNewInput"] {
     border-width: 1px;
