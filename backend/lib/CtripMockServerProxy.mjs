@@ -50,16 +50,30 @@ router.get('/', async function(req, res, next) {
 router.post('/', async function(req, res, next) {
   let uid = req.query.uid;
   let servicecode = req.query.servicecode;
-  let model = {
-    uid:uid,
-    servicecode:servicecode,
-    type:"request",
-    date:new Date(),
-    data:req.body,
-  };
-  await DBHelper.db.collection('logdata').insert(model);
+  if(req.headers.posttype === 'request'){
+    let model = {
+      uid:uid,
+      servicecode:servicecode,
+      type:"request",
+      date:new Date(),
+      data:req.body,
+    };
+    await DBHelper.db.collection('logdata').insert(model);
+  }
+  else if(req.headers.posttype === 'response'){
+
+    let model = {
+      uid:uid,
+      servicecode:servicecode,
+      type:"response",
+      date:new Date(),
+      data:req.body,
+    };
+    await DBHelper.db.collection('logdata').insert(model);
+  }
   res.send({errorcode:0})
 });
+
 export default router;
 
 

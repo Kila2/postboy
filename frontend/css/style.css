@@ -110,7 +110,7 @@ button[name="addNew"] {
 }
 input[name="addNewInput"],
 button[name="addNew"],
-#serviceList  .rebutton{
+#serviceList .rebutton{
     flex: 1;
 }
 

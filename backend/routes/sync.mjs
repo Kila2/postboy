@@ -11,7 +11,7 @@ router.put('/', async function (req, res, next) {
     let username = configData.username;
     {
       let responseData = body.responseData;
-      if(responseData !== undefined) {
+      if (responseData !== undefined) {
         let servicecode = responseData.servicecode;
         let scence = responseData.scence;
         let model = {
@@ -26,7 +26,9 @@ router.put('/', async function (req, res, next) {
           "servicecode": servicecode,
           "scence": scence,
         };
-        let rc = await DBHelper.db.collection('scence').findOneAndUpdate(query, {$set: model});
+        if (scence !== 'default' && scence && scence.trim() !== '') {
+          let rc = await DBHelper.db.collection('scence').findOneAndUpdate(query, {$set: model});
+        }
         if (rc.lastErrorObject.updatedExisting === false) {
           DBHelper.db.collection('scence').insert(model)
         }
@@ -58,13 +60,13 @@ router.get('/', async function (req, res, next) {
       "username": username
     };
     let rc = await DBHelper.db.collection('userconfig').findOne(query);
-    if (rc !== null){
+    if (rc !== null) {
       res.send(rc);
     }
     else {
       res.send({
         errorcode: 101,
-        errormsg: 'username:'+username+' not found',
+        errormsg: 'username:' + username + ' not found',
       });
     }
 
