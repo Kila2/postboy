@@ -203,13 +203,18 @@ $(document).ready(async () => {
 
   let syncConfigTimeout = undefined;
 
-  function syncConfig() {
+  async function syncConfig(rightNow) {
     syncresponse.text('UNSYNC');
     syncresponse.css('color', 'red');
-    clearTimeout(syncConfigTimeout);
-    syncConfigTimeout = setTimeout(async () => {
+    if(rightNow === true){
       await syncDatas({configData: requestConfig});
-    }, 5e3);//default 5s;
+    }
+    else {
+      clearTimeout(syncConfigTimeout);
+      syncConfigTimeout = setTimeout(async () => {
+        await syncDatas({configData: requestConfig});
+      }, 5e3);//default 5s;
+    }
   }
 
   function bindURLAndParams() {
@@ -350,7 +355,7 @@ $(document).ready(async () => {
         let check = item.find(':checkbox').prop('checked');
         let serviceCode = item.find(':checkbox').attr('value');
         requestConfig.setChecked(serviceCode, check);
-        syncConfig();
+        syncConfig(true);
       });
     }
     //对servicelist 的元素排序
@@ -451,7 +456,7 @@ $(document).ready(async () => {
       title += ' Response ' + 'ScenceName:' + scenceName;
       rightResponseTitle.text(title);
       itemAction($(e.currentTarget));
-      syncConfig();
+      syncConfig(true);
     });
     collapseItem.children().children(':last').before(item);
     if (requestConfig.getSelectedScenceID(servicecode) === scenceID) {
@@ -542,7 +547,7 @@ $(document).ready(async () => {
     else {
       $('#serviceTab').text('国际版');
     }
-    await Api.syncConfig({
+    await Api.getSyncConfig({
       configData: requestConfig
     });
   });
